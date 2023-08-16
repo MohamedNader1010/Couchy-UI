@@ -20,6 +20,7 @@ export class CategoriesComponent implements OnInit {
 
   deleteProductsDialog: boolean = false;
 
+  categories: Categories[] = [];
   products: Product[] = [];
 
   product: Product = {};
@@ -36,32 +37,38 @@ export class CategoriesComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private messageService: MessageService, 
-   
+    private messageService: MessageService,
+    private categoriesService: GenericService<Categories>
   ) {}
 
   ngOnInit() {
-    this.productService.getProducts().then((data) => (this.products = data));
-   
+    this.categoriesService.setControllerName('Category');
+    this.categoriesService
+      .getAll()
+      .subscribe((data) => {
+        console.log(data);
+        this.categories = data; 
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Categories Received',
+          life: 3000,
+        });
+      });
     this.cols = [
-      { field: 'product', header: 'Product' },
-      { field: 'price', header: 'Price' },
-      { field: 'category', header: 'Category' },
-      { field: 'rating', header: 'Reviews' },
-      { field: 'inventoryStatus', header: 'Status' },
-    ];
-
-    this.statuses = [
-      { label: 'INSTOCK', value: 'instock' },
-      { label: 'LOWSTOCK', value: 'lowstock' },
-      { label: 'OUTOFSTOCK', value: 'outofstock' },
+      { field: 'Id', header: 'Id' },
+      { field: 'NameEn', header: 'NameEn' },
+      { field: 'NameAr', header: 'NameAr' },
+      { field: 'isActive', header: 'isActive' },
     ];
 
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard' });
     this.breadcrumbItems.push({ label: 'Categories' });
   }
-
+  onSwitchChange(category: any, event: any) {
+    category.isActive = event.checked;
+  }
   openNew() {
     this.product = {};
     this.submitted = false;

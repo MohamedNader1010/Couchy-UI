@@ -18,7 +18,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { CategoriesComponent } from './categories.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [CategoriesComponent],
@@ -39,7 +39,8 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
     DropdownModule,
     RadioButtonModule,
     InputNumberModule,
-    DialogModule
+    DialogModule,
+    InputSwitchModule
   ],
   providers:[MessageService]
 })
