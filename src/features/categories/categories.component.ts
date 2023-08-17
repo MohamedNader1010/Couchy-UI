@@ -1,5 +1,5 @@
 import { Categories } from './interfaces/categories';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MessageService, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Product } from '../dashboard/product';
@@ -12,17 +12,23 @@ import { GenericService } from 'src/core/services/generic.service';
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent implements OnInit {
+  _idToBeDeleted: number = 0;
   breadcrumbItems: MenuItem[] = [];
 
-  productDialog: boolean = false;
+  categoryDialog: boolean = false;
 
-  deleteProductDialog: boolean = false;
+  deleteCategoryDialog: boolean = false;
 
   deleteProductsDialog: boolean = false;
 
   categories: Categories[] = [];
   products: Product[] = [];
-
+  category: Categories = {
+    id: 0,
+    isActive: false,
+    nameAr: '',
+    nameEn: '',
+  };
   product: Product = {};
 
   selectedProducts: Product[] = [];
@@ -43,18 +49,15 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit() {
     this.categoriesService.setControllerName('Category');
-    this.categoriesService
-      .getAll()
-      .subscribe((data) => {
-        console.log(data);
-        this.categories = data; 
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Categories Received',
-          life: 3000,
-        });
+    this.categoriesService.getAll().subscribe((data) => {
+      this.categories = data;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Categories Received',
+        life: 3000,
       });
+    });
     this.cols = [
       { field: 'Id', header: 'Id' },
       { field: 'NameEn', header: 'NameEn' },
@@ -66,29 +69,53 @@ export class CategoriesComponent implements OnInit {
     this.breadcrumbItems.push({ label: 'Dashboard' });
     this.breadcrumbItems.push({ label: 'Categories' });
   }
-  onSwitchChange(category: any, event: any) {
-    category.isActive = event.checked;
+  onToggleSwitch(id: number, newValue: boolean) {
+    this.categoriesService.setControllerName('Category/updateIsActive');
+    const updateIsActive: Categories = {
+      isActive: newValue,
+      id: id,
+      nameAr: '',
+      nameEn: '',
+    };
+    this.categoriesService.update(updateIsActive).subscribe((data) => {
+      const updatedIndex = this.categories.findIndex(
+        (c) => c.id === this.category.id
+      );
+      if (updatedIndex !== -1) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Button Updated',
+          life: 3000,
+        });
+
+        this.categories[updatedIndex] = data;
+
+        this.categoryDialog = false;
+      }
+    });
   }
   openNew() {
     this.product = {};
     this.submitted = false;
-    this.productDialog = true;
+    this.categoryDialog = true;
   }
-
+  // not need this code
   deleteSelectedProducts() {
     this.deleteProductsDialog = true;
   }
-
-  editProduct(product: Product) {
-    this.product = { ...product };
-    this.productDialog = true;
+  //
+  editCategory(category: Categories) {
+    this.category = { ...category };
+    this.categoryDialog = true;
   }
 
-  deleteProduct(product: Product) {
-    this.deleteProductDialog = true;
-    this.product = { ...product };
+  deleteCategory(id: number) {
+    this._idToBeDeleted = id;
+    this.deleteCategoryDialog = true;
   }
 
+  // this code is not needed
   confirmDeleteSelected() {
     this.deleteProductsDialog = false;
     this.products = this.products.filter(
@@ -102,59 +129,71 @@ export class CategoriesComponent implements OnInit {
     });
     this.selectedProducts = [];
   }
-
+  ///
   confirmDelete() {
-    this.deleteProductDialog = false;
-    this.products = this.products.filter((val) => val.id !== this.product.id);
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Successful',
-      detail: 'Product Deleted',
-      life: 3000,
-    });
-    this.product = {};
+    this.categoriesService.setControllerName('Category');
+    if (this._idToBeDeleted) 
+      this.categoriesService.delete(this._idToBeDeleted).subscribe((date) => {
+        const deletedIndex = this.categories.findIndex(
+          (c) => c.id == this._idToBeDeleted
+        );
+        if (deletedIndex !== -1) {
+          this.categories.splice(deletedIndex, 1);
+          this._idToBeDeleted = 0;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Category Deleted',
+            life: 3000,
+          });
+        }
+      });
+    this.deleteCategoryDialog = false;
+    
   }
 
   hideDialog() {
-    this.productDialog = false;
+    this.categoryDialog = false;
     this.submitted = false;
   }
 
-  saveProduct() {
+  saveCategory() {
     this.submitted = true;
+    if (this.category.nameAr?.trim() && this.category.nameEn?.trim()) {
+      if (this.category.id) {
+        this.categoriesService.setControllerName('Category');
+        this.categoriesService.update(this.category).subscribe((data) => {
+          const updatedIndex = this.categories.findIndex(
+            (c) => c.id === this.category.id
+          );
+          if (updatedIndex !== -1) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Category Updated',
+              life: 3000,
+            });
 
-    if (this.product.name?.trim()) {
-      if (this.product.id) {
-        // @ts-ignore
-        this.product.inventoryStatus = this.product.inventoryStatus.value
-          ? this.product.inventoryStatus?.value
-          : this.product.inventoryStatus;
-        this.products[this.findIndexById(this.product.id)] = this.product;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Updated',
-          life: 3000,
+            this.categories[updatedIndex] = data;
+
+            this.categoryDialog = false;
+          }
         });
       } else {
-        this.product.id = this.createId();
-        this.product.code = this.createId();
-        this.product.image = 'product-placeholder.svg';
-        // @ts-ignore
-        this.product.inventoryStatus = this.product.inventoryStatus
-          ? this.product.inventoryStatus.value
-          : 'INSTOCK';
-        this.products.push(this.product);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Created',
-          life: 3000,
+        this.categoriesService.setControllerName('Category');
+        this.categoriesService.add(this.category).subscribe((data) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Category Created',
+            life: 3000,
+          });
+          this.categories.push(data);
         });
       }
 
       this.products = [...this.products];
-      this.productDialog = false;
+      this.categoryDialog = false;
       this.product = {};
     }
   }

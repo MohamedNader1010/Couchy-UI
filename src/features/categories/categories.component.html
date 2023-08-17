@@ -23,15 +23,7 @@
               class="p-button-success mr-2"
               (click)="openNew()"
             ></button>
-            <button
-              pButton
-              pRipple
-              label="Delete"
-              icon="pi pi-trash"
-              class="p-button-danger"
-              (click)="deleteSelectedProducts()"
-              [disabled]="!selectedProducts || !selectedProducts.length"
-            ></button>
+            
           </div>
         </ng-template>
       </p-toolbar>
@@ -49,6 +41,7 @@
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [rowHover]="true"
         dataKey="id"
+        [totalRecords]="categories.length"
       >
         <ng-template pTemplate="caption">
           <div
@@ -100,7 +93,7 @@
             </td>
             <td style="width: 14%; min-width: 10rem">
               <span class="p-column-title">{{category.isActive}}</span>
-              <p-inputSwitch [(ngModel)]="category.isActive"></p-inputSwitch>
+              <p-inputSwitch [(ngModel)]="category.isActive" (ngModelChange)="onToggleSwitch(category.id, $event)"></p-inputSwitch>
             </td>
             <td>
               <div class="flex">
@@ -109,14 +102,14 @@
                   pRipple
                   icon="pi pi-pencil"
                   class="p-button-rounded p-button-success mr-2"
-                  (click)="editProduct(category)"
+                  (click)="editCategory(category)"
                 ></button>
                 <button
                   pButton
                   pRipple
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-warning"
-                  (click)="deleteProduct(category)"
+                  (click)="deleteCategory(category.id)"
                 ></button>
               </div>
             </td>
@@ -126,134 +119,45 @@
     </div>
 
     <p-dialog
-      [(visible)]="productDialog"
+      [(visible)]="categoryDialog"
       [style]="{ width: '450px' }"
       header="Product Details"
       [modal]="true"
       class="p-fluid"
     >
       <ng-template pTemplate="content">
-        <img
-          [src]="'assets/demo/images/product/' + product.image"
-          [alt]="product.image"
-          width="150"
-          class="mt-0 mx-auto mb-5 block shadow-2"
-          *ngIf="product.image"
-        />
+
         <div class="field">
-          <label for="name">Name</label>
+          <label for="nameEn">Name En</label>
           <input
             type="text"
             pInputText
-            id="name"
-            [(ngModel)]="product.name"
+            id="nameEn"
+            [(ngModel)]="category.nameEn"
             required
             autofocus
-            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !product.name }"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !category.nameEn }"
           />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name"
-            >Name is required.</small
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !category.nameEn"
+            >Name En is required.</small
           >
         </div>
         <div class="field">
-          <label for="description">Description</label>
-          <textarea
-            id="description"
-            pInputTextarea
-            [(ngModel)]="product.description"
+          <label for="nameAr">Name Ar</label>
+          <input
+            type="text"
+            pInputText
+            id="nameAr"
+            [(ngModel)]="category.nameAr"
             required
-            rows="3"
-            cols="20"
-          ></textarea>
-        </div>
-        <div class="field">
-          <label for="status">Inventory Status</label>
-          <p-dropdown
-            [(ngModel)]="product.inventoryStatus"
-            inputId="inventoryStatus"
-            optionValue="label"
-            [options]="statuses"
-            placeholder="Select"
+            autofocus
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !category.nameAr }"
+          />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !category.nameAr"
+            >Name Ar is required.</small
           >
-            <ng-template pTemplate="selectedItem">
-              <span
-                *ngIf="product && product.inventoryStatus"
-                [class]="
-                  'product-badge status-' +
-                  product.inventoryStatus.toString().toLowerCase()
-                "
-                >{{ product.inventoryStatus }}</span
-              >
-            </ng-template>
-            <ng-template let-option pTemplate="item">
-              <span [class]="'product-badge status-' + option.value">{{
-                option.label
-              }}</span>
-            </ng-template>
-          </p-dropdown>
         </div>
-
-        <div class="field">
-          <label class="mb-3">Category</label>
-          <div class="formgrid grid">
-            <div class="field-radiobutton col-6">
-              <p-radioButton
-                id="category1"
-                name="category"
-                value="Accessories"
-                [(ngModel)]="product.category"
-              ></p-radioButton>
-              <label for="category1">Accessories</label>
-            </div>
-            <div class="field-radiobutton col-6">
-              <p-radioButton
-                id="category2"
-                name="category"
-                value="Clothing"
-                [(ngModel)]="product.category"
-              ></p-radioButton>
-              <label for="category2">Clothing</label>
-            </div>
-            <div class="field-radiobutton col-6">
-              <p-radioButton
-                id="category3"
-                name="category"
-                value="Electronics"
-                [(ngModel)]="product.category"
-              ></p-radioButton>
-              <label for="category3">Electronics</label>
-            </div>
-            <div class="field-radiobutton col-6">
-              <p-radioButton
-                id="category4"
-                name="category"
-                value="Fitness"
-                [(ngModel)]="product.category"
-              ></p-radioButton>
-              <label for="category4">Fitness</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="formgrid grid">
-          <div class="field col">
-            <label for="price">Price</label>
-            <p-inputNumber
-              id="price"
-              [(ngModel)]="product.price"
-              mode="currency"
-              currency="USD"
-              locale="en-US"
-            ></p-inputNumber>
-          </div>
-          <div class="field col">
-            <label for="quantity">Quantity</label>
-            <p-inputNumber
-              id="quantity"
-              [(ngModel)]="product.quantity"
-            ></p-inputNumber>
-          </div>
-        </div>
+       
       </ng-template>
 
       <ng-template pTemplate="footer">
@@ -271,13 +175,13 @@
           label="Save"
           icon="pi pi-check"
           class="p-button-text"
-          (click)="saveProduct()"
+          (click)="saveCategory()"
         ></button>
       </ng-template>
     </p-dialog>
 
     <p-dialog
-      [(visible)]="deleteProductDialog"
+      [(visible)]="deleteCategoryDialog"
       header="Confirm"
       [modal]="true"
       [style]="{ width: '450px' }"
@@ -285,7 +189,7 @@
       <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-          >Are you sure you want to delete <b>{{ product.name }}</b
+          >Are you sure you want to delete <b>{{ category.nameEn }}</b
           >?</span
         >
       </div>
@@ -296,7 +200,7 @@
           icon="pi pi-times"
           class="p-button-text"
           label="No"
-          (click)="deleteProductDialog = false"
+          (click)="deleteCategoryDialog = false"
         ></button>
         <button
           pButton

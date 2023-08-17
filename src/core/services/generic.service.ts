@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment';
@@ -9,7 +9,7 @@ import { environment } from 'src/environment';
 export class GenericService<T> {
   private _baseUrl: string = environment.apiUrl;
   private _controllerName: string = '';
-  
+  private headers = new HttpHeaders({ "Content-Type": "application/json" });
   setControllerName(controllerName: string) {
     this._controllerName = controllerName;
   }
@@ -32,6 +32,6 @@ export class GenericService<T> {
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this._baseUrl}/${this._controllerName}/${id}`);
+    return this.http.delete<void>(`${this._baseUrl}/${this._controllerName}`, { headers: this.headers, params: { id: id } });
   }
 }
