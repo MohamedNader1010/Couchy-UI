@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NotfoundComponent } from 'src/features/notfound/notfound.component';
-import { AppLayoutComponent } from 'src/layout/layout.component';
+import { NotfoundComponent } from 'src/modules/features/notfound/notfound.component';
+import { AppLayoutComponent } from 'src/modules/layout/layout.component';
 
 
 const routes: Routes = [
@@ -9,18 +9,18 @@ const routes: Routes = [
     path: '',
     component: AppLayoutComponent,
     children: [
-      
-      { path: '', loadChildren: () => import('../features/dashboard/dashboard.module').then(m => m.DashboardModule) },
+
+      { path: '', loadChildren: () => import('../modules/features/dashboard/dashboard.module').then(m => m.DashboardModule) },
       {
         path: 'admin',
         loadChildren: () =>
-          import('../features/features.module.module').then(
+          import('../modules/features/features.module.module').then(
             (f) => f.FeaturesModuleModule
           ),
       },
     ],
   },
-  { path: 'auth', loadChildren: () => import('../features/auth/auth.module').then(m => m.AuthModule) },
+  { path: 'auth', loadChildren: () => import('../modules/features/auth/auth.module').then(m => m.AuthModule) },
   { path: 'notfound', component: NotfoundComponent },
   { path: '**', redirectTo: '/notfound' },
 ];
