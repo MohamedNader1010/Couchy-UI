@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginAdmin } from './interfaces/loginAdmin.interface';
 import { GenericService } from 'src/core/services/generic.service';
 import { AuthService } from 'src/core/services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +20,10 @@ import { AuthService } from 'src/core/services/auth.service';
 })
 export class LoginComponent implements OnInit {
   password: string = '';
+  error: string = '';
   email: string = '';
   isSubmitted: boolean = false;
-  constructor(private _loginService: GenericService<LoginAdmin>, private _authService: AuthService) {}
+  constructor(private _loginService: GenericService<LoginAdmin>, private _authService: AuthService,private _messageService:MessageService) {}
   ngOnInit(): void {
     this._loginService.setControllerName('Authorization/LogInAdmin');
   }
@@ -36,8 +38,21 @@ export class LoginComponent implements OnInit {
         if (data.isSuccess) {
           this._authService.authenticateUser(data.token);
           this.isSubmitted = true;
-        } else {
+          this._messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: data.message,
+            life: 3000,
+          });
+        }
+        else {
           this.isSubmitted = false;
+          this._messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: data.message,
+            life: 3000,
+          });
         }
       });
     }
