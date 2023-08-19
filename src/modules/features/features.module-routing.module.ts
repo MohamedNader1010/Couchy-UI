@@ -10,10 +10,14 @@ const routes: Routes = [
     path: 'banars',
     loadChildren: () => import('./banar/banar.module').then((m) => m.BanarModule),
   },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class FeaturesModuleRoutingModule { }
+export class FeaturesModuleRoutingModule {}
