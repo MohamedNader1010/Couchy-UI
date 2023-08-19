@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
     this.breadcrumbItems.push({ label: 'Users' });
     this.columns = [
       { field: 'id', header: 'Id', sortable: true },
-      { field: 'name', header: 'Trainer Name', sortable: true },
+      { field: 'name', header: 'User Name', sortable: true },
       { field: 'phoneNumber', header: 'Phone Number', sortable: true },
     ];
     this.textColumns = this.columns.filter((col) => col);
