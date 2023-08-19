@@ -37,7 +37,7 @@ export class CategoriesComponent implements OnInit {
     this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
 
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', url: '/' });
+    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Categories' });
   }
   onToggleSwitch(id: number, newValue: boolean) {

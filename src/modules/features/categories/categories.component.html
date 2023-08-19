@@ -15,7 +15,7 @@
         </ng-template>
       </p-toolbar>
       <p-table #dt [value]="categories" [columns]="columns" responsiveLayout="scroll" [rows]="10"
-        [globalFilterFields]="['Id', 'NameAr', 'NameEn']" [paginator]="true" [rowsPerPageOptions]="rowsPerPageOptions"
+        [globalFilterFields]="['id', 'nameAr', 'nameEn']" [paginator]="true" [rowsPerPageOptions]="rowsPerPageOptions"
         [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [rowHover]="true" dataKey="id" [totalRecords]="categories.length">
         <ng-template pTemplate="caption">

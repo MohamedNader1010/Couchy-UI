@@ -40,7 +40,7 @@ export class BanarComponent implements OnInit {
     ];
     this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions' || col.field === 'filePath'));
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', url: '/' });
+    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Banars' });
   }
   onFileSelect(file: File) {
