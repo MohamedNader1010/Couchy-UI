@@ -7,9 +7,10 @@ import { InputTextModule } from 'primeng/inputtext';
 @NgModule({
     imports: [
         CommonModule,
-        AuthRoutingModule, 
-        PasswordModule, 
+        AuthRoutingModule,
+        PasswordModule,
         InputTextModule
-    ]
+    ],
+
 })
 export class AuthModule { }
