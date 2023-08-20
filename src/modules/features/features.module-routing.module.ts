@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'users',
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
+  {
+    path: 'messages',
+    loadChildren: () => import('./message/message.module').then((m) => m.MessageModule),
+  },
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { GenericService } from 'src/core/services/generic.service';
 import { Users } from 'src/modules/shared/interfaces/users.interface';
@@ -18,7 +18,7 @@ export class TrainerComponent implements OnInit {
   trainerDialog: boolean = false;
   submitted: boolean = false;
   trainer: Users = {} as Users;
-  constructor(private _trainerService: GenericService<Users>) {
+  constructor(private _trainerService: GenericService<Users>, private _messageService: MessageService) {
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Trainers' });
@@ -56,6 +56,12 @@ export class TrainerComponent implements OnInit {
     this._trainerService.add(this.trainer).subscribe((data:any) => {
       this.trainers.push({id: data.id, phoneNumber: data.userName} as Users);
       this.trainerDialog = false; 
+      this._messageService.add({
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Trainer Added',
+        life: 3000,
+      });
     });
   }
   onGlobalFilter(table: Table, event: Event) {
