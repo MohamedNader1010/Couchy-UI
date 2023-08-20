@@ -15,9 +15,12 @@ export class TrainerComponent implements OnInit {
   columns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
   textColumns: any[] = [];
+  trainerDialog: boolean = false;
+  submitted: boolean = false;
+  trainer: Users = {} as Users;
   constructor(private _trainerService: GenericService<Users>) {
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/',  });
+    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Trainers' });
     this.columns = [
       { field: 'id', header: 'Id', sortable: true },
@@ -38,7 +41,23 @@ export class TrainerComponent implements OnInit {
       });
     });
   }
-  openNew() {}
+  openNew() {
+    this.submitted = false;
+    this.trainerDialog = true;
+  }
+
+  hideDialog() {
+    this.trainerDialog = false;
+    this.submitted = false;
+    this.trainer = {} as Users;
+  }
+  saveTrainer() {
+    this._trainerService.setControllerName('User/AddTrainerAsync');
+    this._trainerService.add(this.trainer).subscribe((data:any) => {
+      this.trainers.push({id: data.id, phoneNumber: data.userName} as Users);
+      this.trainerDialog = false; 
+    });
+  }
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
