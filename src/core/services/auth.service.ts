@@ -13,6 +13,13 @@ export class AuthService {
   public authenticateUser(token: string): void {
     sessionStorage.setItem('token', token);
     // navigate to dashboard
-    window.location.href = '/'; 
+    window.location.href = '/';
+  }
+  public getToken(): string | null {
+    if (this.isAuthenticated()) return sessionStorage.getItem('token');
+    return '';
+  }
+  public clearSession() {
+    sessionStorage.clear();
   }
 }

@@ -16,6 +16,8 @@ import { AppMenuComponent } from 'src/modules/shared/components/menu/app.menu.co
 import { AppSidebarComponent } from 'src/modules/shared/components/sidebar/app.sidebar.component';
 import { AppTopBarComponent } from 'src/modules/shared/components/topbar/app.topbar.component';
 import { AppLayoutComponent } from './layout.component';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
     declarations: [
@@ -38,6 +40,9 @@ import { AppLayoutComponent } from './layout.component';
         InputSwitchModule,
         RippleModule,
         RouterModule,
+        DialogModule,
+        RippleModule,
+        ButtonModule
         // AppConfigModule
     ],
     exports: [AppLayoutComponent]
