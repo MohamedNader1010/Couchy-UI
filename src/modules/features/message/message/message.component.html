@@ -40,6 +40,7 @@
             <tr>
               <td *ngFor="let col of textColumns">
                 <span class="p-column-title">{{ col.field }}</span>
+                
                 {{ rowData[col.field] ?? 'trainer for test..' }}
               </td>
             </tr>

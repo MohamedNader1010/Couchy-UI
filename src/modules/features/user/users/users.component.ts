@@ -34,13 +34,12 @@ export class UsersComponent implements OnInit {
       data.forEach((trainer: any) => {
         this.users.push({
           name: trainer.name,
-          phoneNumber: trainer.userName,
+          phoneNumber: trainer.mobileNumber,
           id: trainer.id,
         });
       });
     });
   }
-  openNew() {}
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }

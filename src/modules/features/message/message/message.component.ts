@@ -25,7 +25,7 @@ export class MessageComponent implements OnInit {
 
     this.columns = [
       { field: 'id', header: 'Id', sortable: true },
-      { field: 'message', header: 'Message', sortable: true },
+      { field: 'messageBody', header: 'Message', sortable: true },
     ];
     this.textColumns = this.columns.filter((col) => col);
   }

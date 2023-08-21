@@ -29,4 +29,5 @@ export class AppTopBarComponent {
   logout() {
     this.confirmLogoutDialog = true;
   }
+  openThemesPallete() {}
 }

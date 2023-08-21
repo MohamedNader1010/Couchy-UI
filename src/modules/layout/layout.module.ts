@@ -18,6 +18,7 @@ import { AppTopBarComponent } from 'src/modules/shared/components/topbar/app.top
 import { AppLayoutComponent } from './layout.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { ThemesComponent } from '../shared/components/themes/themes.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { ButtonModule } from 'primeng/button';
         AppMenuComponent,
         AppSidebarComponent,
         AppLayoutComponent,
+        ThemesComponent
     ],
     imports: [
         BrowserModule,
@@ -42,8 +44,12 @@ import { ButtonModule } from 'primeng/button';
         RouterModule,
         DialogModule,
         RippleModule,
-        ButtonModule
-        // AppConfigModule
+        ButtonModule,
+        FormsModule,
+        SidebarModule,
+        RadioButtonModule,
+        ButtonModule,
+        InputSwitchModule
     ],
     exports: [AppLayoutComponent]
 })

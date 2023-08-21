@@ -47,14 +47,24 @@ export class CategoriesComponent implements OnInit {
       id: id,
     };
     this.categoriesService.update(updateIsActive as CategoryDto).subscribe((data) => {
-      const updatedIndex = this.categories.findIndex((c) => c.id === this.category.id);
+      const updatedIndex = this.categories.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Button Updated',
-          life: 3000,
-        });
+        if (data.isActive) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Activated',
+            life: 3000,
+          });
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Successful',
+            detail: 'deactivated',
+            life: 3000,
+          });
+        }
+          
         this.categories[updatedIndex] = data;
         this.categoryDialog = false;
       }

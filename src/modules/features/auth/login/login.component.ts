@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
         password: this.password,
       };
       this._loginService.add(credintials).subscribe((data: any) => {
-        // should navigate to dashboard and store the token in the session before interceptors right now.
         if (data.isSuccess) {
           this._authService.authenticateUser(data.token);
           this.isSubmitted = true;

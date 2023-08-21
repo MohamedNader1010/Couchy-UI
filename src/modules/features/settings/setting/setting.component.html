@@ -1,0 +1,62 @@
+<form #settingsForm="ngForm" (ngSubmit)="onSubmit(settingsForm.value)">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="id">ID</label>
+      <input [disabled]="true" type="number" id="id" name="id" class="p-inputtext" [(ngModel)]="setting.id" />
+    </div>
+
+    <div class="p-field">
+      <label for="aboutUsAr">About Us (Arabic)</label>
+      <input type="text" id="aboutUsAr" name="aboutUsAr" class="p-inputtext" [(ngModel)]="setting.aboutUsAr" required />
+    </div>
+
+    <div class="p-field">
+      <label for="aboutUsEn">About Us (English)</label>
+      <input type="text" id="aboutUsEn" name="aboutUsEn" class="p-inputtext" [(ngModel)]="setting.aboutUsEn" required />
+    </div>
+
+    <div class="p-field">
+      <label for="usingPolicyAr">Using Policy (Arabic)</label>
+      <input type="text" id="usingPolicyAr" name="usingPolicyAr" class="p-inputtext" [(ngModel)]="setting.usingPoicyAr" required />
+    </div>
+
+    <div class="p-field">
+      <label for="usingPolicyEn">Using Policy (English)</label>
+      <input type="text" id="usingPolicyEn" name="usingPolicyEn" class="p-inputtext" [(ngModel)]="setting.usingPoicyEn" required />
+    </div>
+
+    <div class="p-field">
+      <label for="phone">Phone</label>
+      <input type="text" id="phone" name="phone" class="p-inputtext" [(ngModel)]="setting.phone" required />
+    </div>
+
+    <div class="p-field">
+      <label for="whatsapp">WhatsApp</label>
+      <input type="text" id="whatsapp" name="whatsapp" class="p-inputtext" [(ngModel)]="setting.whatsapp" required />
+    </div>
+
+    <div class="p-field">
+      <label for="facebook">Facebook</label>
+      <input type="text" id="facebook" name="facebook" class="p-inputtext" [(ngModel)]="setting.facebook" required />
+    </div>
+
+    <div class="p-field">
+      <label for="twitter">Twitter</label>
+      <input type="text" id="twitter" name="twitter" class="p-inputtext" [(ngModel)]="setting.twitter" required />
+    </div>
+
+    <div class="p-field">
+      <label for="appVersion">App Version</label>
+      <input type="text" id="appVersion" name="appVersion" class="p-inputtext" [(ngModel)]="setting.appVersion" required />
+    </div>
+
+    <div class="p-field">
+      <label for="logo">Logo</label>
+      <p-fileUpload name="logo" [customUpload]="true" (uploadHandler)="onFileUpload($event)"></p-fileUpload>
+    </div>
+
+    <div class="p-field">
+      <button pButton type="submit" label="Submit" class="p-button-primary" [disabled]="!settingsForm.valid"></button>
+    </div>
+  </div>
+</form>

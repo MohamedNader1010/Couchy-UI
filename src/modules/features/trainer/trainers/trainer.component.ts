@@ -35,7 +35,7 @@ export class TrainerComponent implements OnInit {
       data.forEach((trainer: any) => {
         this.trainers.push({
           name: trainer.name,
-          phoneNumber: trainer.userName,
+          phoneNumber: trainer.mobileNumber,
           id: trainer.id,
         });
       });
@@ -54,7 +54,7 @@ export class TrainerComponent implements OnInit {
   saveTrainer() {
     this._trainerService.setControllerName('User/AddTrainerAsync');
     this._trainerService.add(this.trainer).subscribe((data:any) => {
-      this.trainers.push({id: data.id, phoneNumber: data.userName} as Users);
+      this.trainers.push({id: data.id, phoneNumber: data.mobileNumber} as Users);
       this.trainerDialog = false; 
       this._messageService.add({
         severity: 'success',
