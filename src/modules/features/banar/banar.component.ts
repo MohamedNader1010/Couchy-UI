@@ -4,8 +4,9 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { GenericService } from '../../../core/services/generic.service';
 import { Table } from 'primeng/table';
 import { BanarIsActiveDto } from './interfaces/update-isActive-banar.dto';
-import { Observer } from 'rxjs';
+import { Observer, retry } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { AlertService } from 'src/core/services/alert.service';
 
 @Component({
   selector: 'app-banar',
@@ -24,11 +25,17 @@ export class BanarComponent implements OnInit {
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
   selectedFile!: File | null;
-  constructor(private messageService: MessageService, private banarsService: GenericService<BanarDto>) {}
+  constructor(private _alertService: AlertService, private banarsService: GenericService<BanarDto[]>) {}
 
   ngOnInit() {
     this.banarsService.setControllerName('Banar');
-    this.banarsService.getAll().subscribe((data) => (this.banars = data));
+    this.banarsService.getAll().subscribe((result) => {
+      if (result.code == 0) {
+        this.banars = result.body;
+      } else {
+        this._alertService.fail(result.message);
+      }
+    });
     this.columns = [
       { field: 'id', header: 'Id', sortable: true },
       { field: 'nameEn', header: 'English Name', sortable: true },
@@ -44,7 +51,6 @@ export class BanarComponent implements OnInit {
     this.breadcrumbItems.push({ label: 'Banars' });
   }
   onFileSelect(file: File) {
-    console.log(file.name);
     this.selectedFile = file;
   }
   onToggleSwitch(id: number, newValue: boolean) {
@@ -53,17 +59,16 @@ export class BanarComponent implements OnInit {
       isActive: newValue,
       id: id,
     };
-    this.banarsService.update(updateIsActive as BanarDto).subscribe((data) => {
-      const updatedIndex = this.banars.findIndex((c) => c.id === this.banar.id);
-      if (updatedIndex !== -1) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Button Updated',
-          life: 3000,
-        });
-        this.banars[updatedIndex] = data;
-        this.banarDialog = false;
+    this.banarsService.update(updateIsActive as any).subscribe((result) => {
+      if (result.code == 0) {
+        const updatedIndex = this.banars.findIndex((c) => c.id === this.banar.id);
+        if (updatedIndex !== -1) {
+          this._alertService.success(result.message);
+          this.banars[updatedIndex] = result.body[0];
+          this.banarDialog = false;
+        }
+      } else {
+        this._alertService.fail(result.message);
       }
     });
   }
@@ -91,12 +96,7 @@ export class BanarComponent implements OnInit {
         if (deletedIndex !== -1) {
           this.banars.splice(deletedIndex, 1);
           this._idToBeDeleted = 0;
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Banar Deleted',
-            life: 3000,
-          });
+          this._alertService.success('Banar Deleted.');
         }
       });
     this.deleteBanarDialog = false;
@@ -112,27 +112,21 @@ export class BanarComponent implements OnInit {
     if (this.banar.nameAr?.trim() && this.banar.nameEn?.trim()) {
       this.banarsService.setControllerName('Banar');
       if (this.banar.id) {
-        this.banarsService.updateWithFormData(this.banar, this.selectedFile, 'image').subscribe(this.updateFormDataObserver());
+        this.banarsService.updateWithFormData(this.banar as any, this.selectedFile, 'image').subscribe(this.updateFormDataObserver());
       } else {
-        debugger;
-        this.banarsService.addWithFormData(this.banar, this.selectedFile, 'image').subscribe(this.addFormDataObserver());
+        this.banarsService.addWithFormData(this.banar as any, this.selectedFile, 'image').subscribe(this.addFormDataObserver());
       }
     }
   }
 
   addFormDataObserver(): Partial<Observer<HttpEvent<Object>>> | (((value: HttpEvent<Object>) => void) | undefined) {
     return {
-      next: (data) => {
+      next: (data: any) => {
         if (data.type === HttpEventType.UploadProgress) {
           // this.progdatas = Math.round((data.loaded / (data.total ?? 1)) * 100);
         } else if (data.type === HttpEventType.Response) {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Banar Saved',
-            life: 3000,
-          });
-          this.banars.push(data.body as BanarDto);
+          this._alertService.success('Banar Saved.');
+          this.banars.push(data.body.body as BanarDto);
         }
       },
       complete: () => {
@@ -151,12 +145,7 @@ export class BanarComponent implements OnInit {
         } else if (data.type === HttpEventType.Response) {
           const updatedIndex = this.banars.findIndex((c) => c.id === this.banar.id);
           if (updatedIndex !== -1) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: 'Banar Updated',
-              life: 3000,
-            });
+            this._alertService.success('Banar Updated.');
             this.banars[updatedIndex] = data.body as BanarDto;
           }
         }

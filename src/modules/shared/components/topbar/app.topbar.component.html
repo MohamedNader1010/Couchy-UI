@@ -1,34 +1,27 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
-        <span>Couchy</span>
-        <!-- <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo"> -->
-        <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
-            <i class="pi pi-bars"></i>
-        </button>
-    </a>
+  <a class="layout-topbar-logo" routerLink="">
+    <img src="assets/layout/images/Coachy-logo.png" alt="logo" />
+  </a>
+  <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+    <i class="pi pi-bars"></i>
+  </button>
 
-    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
-        <i class="pi pi-ellipsis-v"></i>
+  <div #topbarmenu class="layout-topbar-menu" [ngClass]="{ 'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible }">
+    <app-language></app-language>
+    <button class="p-link layout-topbar-button" (click)="logout()">
+      <i class="pi pi-sign-out"></i>
+      <span>Sign out</span>
     </button>
-
-    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button" (click)="logout()">
-            <i class="pi pi-sign-out"></i>
-            <span>Sign out</span>
-        </button>
-    </div>
-
+  </div>
 </div>
 
-
 <p-dialog [(visible)]="confirmLogoutDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
-    <div class="flex align-items-center justify-content-center">
-      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-      <span>Are you sure you want to logout?</span>
-    </div>
-    <ng-template pTemplate="footer">
-      <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-        (click)="confirmLogoutDialog = false"></button>
-      <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmLogout()"></button>
-    </ng-template>
-  </p-dialog>
+  <div class="flex align-items-center justify-content-center">
+    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+    <span>Are you sure to logout?</span>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="confirmLogoutDialog = false"></button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmLogout()"></button>
+  </ng-template>
+</p-dialog>

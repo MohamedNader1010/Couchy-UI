@@ -41,7 +41,6 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     InputNumberModule,
     DialogModule,
     InputSwitchModule
-  ],
-  providers:[MessageService]
+  ]
 })
 export class CategoriesModule { }

@@ -18,7 +18,7 @@ export class TrainerComponent implements OnInit {
   trainerDialog: boolean = false;
   submitted: boolean = false;
   trainer: Users = {} as Users;
-  constructor(private _trainerService: GenericService<Users>, private _messageService: MessageService) {
+  constructor(private _trainerService: GenericService<Users[]>, private _messageService: MessageService) {
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Trainers' });
@@ -31,8 +31,8 @@ export class TrainerComponent implements OnInit {
   }
   ngOnInit(): void {
     this._trainerService.setControllerName('User/Trainer');
-    this._trainerService.getAll().subscribe((data) => {
-      data.forEach((trainer: any) => {
+    this._trainerService.getAll().subscribe((result) => {
+      result.body.forEach((trainer: any) => {
         this.trainers.push({
           name: trainer.name,
           phoneNumber: trainer.mobileNumber,
@@ -53,7 +53,7 @@ export class TrainerComponent implements OnInit {
   }
   saveTrainer() {
     this._trainerService.setControllerName('User/AddTrainerAsync');
-    this._trainerService.add(this.trainer).subscribe((data:any) => {
+    this._trainerService.add(this.trainer as any).subscribe((data:any) => {
       this.trainers.push({id: data.id, phoneNumber: data.mobileNumber} as Users);
       this.trainerDialog = false; 
       this._messageService.add({

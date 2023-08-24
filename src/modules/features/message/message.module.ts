@@ -19,7 +19,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { MessageService } from 'primeng/api';
+
 
 @NgModule({
   declarations: [MessageComponent],
@@ -43,6 +43,6 @@ import { MessageService } from 'primeng/api';
     DialogModule,
     InputSwitchModule,
   ],
-  providers: [MessageService],
+
 })
 export class MessageModule {}

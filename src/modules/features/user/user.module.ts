@@ -45,7 +45,6 @@ import { MessageService } from 'primeng/api';
     InputNumberModule,
     DialogModule,
     InputSwitchModule
-  ], 
-  providers: [MessageService]
+  ]
 })
 export class UserModule { }

@@ -1,9 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { AuthService } from 'src/core/services/auth.service';
 
-import { LayoutService } from 'src/modules/layout/layout-service.service';
+
+import { LayoutService } from '../../../layout/layout-service.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -12,7 +13,11 @@ import { LayoutService } from 'src/modules/layout/layout-service.service';
 export class AppTopBarComponent {
   confirmLogoutDialog: boolean = false;
   items!: MenuItem[];
-
+  languageOptions: { label: string; value: string }[] = [
+    { label: 'English', value: 'en' },
+    { label: 'عربى', value: 'ar' }
+  ];
+  selectedLanguage: string = '';
   @ViewChild('menubutton') menuButton!: ElementRef;
 
   @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;

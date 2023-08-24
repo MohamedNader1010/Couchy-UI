@@ -10,15 +10,17 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { RippleModule } from 'primeng/ripple';
 import { RouterModule } from '@angular/router';
-import { AppFooterComponent } from 'src/modules/shared/components/footer/app.footer.component';
-import { AppMenuitemComponent } from 'src/modules/shared/components/menu-item/app.menuitem.component';
-import { AppMenuComponent } from 'src/modules/shared/components/menu/app.menu.component';
-import { AppSidebarComponent } from 'src/modules/shared/components/sidebar/app.sidebar.component';
-import { AppTopBarComponent } from 'src/modules/shared/components/topbar/app.topbar.component';
+import { AppFooterComponent } from '../shared/components/footer/app.footer.component';
+import { AppMenuitemComponent } from '../shared/components/menu-item/app.menuitem.component';
+import { AppMenuComponent } from '../shared/components/menu/app.menu.component';
+import { AppSidebarComponent } from '../shared/components/sidebar/app.sidebar.component';
+import { AppTopBarComponent } from '../shared/components/topbar/app.topbar.component';
 import { AppLayoutComponent } from './layout.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ThemesComponent } from '../shared/components/themes/themes.component';
+import { LanguageComponent } from '../shared/components/language/language.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
     declarations: [
@@ -28,7 +30,8 @@ import { ThemesComponent } from '../shared/components/themes/themes.component';
         AppMenuComponent,
         AppSidebarComponent,
         AppLayoutComponent,
-        ThemesComponent
+        ThemesComponent,
+        LanguageComponent
     ],
     imports: [
         BrowserModule,
@@ -49,7 +52,8 @@ import { ThemesComponent } from '../shared/components/themes/themes.component';
         SidebarModule,
         RadioButtonModule,
         ButtonModule,
-        InputSwitchModule
+        InputSwitchModule, 
+        DropdownModule
     ],
     exports: [AppLayoutComponent]
 })

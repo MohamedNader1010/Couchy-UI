@@ -42,7 +42,6 @@ import { ToolbarModule } from 'primeng/toolbar';
     InputNumberModule,
     DialogModule,
     InputSwitchModule
-  ],
-  providers: [MessageService],
+  ]
 })
 export class TrainerModule {}

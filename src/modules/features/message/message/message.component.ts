@@ -3,6 +3,7 @@ import { GenericService } from 'src/core/services/generic.service';
 import { Message } from '../interfaces/message.interface';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { AlertService } from 'src/core/services/alert.service';
 
 @Component({
   selector: 'app-message',
@@ -18,7 +19,7 @@ export class MessageComponent implements OnInit {
   submitted: boolean = false;
   message: Message = {} as Message;
   messages: Message[] = [];
-  constructor(private _messageApiService: GenericService<Message>, private _messageToastService: MessageService) {
+  constructor(private _messageApiService: GenericService<Message[]>, private _alertService: AlertService) {
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Messages' });
@@ -31,14 +32,8 @@ export class MessageComponent implements OnInit {
   }
   ngOnInit(): void {
     this._messageApiService.setControllerName('Message');
-    this._messageApiService.getAll().subscribe((data: Message[]) => {
-      this.messages = data;
-      this._messageToastService.add({
-        severity: 'success',
-        summary: 'Successful',
-        detail: 'Messages Retreived',
-        life: 3000,
-      })
+    this._messageApiService.getAll().subscribe(result => {
+      this.messages = result.body;
     });
   }
 

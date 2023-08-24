@@ -43,6 +43,5 @@ import { MessageService } from 'primeng/api';
     DialogModule,
     InputSwitchModule,
   ],
-  providers: [MessageService],
 })
 export class BanarModule {}

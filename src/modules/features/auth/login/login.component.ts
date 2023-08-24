@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { LoginAdmin } from './interfaces/loginAdmin.interface';
 import { GenericService } from 'src/core/services/generic.service';
 import { AuthService } from 'src/core/services/auth.service';
-import { MessageService } from 'primeng/api';
+import { AlertService } from 'src/core/services/alert.service';
+import { Auth } from './interfaces/auth.interface';
+import { ResponseInfoDto } from 'src/modules/shared/interfaces/response.interface';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +25,7 @@ export class LoginComponent implements OnInit {
   error: string = '';
   email: string = '';
   isSubmitted: boolean = false;
-  constructor(private _loginService: GenericService<LoginAdmin>, private _authService: AuthService,private _messageService:MessageService) {}
+  constructor(private _loginService: GenericService<LoginAdmin>, private _authService: AuthService, private _alertService: AlertService) {}
   ngOnInit(): void {
     this._loginService.setControllerName('Authorization/LogInAdmin');
   }
@@ -34,24 +36,15 @@ export class LoginComponent implements OnInit {
         password: this.password,
       };
       this._loginService.add(credintials).subscribe((data: any) => {
-        if (data.isSuccess) {
-          this._authService.authenticateUser(data.token);
+        let result = data as ResponseInfoDto<Auth>;
+        console.log(result);
+        if (result.body.isSuccess) {
+          this._authService.authenticateUser(result.body.token);
           this.isSubmitted = true;
-          this._messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: data.message,
-            life: 3000,
-          });
-        }
-        else {
+          this._alertService.success(result.message);
+        } else {
           this.isSubmitted = false;
-          this._messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: data.message,
-            life: 3000,
-          });
+          this._alertService.fail(result.message);
         }
       });
     }

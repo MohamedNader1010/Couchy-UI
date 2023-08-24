@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environment';
+import { ResponseInfoDto } from 'src/modules/shared/interfaces/response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +15,9 @@ export class GenericService<T> {
   }
   constructor(private http: HttpClient) {}
 
-  add(item: T): Observable<T> {
-    return this.http.post<T>(`${this._baseUrl}/${this._controllerName}`, item).pipe(
+  add(item: T): Observable<ResponseInfoDto<T>> {
+    return this.http.post<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}`, item).pipe(
       catchError((err) => {
-        console.log(err);
         return throwError(() => err);
       }),
     );
@@ -31,22 +31,21 @@ export class GenericService<T> {
     if (selectedFile && formKey) formData.append(formKey, selectedFile);
     return this.http.post(`${this._baseUrl}/${this._controllerName}`, formData, { headers, reportProgress: true, observe: 'events' }).pipe(
       catchError((err) => {
-        console.log(err);
         return throwError(() => err);
       }),
     );
   };
 
-  getById(id: number): Observable<T> {
-    return this.http.get<T>(`${this._baseUrl}/${this._controllerName}/${id}`).pipe(
+  getById(id: number): Observable<ResponseInfoDto<T>> {
+    return this.http.get<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}/${id}`).pipe(
       catchError((err) => {
         console.log(err);
         return throwError(() => err);
       }),
     );
   }
-  getAll(): Observable<T[]> {
-    return this.http.get<T[]>(`${this._baseUrl}/${this._controllerName}`).pipe(
+  getAll(): Observable<ResponseInfoDto<T>> {
+    return this.http.get<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}`).pipe(
       catchError((err) => {
         console.log(err);
         return throwError(() => err);
@@ -54,8 +53,8 @@ export class GenericService<T> {
     );
   }
 
-  update(item: T): Observable<T> {
-    return this.http.put<T>(`${this._baseUrl}/${this._controllerName}`, item).pipe(
+  update(item: T): Observable<ResponseInfoDto<T>> {
+    return this.http.put<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}`, item).pipe(
       catchError((err) => {
         console.log(err);
         return throwError(() => err);

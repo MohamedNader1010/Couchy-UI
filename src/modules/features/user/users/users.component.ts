@@ -16,7 +16,7 @@ export class UsersComponent implements OnInit {
   rowsPerPageOptions = [5, 10, 20];
   textColumns: any[] = [];
 
-  constructor(private _userService: GenericService<Users>) {
+  constructor(private _userService: GenericService<Users[]>) {
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Users' });
@@ -30,8 +30,8 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.setControllerName('User/User');
-    this._userService.getAll().subscribe((data) => {
-      data.forEach((trainer: any) => {
+    this._userService.getAll().subscribe((result) => {
+      result.body.forEach((trainer: any) => {
         this.users.push({
           name: trainer.name,
           phoneNumber: trainer.mobileNumber,
