@@ -27,9 +27,13 @@ const routes: Routes = [
     loadChildren: () => import('./message/message.module').then((m) => m.MessageModule),
   },
   {
-    path: 'settings', 
-    loadChildren: () => import ('./settings/settings.module').then((m) => m.SettingsModule)
-  }
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule),
+  },
+  {
+    path: 'admins',
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+  },
 ];
 
 @NgModule({

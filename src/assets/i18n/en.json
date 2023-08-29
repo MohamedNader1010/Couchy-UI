@@ -1,3 +1,49 @@
 {
-    "title" : "Coachy"
+    "title" : "Coachy",
+    "login" : {
+        "header" : "please enter your credintials", 
+        "email" : "email", 
+        "password": "password"
+    }, 
+    "banars" : {
+        "title": "banars"
+    }, 
+    "categories": {
+        "title": "categories"
+    }, 
+    "dashboard": {
+        "title": "dashoboard"
+    }, 
+    "message": {
+        "title" : "message"
+    }, 
+    "setting" : {
+        "title" : "setting"
+    }, 
+    "trainer": {
+        "title": "trainers"
+    }, 
+    "user" : {
+        "title": "users"
+    }, 
+    "table" : {
+        "columns": {
+            "id" : "#", 
+            "nameEn": "name-en", 
+            "nameAr": "name-ar", 
+            "link" : "link", 
+            "filePath": "file path", 
+            "isActive": "is active", 
+            "actions" : "actions", 
+            "messageBody": "message", 
+            "name" : "name", 
+            "phoneNumber" : "phoneNumber"
+        }, 
+        "pageReport": "Showing {first} to {last} of {totalRecords} entries" 
+    }, 
+    "labels": {
+        "search": "Search..."
+
+    }
+
 }

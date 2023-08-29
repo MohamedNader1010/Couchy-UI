@@ -1,4 +1,4 @@
 export interface CategoryIsActiveDto {
-  id: number;
+  id: number | string;
   isActive: boolean;
 }

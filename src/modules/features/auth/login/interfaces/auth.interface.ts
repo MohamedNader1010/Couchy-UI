@@ -1,3 +1,5 @@
+import { LanguageEnum } from "src/modules/shared/enums/languages.enums";
+
 export interface Auth {
   email: string;
   id: number;
@@ -8,8 +10,4 @@ export interface Auth {
   token: string;
   expiresOn: Date;
   roles: string[];
-}
-export enum LanguageEnum {
-  Arabic = 1,
-  English = 2,
 }

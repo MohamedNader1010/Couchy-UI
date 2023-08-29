@@ -36,7 +36,7 @@ export class GenericService<T> {
     );
   };
 
-  getById(id: number): Observable<ResponseInfoDto<T>> {
+  getById(id: number | string): Observable<ResponseInfoDto<T>> {
     return this.http.get<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}/${id}`).pipe(
       catchError((err) => {
         console.log(err);

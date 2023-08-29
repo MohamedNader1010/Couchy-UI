@@ -5,6 +5,7 @@ import { AuthService } from 'src/core/services/auth.service';
 import { AlertService } from 'src/core/services/alert.service';
 import { Auth } from './interfaces/auth.interface';
 import { ResponseInfoDto } from 'src/modules/shared/interfaces/response.interface';
+import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 
 @Component({
   selector: 'app-login',
@@ -37,8 +38,8 @@ export class LoginComponent implements OnInit {
       };
       this._loginService.add(credintials).subscribe((data: any) => {
         let result = data as ResponseInfoDto<Auth>;
-        console.log(result);
-        if (result.body.isSuccess) {
+
+        if (result.code == ResponseCode.LoggedInSuccessfully) {
           this._authService.authenticateUser(result.body.token);
           this.isSubmitted = true;
           this._alertService.success(result.message);

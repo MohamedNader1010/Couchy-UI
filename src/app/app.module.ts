@@ -11,38 +11,44 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
-  declarations: [
-    AppComponent, NotfoundComponent
-  ],
+  declarations: [AppComponent, NotfoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AppLayoutModule, 
+    AppLayoutModule,
     HttpClientModule,
-    ToastModule, 
+    ToastModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
-    
+        deps: [HttpClient],
+      },
+    }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return sessionStorage.getItem('token'); 
+        },
+        allowedDomains: [''], 
+        disallowedRoutes: [''], 
+      },
+    }),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
-      multi: true
-    }, 
-    MessageService
+      multi: true,
+    },
+    MessageService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }

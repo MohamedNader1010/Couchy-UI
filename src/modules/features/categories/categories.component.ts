@@ -8,6 +8,9 @@ import { UpdateCategoryNamesDto } from './interfaces/update-category-names.dto';
 import { AlertService } from 'src/core/services/alert.service';
 import { ResponseInfoDto } from 'src/modules/shared/interfaces/response.interface';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
+import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 
 @Component({
   selector: 'app-categories',
@@ -25,17 +28,17 @@ export class CategoriesComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _alertService: AlertService, private categoriesService: GenericService<CategoryDto[]>) {}
+  constructor(private _alertService: AlertService, private categoriesService: GenericService<CategoryDto[]>, public permissionClaimService: PermissionClaimsService) {}
 
   ngOnInit() {
     this.categoriesService.setControllerName('Category');
     this.categoriesService.getAll().subscribe((result) => {
-        if(result.code == +ResponseCode.Success) {
-          this.categories = result.body; 
-          this._alertService.success(result.message);
-        } else {
-          this._alertService.fail(result.message);
-        }
+      if (result.code == +ResponseCode.Success) {
+        this.categories = result.body;
+        this._alertService.success(result.message);
+      } else {
+        this._alertService.fail(result.message);
+      }
     });
     this.columns = [
       { field: 'id', header: 'Id', sortable: true },
@@ -60,11 +63,11 @@ export class CategoriesComponent implements OnInit {
       const updatedIndex = this.categories.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
         if (result.body[0].isActive) {
-            this._alertService.success('Activated')
+          this._alertService.success('Activated');
         } else {
-          this._alertService.warn('DeActivated')
+          this._alertService.warn('DeActivated');
         }
-          
+
         this.categories[updatedIndex] = result.body[0];
         this.categoryDialog = false;
       }
@@ -94,7 +97,7 @@ export class CategoriesComponent implements OnInit {
         if (deletedIndex !== -1) {
           this.categories.splice(deletedIndex, 1);
           this._idToBeDeleted = 0;
-          this._alertService.success('category deleted.')
+          this._alertService.success('category deleted.');
         }
       });
     this.deleteCategoryDialog = false;
@@ -113,19 +116,18 @@ export class CategoriesComponent implements OnInit {
         this.categoriesService.update(this.category as any).subscribe((result) => {
           const updatedIndex = this.categories.findIndex((c) => c.id === this.category.id);
           if (updatedIndex !== -1 && result.code == +ResponseCode.Success) {
-           this._alertService.success(result.message)
-            this.categories[updatedIndex] = result.body[0];
+            this._alertService.success(result.message);
+            this.categories[updatedIndex] = result.body as any;
             this.categoryDialog = false;
             this.submitted = true;
             this.category = {} as CategoryDto;
-            this.categoryDialog = false;
           }
         });
       } else {
         this.categoriesService.setControllerName('Category');
         this.categoriesService.add(this.category as any).subscribe({
           next: (result) => {
-            this._alertService.success(result.message)
+            this._alertService.success(result.message);
             this.categories.push(result.body[0]);
             this.submitted = true;
             this.category = {} as CategoryDto;
