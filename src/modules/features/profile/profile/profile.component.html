@@ -1,0 +1,80 @@
+<div class="surface-ground flex align-items-center justify-content-center overflow-hidden">
+  <div class="flex flex-column align-items-center justify-content-center">
+    <div class="surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
+      <div>
+        <label for="name" class="block text-900 font-medium text-xl mb-2">Name</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          placeholder="Name"
+          [(ngModel)]="admin.name"
+          required
+          autofocus
+          class="w-full p-3 md:w-30rem mb-5"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.name }"
+        />
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.name">Name is required.</small>
+
+        <label for="email" class="block text-900 font-medium text-xl mb-2">Email</label>
+        <input
+          type="email"
+          pInputText
+          id="email"
+          placeholder="Email"
+          [(ngModel)]="admin.email"
+          required
+          class="w-full p-3 md:w-30rem mb-5"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.email }"
+        />
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.email">Email is required.</small>
+
+        <label for="phone" class="block text-900 font-medium text-xl mb-2">Phone</label>
+        <input
+          type="text"
+          pInputText
+          id="phone"
+          [(ngModel)]="admin.mobileNumber"
+          required
+          class="w-full p-3 md:w-30rem mb-5"
+          pattern="^\+965\d{7}$"
+          placeholder="+965XXXXXXXX"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.mobileNumber }"
+        />
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.mobileNumber">Please enter a valid Kuwait phone number (+965XXXXXXXX).</small>
+
+        <label for="password" class="block text-900 font-medium text-xl mb-2">Password</label>
+        <p-password
+          id="password"
+          [(ngModel)]="admin.password"
+          name="password"
+          placeholder="Password"
+          [toggleMask]="true"
+          styleClass="mb-5"
+          inputStyleClass="w-full p-3 md:w-30rem"
+          [feedback]="false"
+          required="true"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.password }"
+        ></p-password>
+
+        <label for="gender" class="block text-900 font-medium text-xl mb-2">Gender</label>
+        <p-dropdown
+          id="gender"
+          [(ngModel)]="admin.gender"
+          [options]="genderOptions"
+          placeholder="Select Gender"
+          [required]="true"
+          styleClass="mb-5 w-full p-1 md:w-30rem"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.gender }"
+        ></p-dropdown>
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.gender">Gender is required.</small>
+
+        <!-- <p-fileUpload styleClass="mb-5 p-2 md:w-10rem" mode="basic"  chooseLabel="Choose photo" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])">
+        </p-fileUpload> -->
+
+        <button pButton pRipple label="Update" (click)="updateUser()" class="w-full p-3 text-xl"></button>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>

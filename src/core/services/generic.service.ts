@@ -76,9 +76,9 @@ export class GenericService<T> {
     );
   };
 
-  delete(id: number): Observable<void> {
+  delete(id: number | string): Observable<ResponseInfoDto<T>> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.delete<void>(`${this._baseUrl}/${this._controllerName}`, { headers: headers, params: { id: id } }).pipe(
+    return this.http.delete<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}`, { headers: headers, params: { id: id } }).pipe(
       catchError((err) => {
         console.log(err);
         return throwError(() => err);

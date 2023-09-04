@@ -1,4 +1,4 @@
-<form #settingsForm="ngForm" (ngSubmit)="onSubmit(settingsForm.value)">
+<form *ngIf="claim.CanUpdate || claim.canAdd" #settingsForm="ngForm" (ngSubmit)="onSubmit(settingsForm.value)">
   <div class="p-fluid">
     <div class="p-field">
       <label for="id">ID</label>

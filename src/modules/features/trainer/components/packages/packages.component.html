@@ -1,0 +1,134 @@
+<div class="grid">
+  <div class="col-12">
+    <p-breadcrumb [model]="breadcrumbItems" [home]="{ icon: 'pi pi-home' }"></p-breadcrumb>
+  </div>
+
+  <div class="col-12">
+    <div class="card px-6 py-6">
+      <p-toast></p-toast>
+      <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+          <div class="my-2">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+          </div>
+        </ng-template>
+      </p-toolbar>
+      <p-table
+        #dt
+        [value]="packages"
+        [columns]="columns"
+        responsiveLayout="scroll"
+        [rows]="10"
+        [globalFilterFields]="['id', 'nameAr', 'nameEn']"
+        [paginator]="true"
+        [rowsPerPageOptions]="rowsPerPageOptions"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowHover]="true"
+        dataKey="id"
+        [totalRecords]="packages.length"
+      >
+        <ng-template pTemplate="caption">
+          <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5 class="m-0">Packages</h5>
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto" />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">{{ col.header }} <p-sortIcon field="{{ col.field }}" *ngIf="col.sortable"></p-sortIcon></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of textColumns">
+              <span class="p-column-title">{{ col.field }}</span>
+              {{ rowData[col.field] }}
+            </td>
+            <td>
+              <span class="p-column-title">actions</span>
+              <div class="flex">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editPackage(rowData)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePackage(rowData)"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <p-dialog [(visible)]="packageDialog" [style]="{ width: '50%' }" header="package Details" [modal]="true" class="p-fluid">
+      <ng-template pTemplate="content">
+        <div class="field">
+          <label for="nameEn">English Name</label>
+          <input type="text" pInputText id="nameEn" [(ngModel)]="package.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.nameEn }" />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.nameEn">English Name is required.</small>
+        </div>
+        <div class="field">
+          <label for="nameAr">Arabic Name</label>
+          <input type="text" pInputText id="nameAr" [(ngModel)]="package.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.nameAr }" />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.nameAr">Arabic Name is required.</small>
+        </div>
+
+        <div class="field">
+          <label for="breifEn">Breif En</label>
+          <input type="text" pInputText id="breifEn" [(ngModel)]="package.breifEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.breifEn }" />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.nameAr">Breif En is required.</small>
+        </div>
+
+        <div class="field">
+          <label for="breifAr">Breif Ar</label>
+          <input type="text" pInputText id="breifAr" [(ngModel)]="package.breifAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.breifAr }" />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.breifAr">Breif Ar is required.</small>
+        </div>
+
+        <div class="field">
+          <label for="color">Color</label>
+          <p-dropdown
+            id="color"
+            [(ngModel)]="package.color"
+            [options]="colorsOptions"
+            placeholder="Select Color"
+            [required]="true"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.color }"
+          ></p-dropdown>
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.color">Color is required.</small>
+        </div>
+
+        <div class="field">
+          <label for="breifAr">Price</label>
+          <input type="text" pInputText id="price" [(ngModel)]="package.price" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.price }" />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.price">Price is required.</small>
+        </div>
+
+        <div class="field">
+          <label for="breifAr">Days</label>
+          <input type="text" pInputText id="color" [(ngModel)]="package.day" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.day }" />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.color">Day is required.</small>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="savePackage()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="deletePackageDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+      <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="package"
+          >Are you sure you want to delete <b>{{ package.nameEn }}</b
+          >?</span
+        >
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deletePackageDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+      </ng-template>
+    </p-dialog>
+  </div>
+</div>

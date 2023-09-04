@@ -6,14 +6,16 @@
   <div class="col-12">
     <div class="card px-6 py-6">
       <p-toast></p-toast>
-      <p-toolbar styleClass="mb-4">
+      <p-toolbar *ngIf="claim.CanAdd" styleClass="mb-4">
         <ng-template pTemplate="left">
           <div class="my-2">
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
           </div>
         </ng-template>
       </p-toolbar>
+      <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
       <p-table
+        *ngIf="claim.CanGet && !isLoading"
         #dt
         [value]="admins"
         [columns]="columns"
@@ -55,7 +57,7 @@
             <td>
               <span class="p-column-title">actions</span>
               <div class="flex">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editAdmin(rowData)"></button>
+                <button *ngIf="claim.CanUpdate" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editAdmin(rowData)"></button>
               </div>
             </td>
           </tr>
@@ -63,13 +65,13 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="adminDialog" [style]="{ width: '70%' }" header="Category Details" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="adminDialog" [style]="{ width: '70%' }" header="Admin Details" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <p-accordion [multiple]="true" [activeIndex]="[0]">
           <p-accordionTab header="Admin Information">
             <div class="field">
-              <label for="nameEn">Name</label>
-              <input type="text" pInputText id="nameEn" [(ngModel)]="admin.name" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.name }" />
+              <label for="name">Name</label>
+              <input type="text" pInputText id="name" [(ngModel)]="admin.name" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.name }" />
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.name">Name is required.</small>
             </div>
 
@@ -79,11 +81,20 @@
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.email">Email is required.</small>
             </div>
 
-            <div class="field">
-              <label for="password">Password</label>
-              <input type="password" pInputText id="password" [(ngModel)]="admin.password" required [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.password }" />
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.password">Password is required.</small>
-            </div>
+            <label for="password">Password</label>
+            <p-password
+              id="password"
+              [(ngModel)]="admin.password"
+              name="password"
+              placeholder="Password"
+              [toggleMask]="true"
+              styleClass="mb-5"
+              inputStyleClass="w-full p-3"
+              [feedback]="false"
+              required="true"
+              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.password }"
+            ></p-password>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.password">Password is required.</small>
 
             <div class="field">
               <label for="isActive">Active</label>
@@ -100,13 +111,13 @@
                 required
                 pattern="^\+965\d{7}$"
                 placeholder="+965XXXXXXXX"
-                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.mobileNumber}"
+                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.mobileNumber }"
               />
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.mobileNumber">Please enter a valid Kuwait phone number (+965XXXXXXXX).</small>
             </div>
           </p-accordionTab>
           <p-accordionTab header="Permissions">
-           <tabs [admin]="admin" (permissionsChanged)="handlePermissionChanged($event)"></tabs>
+            <tabs [admin]="admin" (permissionsChanged)="handlePermissionChanged($event)"></tabs>
           </p-accordionTab>
         </p-accordion>
       </ng-template>

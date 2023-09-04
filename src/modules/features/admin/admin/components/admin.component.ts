@@ -7,6 +7,8 @@ import { AlertService } from 'src/core/services/alert.service';
 import { CategoryIsActiveDto } from '../../../categories/interfaces/update-isActive-category.dto';
 import { PermissionEntry } from 'src/modules/shared/interfaces/permissionsEntry';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
+import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
+import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 
 @Component({
   selector: 'app-admin',
@@ -14,6 +16,8 @@ import { ResponseCode } from 'src/modules/shared/enums/response.enum';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
+  isLoading = false;
+  claim: any;
   _permissions: { [key: number]: PermissionEntry }[] = [];
   permissionsToBeEdited: any;
   _idToBeDeleted: number = 0;
@@ -26,25 +30,31 @@ export class AdminComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _adminService: GenericService<AdminDto[]>, private _alertService: AlertService) {}
+  constructor(private _adminService: GenericService<AdminDto[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService) {
+    this.claim = this._permissionService.getPermission(PermissionClaims.AdminPermission);
+  }
 
   ngOnInit(): void {
-    this._adminService.setControllerName('User/Admin');
-    this._adminService.getAll().subscribe((result) => {
-      this.admins = result.body;
-    });
-    this.columns = [
-      { field: 'id', header: 'Id', sortable: true },
-      { field: 'name', header: 'Name', sortable: true },
-      { field: 'email', header: 'Email', sortable: true },
-      { field: 'isActive', header: 'Is Active', sortable: true },
-      { field: 'actions', header: '' },
-    ];
-    this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
+    if (this.claim.CanGet) {
+      this.isLoading = true;
+      this._adminService.setControllerName('User/Admin');
+      this._adminService.getAll().subscribe((result) => {
+        this.admins = result.body;
+        this.isLoading = false;
+      });
+      this.columns = [
+        { field: 'id', header: 'Id', sortable: true },
+        { field: 'name', header: 'Name', sortable: true },
+        { field: 'email', header: 'Email', sortable: true },
+        { field: 'isActive', header: 'Is Active', sortable: true },
+        { field: 'actions', header: '' },
+      ];
+      this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
 
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Admins' });
+      this.breadcrumbItems = [];
+      this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
+      this.breadcrumbItems.push({ label: 'Admins' });
+    }
   }
 
   openNew() {
@@ -52,12 +62,13 @@ export class AdminComponent implements OnInit {
     this.adminDialog = true;
   }
   onToggleSwitch(id: string, newValue: boolean) {
+    this.isLoading = true;
     this._adminService.setControllerName('User/UpdateIsActive');
     const updateIsActive: CategoryIsActiveDto = {
       isActive: newValue,
       id: id,
     };
-    this._adminService.update(updateIsActive as any).subscribe((result) => {
+    this._adminService.update(updateIsActive as any).subscribe((result: any) => {
       const updatedIndex = this.admins.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
         if (result.body[0].isActive) {
@@ -65,10 +76,10 @@ export class AdminComponent implements OnInit {
         } else {
           this._alertService.warn('DeActivated');
         }
-
-        this.admins[updatedIndex] = result.body[0];
+        this.admins[updatedIndex] = result.body;
         this.adminDialog = false;
       }
+      this.isLoading = false;
     });
   }
 
@@ -86,6 +97,7 @@ export class AdminComponent implements OnInit {
     this.admin = {} as AdminDto;
   }
   editAdmin(admin: AdminDto) {
+    this.isLoading = true;
     this._adminService.setControllerName('User/GetAdminPermission');
     this._adminService.getById(admin.id as any).subscribe((result) => {
       if (result.code == ResponseCode.Success) {
@@ -97,20 +109,23 @@ export class AdminComponent implements OnInit {
         this.admin = { ...(admin as AdminDto) };
         this.adminDialog = true;
       }
+      this.isLoading = false;
     });
   }
 
   saveAdmin() {
+    this.isLoading = true;
     if (this.admin.name?.trim() && this.admin.password?.trim() && this.admin.email.trim() && !this.admin.id) {
       this.admin.permissions = this._permissions;
       this._adminService.setControllerName('User/AddAdmin');
-      this._adminService.add(this.admin as any).subscribe((result) => {
+      this._adminService.add(this.admin as any).subscribe((result: any) => {
         if (result.code == ResponseCode.Success) {
           this._alertService.success(result.message);
-          this.admins.push(result.body[0]);
+          this.admins.push(result.body);
         } else {
           this._alertService.fail(result.message);
         }
+        this.isLoading = false;
       });
     } else {
       this.admin.permissions = this._permissions;
@@ -128,6 +143,7 @@ export class AdminComponent implements OnInit {
         } else {
           this._alertService.fail(result.message);
         }
+        this.isLoading = false;
         this.admin = {} as AdminDto;
         this.adminDialog = false;
       });

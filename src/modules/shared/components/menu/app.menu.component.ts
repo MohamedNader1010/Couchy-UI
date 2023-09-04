@@ -23,7 +23,7 @@ export class AppMenuComponent implements OnInit {
       },
       {
         label: 'Pages',
-        items: this.items
+        items: this.items,
       },
     ];
   }
@@ -36,5 +36,6 @@ export class AppMenuComponent implements OnInit {
     if (this._permissionClaimService.canAccessModule(PermissionClaims.MessagePermission)) this.items.push({ label: 'Messages', icon: 'pi pi-fw pi-envelope', routerLink: ['/admin/messages'] });
     if (this._permissionClaimService.canAccessModule(PermissionClaims.SettingPermission)) this.items.push({ label: 'Settings', icon: 'pi pi-fw pi-cog', routerLink: ['/admin/settings'] });
     if (this._permissionClaimService.canAccessModule(PermissionClaims.AdminPermission)) this.items.push({ label: 'Admins', icon: 'pi pi-fw pi-users', routerLink: ['/admin/admins'] });
+    this.items.push({ label: 'Profiles', icon: 'pi pi-user', routerLink: ['/admin/profile'] });
   }
 }

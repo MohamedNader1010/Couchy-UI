@@ -6,7 +6,7 @@
   <div class="col-12">
     <div class="card px-6 py-6">
       <p-toast></p-toast>
-      <p-toolbar styleClass="mb-4">
+      <p-toolbar styleClass="mb-4" *ngIf="claim.CanAdd">
         <ng-template pTemplate="left">
           <div class="my-2">
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
@@ -14,6 +14,7 @@
         </ng-template>
       </p-toolbar>
       <p-table
+        *ngIf="claim.CanGet"
         #dt
         [value]="banars"
         [columns]="columns"
@@ -59,8 +60,8 @@
             <td>
               <span class="p-column-title">actions</span>
               <div class="flex">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editBanar(rowData)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteBanar(rowData)"></button>
+                <button *ngIf="claim.CanUpdate" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editBanar(rowData)"></button>
+                <button *ngIf="claim.CanDelete" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteBanar(rowData)"></button>
               </div>
             </td>
           </tr>
@@ -68,7 +69,7 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="banarDialog" header="Banar Details" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="banarDialog" [style]="{ width: '450px' }" header="Banar Details" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">English Name</label>
@@ -83,9 +84,8 @@
         <div class="field">
           <label for="nameAr">Image</label>
           <div class="card flex justify-content-center">
-            <p-toast></p-toast>
-            <p-fileUpload mode="basic"  chooseLabel="Choose banar" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])">
-            </p-fileUpload>
+          
+            <p-fileUpload mode="basic" chooseLabel="Choose banar" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
           </div>
         </div>
         <div class="field">
@@ -115,3 +115,4 @@
     </p-dialog>
   </div>
 </div>
+<p-toast></p-toast>

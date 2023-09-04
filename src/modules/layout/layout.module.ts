@@ -21,40 +21,32 @@ import { ButtonModule } from 'primeng/button';
 import { ThemesComponent } from '../shared/components/themes/themes.component';
 import { LanguageComponent } from '../shared/components/language/language.component';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { AvatarModule } from 'primeng/avatar';
 @NgModule({
-    declarations: [
-        AppMenuitemComponent,
-        AppTopBarComponent,
-        AppFooterComponent,
-        AppMenuComponent,
-        AppSidebarComponent,
-        AppLayoutComponent,
-        ThemesComponent,
-        LanguageComponent
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        InputTextModule,
-        SidebarModule,
-        BadgeModule,
-        RadioButtonModule,
-        InputSwitchModule,
-        RippleModule,
-        RouterModule,
-        DialogModule,
-        RippleModule,
-        ButtonModule,
-        FormsModule,
-        SidebarModule,
-        RadioButtonModule,
-        ButtonModule,
-        InputSwitchModule, 
-        DropdownModule
-    ],
-    exports: [AppLayoutComponent]
+  declarations: [AppMenuitemComponent, AppTopBarComponent, AppFooterComponent, AppMenuComponent, AppSidebarComponent, AppLayoutComponent, ThemesComponent, LanguageComponent],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    InputTextModule,
+    SidebarModule,
+    BadgeModule,
+    RadioButtonModule,
+    InputSwitchModule,
+    RippleModule,
+    RouterModule,
+    DialogModule,
+    RippleModule,
+    ButtonModule,
+    FormsModule,
+    SidebarModule,
+    RadioButtonModule,
+    ButtonModule,
+    InputSwitchModule,
+    DropdownModule,
+    AvatarModule,
+  ],
+  exports: [AppLayoutComponent],
 })
-export class AppLayoutModule { }
+export class AppLayoutModule {}

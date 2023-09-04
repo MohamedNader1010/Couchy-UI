@@ -8,7 +8,6 @@ import { environment } from 'src/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private _cryptoSecretKey = environment.cryptoSecretKey;
   constructor(private _jwtHelper: JwtHelperService, private _adminService: GenericService<any>) {}
   public isAuthenticated(): boolean {
     const token = sessionStorage.getItem('token');
@@ -33,6 +32,14 @@ export class AuthService {
   public clearSession() {
     sessionStorage.clear();
   }
- 
-
+  public getUserId(): string {
+    const token: string = sessionStorage.getItem('token') ?? '';
+    const decodedToken = this._jwtHelper.decodeToken(token);
+    return decodedToken.uid;
+  }
+  public getUserName() {
+    const token: string = sessionStorage.getItem('token') ?? '';
+    const decodedToken = this._jwtHelper.decodeToken(token);
+    return decodedToken.sub;
+  }
 }

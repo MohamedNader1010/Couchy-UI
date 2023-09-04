@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TrainerRoutingModule } from './trainer-routing.module';
-import { TrainerComponent } from './components/trainers/trainer.component';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ProfileRoutingModule } from './profile-routing.module';
+import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
@@ -19,15 +17,15 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { PackagesComponent } from './components/packages/packages.component';
-import { GroupsComponent } from './components/groups/groups.component';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { PasswordModule } from 'primeng/password';
+
 @NgModule({
-  declarations: [TrainerComponent, PackagesComponent, GroupsComponent],
+  declarations: [ProfileComponent],
   imports: [
     CommonModule,
-    TrainerRoutingModule,
+    ProfileRoutingModule,
     BreadcrumbModule,
     TableModule,
     FileUploadModule,
@@ -44,7 +42,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputNumberModule,
     DialogModule,
     InputSwitchModule,
-    ProgressSpinnerModule
+    PasswordModule,
   ],
 })
-export class TrainerModule {}
+export class ProfileModule {}

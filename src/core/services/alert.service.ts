@@ -17,8 +17,8 @@ export class AlertService {
   }
   public fail(message: string) {
     this._messageService.add({
-      severity: 'fail',
-      summary: 'Failure', // should be translated
+      severity: 'error',
+      summary: 'Error', // should be translated
       detail: message,
       life: 3000,
     });

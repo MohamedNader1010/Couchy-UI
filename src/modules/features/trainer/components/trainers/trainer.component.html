@@ -7,7 +7,7 @@
   <div class="col-12">
     <div class="card px-6 py-6">
       <p-toast></p-toast>
-      <p-toolbar styleClass="mb-4">
+      <p-toolbar *ngIf="claim.CanAdd" styleClass="mb-4">
         <ng-template pTemplate="left">
           <div class="my-2">
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
@@ -16,11 +16,12 @@
       </p-toolbar>
       <p-table
         #dt
+        *ngIf="claim.CanGet"
         [value]="trainers"
         [columns]="columns"
         responsiveLayout="scroll"
         [rows]="10"
-        [globalFilterFields]="['id', 'name', 'phoneNumber']"
+        [globalFilterFields]="['id', 'name', 'mobileNumber']"
         [paginator]="true"
         [rowsPerPageOptions]="rowsPerPageOptions"
         [showCurrentPageReport]="true"
@@ -49,6 +50,16 @@
               <span class="p-column-title">{{ col.field }}</span>
               {{ rowData[col.field] ?? 'trainer for test..' }}
             </td>
+
+            <td>
+              <span class="p-column-title">isActive</span>
+              <p-inputSwitch [(ngModel)]="rowData.isActive" (ngModelChange)="onToggleSwitch(rowData.id, $event)"></p-inputSwitch>
+            </td>
+
+            <td>
+              <p-button label="Packages" styleClass="custom-button m-1" icon="pi pi-package" (click)="naviagateToPackages(rowData.id)"></p-button>
+              <p-button label="Groups" styleClass="custom-button m-1" icon="pi pi-users" (click)="navigateToGroups(rowData.id)"></p-button>
+            </td>
           </tr>
         </ng-template>
       </p-table>
@@ -57,28 +68,28 @@
     <p-dialog [(visible)]="trainerDialog" [style]="{ width: '450px' }" header="Add new trainer phone" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
-          <label for="phoneNumber">Phone Number</label>
+          <label for="mobileNumber">Phone Number</label>
           <input
             type="text"
             pInputText
-            id="phoneNumber"
-            [(ngModel)]="trainer.phoneNumber"
+            id="mobileNumber"
+            [(ngModel)]="trainer.mobileNumber"
             required
             maxlength="8"
             autofocus
-            [ngClass]="{ 'ng-invalid ng-dirty': phoneInputText.touched && (!trainer.phoneNumber || !trainer.phoneNumber.match('[0-9]{8}')) }"
+            [ngClass]="{ 'ng-invalid ng-dirty': phoneInputText.touched && (!trainer.mobileNumber || !trainer.mobileNumber.match('[0-9]{8}')) }"
             pattern="[0-9]{8}"
             #phoneInputText="ngModel"
           />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && !trainer.phoneNumber">Trainer's phone number is required.</small>
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && trainer.phoneNumber && !trainer.phoneNumber.match('[0-9]{8}')">
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && !trainer.mobileNumber">Trainer's phone number is required.</small>
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && trainer.mobileNumber && !trainer.mobileNumber.match('[0-9]{8}')">
             Phone number must be an 8-digit number.
           </small>
         </div>
       </ng-template>
       <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTrainer()" [disabled]="!trainer.phoneNumber || !trainer.phoneNumber.match('[0-9]{8}')"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTrainer()" [disabled]="!trainer.mobileNumber || !trainer.mobileNumber.match('[0-9]{8}')"></button>
       </ng-template>
     </p-dialog>
   </div>

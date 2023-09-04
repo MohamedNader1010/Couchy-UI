@@ -4,6 +4,8 @@ import { Message } from '../interfaces/message.interface';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { AlertService } from 'src/core/services/alert.service';
+import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
+import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 
 @Component({
   selector: 'app-message',
@@ -11,6 +13,7 @@ import { AlertService } from 'src/core/services/alert.service';
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit {
+  claim: any;
   breadcrumbItems: MenuItem[] = [];
   columns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
@@ -19,7 +22,9 @@ export class MessageComponent implements OnInit {
   submitted: boolean = false;
   message: Message = {} as Message;
   messages: Message[] = [];
-  constructor(private _messageApiService: GenericService<Message[]>, private _alertService: AlertService) {
+  constructor(private _messageApiService: GenericService<Message[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService) {
+    this.claim = this._permissionService.getPermission(PermissionClaims.MessagePermission);
+
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Messages' });
@@ -32,7 +37,7 @@ export class MessageComponent implements OnInit {
   }
   ngOnInit(): void {
     this._messageApiService.setControllerName('Message');
-    this._messageApiService.getAll().subscribe(result => {
+    this._messageApiService.getAll().subscribe((result) => {
       this.messages = result.body;
     });
   }

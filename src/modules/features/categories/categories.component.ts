@@ -18,6 +18,7 @@ import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent implements OnInit {
+  claim: any;
   _idToBeDeleted: number = 0;
   breadcrumbItems: MenuItem[] = [];
   categoryDialog: boolean = false;
@@ -28,7 +29,9 @@ export class CategoriesComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _alertService: AlertService, private categoriesService: GenericService<CategoryDto[]>, public permissionClaimService: PermissionClaimsService) {}
+  constructor(private _alertService: AlertService, private categoriesService: GenericService<CategoryDto[]>, private _permissionClaimService: PermissionClaimsService) {
+    this.claim = this._permissionClaimService.getPermission(PermissionClaims.CategoriesPermission);
+  }
 
   ngOnInit() {
     this.categoriesService.setControllerName('Category');
@@ -54,21 +57,22 @@ export class CategoriesComponent implements OnInit {
     this.breadcrumbItems.push({ label: 'Categories' });
   }
   onToggleSwitch(id: number, newValue: boolean) {
+    console.log(newValue);
     this.categoriesService.setControllerName('Category/updateIsActive');
     const updateIsActive: CategoryIsActiveDto = {
       isActive: newValue,
       id: id,
     };
-    this.categoriesService.update(updateIsActive as any).subscribe((result) => {
+    this.categoriesService.update(updateIsActive as any).subscribe((result : any) => {
       const updatedIndex = this.categories.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
-        if (result.body[0].isActive) {
+        if (result.body.isActive) {
           this._alertService.success('Activated');
         } else {
           this._alertService.warn('DeActivated');
         }
 
-        this.categories[updatedIndex] = result.body[0];
+        this.categories[updatedIndex] = result.body;
         this.categoryDialog = false;
       }
     });
@@ -128,7 +132,7 @@ export class CategoriesComponent implements OnInit {
         this.categoriesService.add(this.category as any).subscribe({
           next: (result) => {
             this._alertService.success(result.message);
-            this.categories.push(result.body[0]);
+            this.categories.push(result.body as any);
             this.submitted = true;
             this.category = {} as CategoryDto;
             this.categoryDialog = false;

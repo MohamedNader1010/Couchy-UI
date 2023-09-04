@@ -20,8 +20,10 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AccordionModule } from 'primeng/accordion';
-import {TabViewModule} from 'primeng/tabview';
+import { TabViewModule } from 'primeng/tabview';
 import { TabViewComponent } from './admin/components/tab-view/tab-view.component';
+import { PasswordModule } from 'primeng/password';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [AdminComponent, TabViewComponent],
@@ -45,7 +47,9 @@ import { TabViewComponent } from './admin/components/tab-view/tab-view.component
     DialogModule,
     InputSwitchModule,
     AccordionModule,
-    TabViewModule
+    TabViewModule,
+    PasswordModule,
+    ProgressSpinnerModule
   ],
 })
 export class AdminModule {}
