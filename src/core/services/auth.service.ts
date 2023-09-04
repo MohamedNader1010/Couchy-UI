@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { GenericService } from './generic.service';
-import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 
-import { environment } from 'src/environment';
 @Injectable({
   providedIn: 'root',
 })
