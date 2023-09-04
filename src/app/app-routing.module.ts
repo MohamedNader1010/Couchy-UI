@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: AppLayoutComponent,
     children: [
-      { path: '', loadChildren: () => import('../modules/features/dashboard/dashboard.module').then((m) => m.DashboardModule), canActivate: [AuthGuard]},
+      { path: '', loadChildren: () => import('../modules/features/dashboard/dashboard.module').then((m) => m.DashboardModule), canActivate: [AuthGuard] },
       {
         path: 'admin',
         loadChildren: () => import('../modules/features/features.module.module').then((f) => f.FeaturesModuleModule),
