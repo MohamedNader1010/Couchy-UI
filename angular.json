@@ -48,8 +48,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all",
-              "baseHref": "/plesk-site-preview/dashboard.com/"
+              "outputHashing": "all"
             },
             "development": {
               "buildOptimizer": false,
