@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/core/guards/auth.guard';
+import { AuthGuardClass } from 'src/core/guards/auth.guard';
 import { NotfoundComponent } from 'src/modules/features/notfound/notfound.component';
 import { AppLayoutComponent } from 'src/modules/layout/layout.component';
 
@@ -9,11 +9,11 @@ const routes: Routes = [
     path: '',
     component: AppLayoutComponent,
     children: [
-      { path: '', loadChildren: () => import('../modules/features/dashboard/dashboard.module').then((m) => m.DashboardModule), canActivate: [AuthGuard] },
+      { path: '', loadChildren: () => import('../modules/features/dashboard/dashboard.module').then((m) => m.DashboardModule), canActivate: [AuthGuardClass]},
       {
         path: 'admin',
         loadChildren: () => import('../modules/features/features.module.module').then((f) => f.FeaturesModuleModule),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuardClass],
       },
     ],
   },
