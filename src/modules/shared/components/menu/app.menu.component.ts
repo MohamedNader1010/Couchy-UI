@@ -12,10 +12,11 @@ export class AppMenuComponent implements OnInit {
   model: any[] = [];
   items: any[] = [];
   constructor(public layoutService: LayoutService, private _permissionClaimService: PermissionClaimsService) {
-    this.prepareItems();
+   
   }
 
   ngOnInit() {
+    this.prepareItems();
     this.model = [
       {
         label: 'Home',

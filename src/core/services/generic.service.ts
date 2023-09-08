@@ -13,6 +13,10 @@ export class GenericService<T> {
   setControllerName(controllerName: string) {
     this._controllerName = controllerName;
   }
+  getControllerName () {
+    return this._controllerName;
+  }
+
   constructor(private http: HttpClient) {}
 
   add(item: T): Observable<ResponseInfoDto<T>> {

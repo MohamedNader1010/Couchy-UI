@@ -9,7 +9,22 @@ import { AuthService } from './auth.service';
 export class PermissionClaimsService {
   private _permissions: any;
 
-  constructor(private _jwtHelper: JwtHelperService, private _authService: AuthService) {
+  constructor(private _jwtHelper: JwtHelperService, private _authService: AuthService) {}
+
+  public getPermission(permissionClaim: PermissionClaims) {
+    if (this._permissions) {
+      return this._permissions[+permissionClaim];
+    } else {
+      this.setPermissionClaims(); 
+      return this._permissions[+permissionClaim];
+    }
+  }
+  public canAccessModule(permissionClaim: PermissionClaims): boolean {
+    if (!this._permissions) return false;
+    const permissions = this._permissions[+permissionClaim];
+    return permissions && (permissions.CanAdd || permissions.CanUpdate || permissions.CanDelete || permissions.CanGet);
+  }
+  public setPermissionClaims() {
     const token = this._authService.getToken();
     if (token && !this._jwtHelper.isTokenExpired(token)) {
       const decodedToken = this._jwtHelper.decodeToken(token);
@@ -17,13 +32,5 @@ export class PermissionClaimsService {
     } else {
       this._authService.authenticateUser(token ?? '');
     }
-  }
-
-  public getPermission(permissionClaim: PermissionClaims) {
-    return this._permissions[+permissionClaim];
-  }
-  public canAccessModule(permissionClaim: PermissionClaims): boolean {
-    const permissions = this._permissions[+permissionClaim];
-    return permissions && (permissions.CanAdd || permissions.CanUpdate || permissions.CanDelete || permissions.CanGet);
   }
 }

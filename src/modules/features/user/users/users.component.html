@@ -6,9 +6,10 @@
   <div class="col-12">
     <div class="card px-6 py-6">
       <p-toast></p-toast>
+      <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
       <p-table
         #dt
-        *ngIf="claim.CanGet"
+        *ngIf="claim.CanGet && !isLoading"
         [value]="users"
         [columns]="columns"
         responsiveLayout="scroll"

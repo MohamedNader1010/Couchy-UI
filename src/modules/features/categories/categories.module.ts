@@ -19,13 +19,14 @@ import { DialogModule } from 'primeng/dialog';
 import { CategoriesComponent } from './categories.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [CategoriesComponent],
   imports: [
     CommonModule,
     CategoriesRoutingModule,
-		BreadcrumbModule,
+    BreadcrumbModule,
     TableModule,
     FileUploadModule,
     FormsModule,
@@ -40,7 +41,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     RadioButtonModule,
     InputNumberModule,
     DialogModule,
-    InputSwitchModule
-  ]
+    InputSwitchModule,
+    ProgressSpinnerModule,
+  ],
 })
-export class CategoriesModule { }
+export class CategoriesModule {}

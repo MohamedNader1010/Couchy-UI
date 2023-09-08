@@ -7,6 +7,7 @@ import { GenericService } from 'src/core/services/generic.service';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { CategoryIsActiveDto } from 'src/modules/features/categories/interfaces/update-isActive-category.dto';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
+import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { AddTrainer } from 'src/modules/shared/interfaces/addTrainer.interface';
 import { Users } from 'src/modules/shared/interfaces/users.interface';
 
@@ -16,6 +17,7 @@ import { Users } from 'src/modules/shared/interfaces/users.interface';
   styleUrls: ['./trainer.component.scss'],
 })
 export class TrainerComponent implements OnInit {
+  isLoading = false;
   claim: any;
   breadcrumbItems: MenuItem[] = [];
   trainers: Users[] = [];
@@ -46,12 +48,15 @@ export class TrainerComponent implements OnInit {
     this.textColumns = this.columns.filter((col) => !(col.field === 'packages&groups' || col.field === 'isActive'));
   }
   ngOnInit(): void {
+    this.isLoading = true;
     this._trainerService.setControllerName('User/Trainer');
     this._trainerService.getAll().subscribe((result) => {
-      result.body.forEach((trainer: any) => {
-        console.log(trainer);
-        this.trainers.push(trainer);
-      });
+      if (result.code == ResponseCode.Success) {
+        this.trainers = result.body;
+      } else {
+        this._alertService.fail(result.message);
+      }
+      this.isLoading = false;
     });
   }
   naviagateToPackages(id: string) {
@@ -73,23 +78,29 @@ export class TrainerComponent implements OnInit {
   }
 
   onToggleSwitch(id: string, newValue: boolean) {
+    this.isLoading = true;
     this._trainerService.setControllerName('User/UpdateIsActive');
     const updateIsActive: CategoryIsActiveDto = {
       isActive: newValue,
       id: id,
     };
-    this._trainerService.update(updateIsActive as any).subscribe((result:any) => {
-      const updatedIndex = this.trainers.findIndex((c) => c.id === id);
-      if (updatedIndex !== -1) {
-        if (result.body.isActive) {
-          this._alertService.success('Activated');
-        } else {
-          this._alertService.warn('DeActivated');
-        }
+    this._trainerService.update(updateIsActive as any).subscribe((result: any) => {
+      if (result.code == ResponseCode.Success) {
+        const updatedIndex = this.trainers.findIndex((c) => c.id === id);
+        if (updatedIndex !== -1) {
+          if (result.body.isActive) {
+            this._alertService.success('Activated');
+          } else {
+            this._alertService.warn('DeActivated');
+          }
 
-        this.trainers[updatedIndex] = result.body as any;
-        this.trainerDialog = false;
+          this.trainers[updatedIndex] = result.body as any;
+          this.trainerDialog = false;
+        }
+      } else {
+        this._alertService.fail(result.message);
       }
+      this.isLoading = false;
     });
   }
   hideDialog() {
@@ -98,12 +109,17 @@ export class TrainerComponent implements OnInit {
     this.trainer = {} as Users;
   }
   saveTrainer() {
-    const trainerToBeAdded: AddTrainer = {phoneNumber: this.trainer.mobileNumber} as AddTrainer;
+    this.isLoading = true;
+    const trainerToBeAdded: AddTrainer = { phoneNumber: this.trainer.mobileNumber } as AddTrainer;
     this._trainerService.setControllerName('User/AddTrainer');
     this._trainerService.add(trainerToBeAdded as any).subscribe((result: any) => {
-      this.trainers.push({ id: result.body.id, mobileNumber: result.body.mobileNumber } as Users);
-      this.trainerDialog = false;
-      this._alertService.success(result.message);
+      if (result.code == ResponseCode.Success) {
+        this.trainers.push({ id: result.body.id, mobileNumber: result.body.mobileNumber } as Users);
+        this.trainerDialog = false;
+      } else {
+        this._alertService.fail(result.message);
+      }
+      this.isLoading = false;
     });
   }
   onGlobalFilter(table: Table, event: Event) {

@@ -19,8 +19,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { MessageService } from 'primeng/api';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -44,7 +43,8 @@ import { MessageService } from 'primeng/api';
     RadioButtonModule,
     InputNumberModule,
     DialogModule,
-    InputSwitchModule
+    InputSwitchModule, 
+    ProgressSpinnerModule
   ]
 })
 export class SettingsModule { }

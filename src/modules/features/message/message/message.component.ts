@@ -6,6 +6,7 @@ import { Table } from 'primeng/table';
 import { AlertService } from 'src/core/services/alert.service';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
+import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 
 @Component({
   selector: 'app-message',
@@ -13,6 +14,7 @@ import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit {
+  isLoading = false;
   claim: any;
   breadcrumbItems: MenuItem[] = [];
   columns: any[] = [];
@@ -36,9 +38,13 @@ export class MessageComponent implements OnInit {
     this.textColumns = this.columns.filter((col) => col);
   }
   ngOnInit(): void {
+    this.isLoading = true; 
     this._messageApiService.setControllerName('Message');
-    this._messageApiService.getAll().subscribe((result) => {
-      this.messages = result.body;
+    this._messageApiService.getAll().subscribe((result) => {      
+      if(result.code == ResponseCode.Success) {
+        this.messages = result.body;
+        this.isLoading = false;
+      }
     });
   }
 

@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  constructor(private primengConfig: PrimeNGConfig, private _translate: TranslateService, private _titleService: Title) {
+  constructor(private primengConfig: PrimeNGConfig, private _translate: TranslateService, private _titleService: Title, private _permissionService: PermissionClaimsService) {
+    this._permissionService.setPermissionClaims();
     _translate.setDefaultLang('en');
   }
 

@@ -18,6 +18,7 @@ import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent implements OnInit {
+  isLoading = false;
   claim: any;
   _idToBeDeleted: number = 0;
   breadcrumbItems: MenuItem[] = [];
@@ -34,14 +35,15 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.categoriesService.setControllerName('Category');
     this.categoriesService.getAll().subscribe((result) => {
       if (result.code == +ResponseCode.Success) {
         this.categories = result.body;
-        this._alertService.success(result.message);
       } else {
         this._alertService.fail(result.message);
       }
+      this.isLoading = false;
     });
     this.columns = [
       { field: 'id', header: 'Id', sortable: true },
@@ -57,13 +59,13 @@ export class CategoriesComponent implements OnInit {
     this.breadcrumbItems.push({ label: 'Categories' });
   }
   onToggleSwitch(id: number, newValue: boolean) {
-    console.log(newValue);
+    this.isLoading = true;
     this.categoriesService.setControllerName('Category/updateIsActive');
     const updateIsActive: CategoryIsActiveDto = {
       isActive: newValue,
       id: id,
     };
-    this.categoriesService.update(updateIsActive as any).subscribe((result : any) => {
+    this.categoriesService.update(updateIsActive as any).subscribe((result: any) => {
       const updatedIndex = this.categories.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
         if (result.body.isActive) {
@@ -74,6 +76,7 @@ export class CategoriesComponent implements OnInit {
 
         this.categories[updatedIndex] = result.body;
         this.categoryDialog = false;
+        this.isLoading = false;
       }
     });
   }
@@ -94,6 +97,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   confirmDelete() {
+    this.isLoading = true;
     this.categoriesService.setControllerName('Category');
     if (this._idToBeDeleted)
       this.categoriesService.delete(this._idToBeDeleted).subscribe(() => {
@@ -103,6 +107,7 @@ export class CategoriesComponent implements OnInit {
           this._idToBeDeleted = 0;
           this._alertService.success('category deleted.');
         }
+        this.isLoading = false;
       });
     this.deleteCategoryDialog = false;
   }
@@ -114,6 +119,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   saveCategory() {
+    this.isLoading = true;
     if (this.category.nameAr?.trim() && this.category.nameEn?.trim()) {
       if (this.category.id) {
         this.categoriesService.setControllerName('Category');
@@ -126,6 +132,7 @@ export class CategoriesComponent implements OnInit {
             this.submitted = true;
             this.category = {} as CategoryDto;
           }
+          this.isLoading = false;
         });
       } else {
         this.categoriesService.setControllerName('Category');
@@ -137,6 +144,7 @@ export class CategoriesComponent implements OnInit {
             this.category = {} as CategoryDto;
             this.categoryDialog = false;
           },
+          complete: () => (this.isLoading = false),
         });
       }
     }

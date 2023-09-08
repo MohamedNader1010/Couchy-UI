@@ -7,6 +7,7 @@ import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum
 import { Users } from 'src/modules/shared/interfaces/users.interface';
 import { CategoryIsActiveDto } from '../../categories/interfaces/update-isActive-category.dto';
 import { AlertService } from 'src/core/services/alert.service';
+import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 
 @Component({
   selector: 'app-users',
@@ -14,6 +15,7 @@ import { AlertService } from 'src/core/services/alert.service';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
+  isLoading = false;
   claim: any;
   breadcrumbItems: MenuItem[] = [];
   users: Users[] = [];
@@ -21,7 +23,7 @@ export class UsersComponent implements OnInit {
   rowsPerPageOptions = [5, 10, 20];
   textColumns: any[] = [];
 
-  constructor(private _userService: GenericService<Users[]>, private _permissionService: PermissionClaimsService, private _alertService : AlertService) {
+  constructor(private _userService: GenericService<Users[]>, private _permissionService: PermissionClaimsService, private _alertService: AlertService) {
     this.claim = this._permissionService.getPermission(PermissionClaims.UserPermission);
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
@@ -36,30 +38,40 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this._userService.setControllerName('User/User');
     this._userService.getAll().subscribe((result) => {
-      result.body.forEach((user: any) => {
-        this.users.push(user);
-      });
+      if (result.code == ResponseCode.Success) {
+        this.users = result.body;
+      } else {
+        this._alertService.fail(result.message);
+      }
+      this.isLoading = false;
     });
   }
 
   onToggleSwitch(id: string, newValue: boolean) {
+    this.isLoading = true;
     this._userService.setControllerName('User/UpdateIsActive');
     const updateIsActive: CategoryIsActiveDto = {
       isActive: newValue,
       id: id,
     };
-    this._userService.update(updateIsActive as any).subscribe((result:any) => {
-      const updatedIndex = this.users.findIndex((c) => c.id === id);
-      if (updatedIndex !== -1) {
-        if (result.body.isActive) {
-          this._alertService.success('Activated');
-        } else {
-          this._alertService.warn('DeActivated');
+    this._userService.update(updateIsActive as any).subscribe((result: any) => {
+      if (result.code == ResponseCode.Success) {
+        const updatedIndex = this.users.findIndex((c) => c.id === id);
+        if (updatedIndex !== -1) {
+          if (result.body.isActive) {
+            this._alertService.success('Activated');
+          } else {
+            this._alertService.warn('DeActivated');
+          }
+          this.users[updatedIndex] = result.body as any;
         }
-        this.users[updatedIndex] = result.body as any;
+      } else {
+        this._alertService.fail(result.message); 
       }
+      this.isLoading = false;
     });
   }
   onGlobalFilter(table: Table, event: Event) {

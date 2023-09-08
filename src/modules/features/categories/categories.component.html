@@ -13,8 +13,9 @@
           </div>
         </ng-template>
       </p-toolbar>
+      <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
       <p-table
-        *ngIf="claim.CanGet"
+        *ngIf="claim.CanGet && !isLoading"
         #dt
         [value]="categories"
         [columns]="columns"

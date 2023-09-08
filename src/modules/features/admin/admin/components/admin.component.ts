@@ -50,11 +50,10 @@ export class AdminComponent implements OnInit {
         { field: 'actions', header: '' },
       ];
       this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
-
-      this.breadcrumbItems = [];
-      this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-      this.breadcrumbItems.push({ label: 'Admins' });
     }
+    this.breadcrumbItems = [];
+    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
+    this.breadcrumbItems.push({ label: 'Admins' });
   }
 
   openNew() {
@@ -71,7 +70,7 @@ export class AdminComponent implements OnInit {
     this._adminService.update(updateIsActive as any).subscribe((result: any) => {
       const updatedIndex = this.admins.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
-        if (result.body[0].isActive) {
+        if (result.body.isActive) {
           this._alertService.success('Activated');
         } else {
           this._alertService.warn('DeActivated');
@@ -103,7 +102,6 @@ export class AdminComponent implements OnInit {
       if (result.code == ResponseCode.Success) {
         this.admin = { ...(admin as AdminDto) };
         this.admin.permissions = result.body as any;
-        console.log(this.admin);
         this.adminDialog = true;
       } else {
         this.admin = { ...(admin as AdminDto) };

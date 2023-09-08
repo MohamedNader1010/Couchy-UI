@@ -6,6 +6,8 @@ import { GenericService } from 'src/core/services/generic.service';
 import { AlertService } from 'src/core/services/alert.service';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
+import { ResponseCode } from 'src/modules/shared/enums/response.enum';
+import { UpdateLogoService } from 'src/core/services/update-logo.service';
 
 @Component({
   selector: 'app-setting',
@@ -13,6 +15,8 @@ import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum
   styleUrls: ['./setting.component.scss'],
 })
 export class SettingComponent implements OnInit {
+  selectedFile: File | null = null;
+  isLoading = false;
   claim: any;
   breadcrumbItems: MenuItem[] = [];
   settings: Settings[] = [];
@@ -23,7 +27,7 @@ export class SettingComponent implements OnInit {
   submitted: boolean = false;
   setting: Settings = {} as Settings;
 
-  constructor(private _settingService: GenericService<Settings>, private _alertService: AlertService, private _permissionService: PermissionClaimsService) {
+  constructor(private _settingService: GenericService<Settings>, private _alertService: AlertService, private _permissionService: PermissionClaimsService, private _updateLogoService: UpdateLogoService) {
     this.claim = this._permissionService.getPermission(PermissionClaims.SettingPermission);
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
@@ -31,18 +35,37 @@ export class SettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this._settingService.setControllerName('ApplicationSetting');
-    this._settingService.getAll().subscribe((data: any) => {
-      this.setting = data;
-      console.log(data);
+    this._settingService.getAll().subscribe((result) => {
+      if (result.code == ResponseCode.Success) {
+        this.setting = result.body;
+      } else {
+        this._alertService.fail(result.message);
+      }
+      this.isLoading = false;
     });
   }
 
-  onSubmit(values: any) {
-    this._settingService.update(this.setting).subscribe((data) => console.log(data));
+  onSubmit() {
+    this.isLoading = true;
+    this._settingService.setControllerName('ApplicationSetting');
+    this._settingService.updateWithFormData(this.setting as any, this.selectedFile, 'image').subscribe((result: any) => {
+      if (result && result.body){
+        if (result.body.code == ResponseCode.Success) {
+          this._alertService.success("setting updated..");
+          this._updateLogoService.updateLogoPath();
+        } else {
+          this._alertService.fail(result.body.message);
+        }
+      }
+        
+      this.isLoading = false;
+    });
   }
-  onFileUpload(value: any) {}
-  saveSettings() {}
+  onFileSelect(file: File) {
+    this.selectedFile = file;
+  }
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');

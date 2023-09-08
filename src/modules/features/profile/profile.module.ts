@@ -20,7 +20,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PasswordModule } from 'primeng/password';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @NgModule({
   declarations: [ProfileComponent],
   imports: [
@@ -43,6 +43,7 @@ import { PasswordModule } from 'primeng/password';
     DialogModule,
     InputSwitchModule,
     PasswordModule,
+    ProgressSpinnerModule,
   ],
 })
 export class ProfileModule {}

@@ -19,7 +19,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [MessageComponent],
@@ -42,7 +42,7 @@ import { ToolbarModule } from 'primeng/toolbar';
     InputNumberModule,
     DialogModule,
     InputSwitchModule,
+    ProgressSpinnerModule,
   ],
-
 })
 export class MessageModule {}

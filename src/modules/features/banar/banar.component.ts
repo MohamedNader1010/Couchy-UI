@@ -39,7 +39,7 @@ export class BanarComponent implements OnInit {
       this.isLoading = true;
       this.banarsService.setControllerName('Banar');
       this.banarsService.getAll().subscribe((result) => {
-        if (result.code == 0) {
+        if (result.code == ResponseCode.Success) {
           this.banars = result.body;
         } else {
           this._alertService.fail(result.message);
@@ -56,10 +56,10 @@ export class BanarComponent implements OnInit {
         { field: 'actions', header: '' },
       ];
       this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions' || col.field === 'filePath'));
-      this.breadcrumbItems = [];
-      this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-      this.breadcrumbItems.push({ label: 'Banars' });
     }
+    this.breadcrumbItems = [];
+    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
+    this.breadcrumbItems.push({ label: 'Banars' });
   }
   onFileSelect(file: File) {
     this.selectedFile = file;
@@ -113,6 +113,7 @@ export class BanarComponent implements OnInit {
           this._alertService.success('Banar Deleted.');
         }
         this.isLoading = false;
+        this.banar = {} as BanarDto;
       });
     this.deleteBanarDialog = false;
   }
@@ -162,7 +163,6 @@ export class BanarComponent implements OnInit {
         } else if (data.type === HttpEventType.Response) {
           const updatedIndex = this.banars.findIndex((c) => c.id === this.banar.id);
           if (updatedIndex !== -1) {
-            console.log(data);
             this._alertService.success('Banar Updated.');
             this.banars[updatedIndex] = data.body.body as BanarDto;
           }

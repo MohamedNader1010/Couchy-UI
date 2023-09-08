@@ -5,9 +5,10 @@ export interface Settings {
     usingPoicyAr: string, 
     usingPoicyEn: string, 
     phone:string, 
-    whatsapp: string, 
-    facebook: string, 
+    whatsApp: string, 
+    faceBook: string, 
     twitter: string, 
     appVersion: string,
-    logo: File
+    logo: File, 
+    filePath: string
 }

@@ -13,8 +13,9 @@
           </div>
         </ng-template>
       </p-toolbar>
+      <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
       <p-table
-        *ngIf="claim.CanGet"
+        *ngIf="claim.CanGet && !isLoading"
         #dt
         [value]="banars"
         [columns]="columns"
@@ -83,14 +84,13 @@
         </div>
         <div class="field">
           <label for="nameAr">Image</label>
-          <div class="card flex justify-content-center">
-          
+          <div class="card flex justify-content-center">        
             <p-fileUpload mode="basic" chooseLabel="Choose banar" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
           </div>
         </div>
         <div class="field">
           <label for="nameAr">Link</label>
-          <input type="text" pInputText id="nameAr" [(ngModel)]="banar.link" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !banar.link }" />
+          <input type="text" pInputText id="link" [(ngModel)]="banar.link" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !banar.link }" />
           <small class="ng-dirty ng-invalid" *ngIf="submitted && !banar.link">Link is required.</small>
         </div>
       </ng-template>

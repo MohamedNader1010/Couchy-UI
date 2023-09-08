@@ -1,6 +1,6 @@
 <div class="layout-topbar">
   <a class="layout-topbar-logo" routerLink="">
-    <img src="assets/layout/images/Coachy-logo.png" alt="logo" />
+    <img [src]="logoPath" alt="logo" />
   </a>
   <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
     <i class="pi pi-bars"></i>
@@ -10,7 +10,7 @@
     <app-language></app-language>
 
     <span class="p-link layout-topbar-button w-10">{{name}}</span>
-    <p-avatar image="../../../../assets/layout/images/banner-primeblocks-dark.png" routerLink="/admin/profile" styleClass="p-link layout-topbar-button" size="xlarge" shape="circle"></p-avatar>
+    <p-avatar [image]="profilePath" routerLink="/admin/profile" styleClass="p-link layout-topbar-button" size="xlarge" shape="circle"></p-avatar>
 
     <button class="p-link layout-topbar-button" (click)="logout()">
       <i class="pi pi-sign-out"></i>

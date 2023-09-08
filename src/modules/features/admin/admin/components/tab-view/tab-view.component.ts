@@ -78,7 +78,6 @@ export class TabViewComponent implements OnInit {
         },
       },
     ];
-    console.log(this.admin)
     if (this.admin && this.admin.id && this.admin.permissions) {
       this.fillPermission(this.admin.permissions);
     } else {

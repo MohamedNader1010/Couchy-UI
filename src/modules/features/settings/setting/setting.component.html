@@ -1,5 +1,6 @@
-<form *ngIf="claim.CanUpdate || claim.canAdd" #settingsForm="ngForm" (ngSubmit)="onSubmit(settingsForm.value)">
-  <div class="p-fluid">
+<form *ngIf="claim.CanUpdate || claim.canAdd" #settingsForm="ngForm" (ngSubmit)="onSubmit()">
+  <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
+  <div class="p-fluid" *ngIf="!isLoading">
     <div class="p-field">
       <label for="id">ID</label>
       <input [disabled]="true" type="number" id="id" name="id" class="p-inputtext" [(ngModel)]="setting.id" />
@@ -32,12 +33,12 @@
 
     <div class="p-field">
       <label for="whatsapp">WhatsApp</label>
-      <input type="text" id="whatsapp" name="whatsapp" class="p-inputtext" [(ngModel)]="setting.whatsapp" required />
+      <input type="text" id="whatsapp" name="whatsapp" class="p-inputtext" [(ngModel)]="setting.whatsApp" required />
     </div>
 
     <div class="p-field">
       <label for="facebook">Facebook</label>
-      <input type="text" id="facebook" name="facebook" class="p-inputtext" [(ngModel)]="setting.facebook" required />
+      <input type="text" id="facebook" name="facebook" class="p-inputtext" [(ngModel)]="setting.faceBook" required />
     </div>
 
     <div class="p-field">
@@ -52,7 +53,7 @@
 
     <div class="p-field">
       <label for="logo">Logo</label>
-      <p-fileUpload name="logo" [customUpload]="true" (uploadHandler)="onFileUpload($event)"></p-fileUpload>
+      <p-fileUpload mode="basic" chooseLabel="Choose banar" class="p-inputtext flex"  accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
     </div>
 
     <div class="p-field">
@@ -60,3 +61,4 @@
     </div>
   </div>
 </form>
+<p-toast></p-toast>
