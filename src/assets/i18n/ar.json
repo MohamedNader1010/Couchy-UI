@@ -1,8 +1,163 @@
 {
-  "title": "كوتشى",
+  "title": "كوتشي",
   "login": {
     "header": "من فضلك أدخل البريد الإلكترونى و الرقم السري",
-    "email": "البريد الإلكترونى",
-    "password": "الرقم السري"
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور"
+  },
+  "banar": {
+    "title": "البنرات"
+  },
+  "category": {
+    "title": "الفئات"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم"
+  },
+  "message": {
+    "title": "الرسائل"
+  },
+  "setting": {
+    "title": "الإعدادات"
+  },
+  "trainer": {
+    "title": "المدربين"
+  },
+  "user": {
+    "title": "المستخدمين"
+  },
+  "admin": {
+    "title": "المشرفين"
+  },
+  "package": {
+    "title": "الباقات"
+  },
+  "group": {
+    "title": "المجموعات"
+  },
+  "table": {
+    "columns": {
+      "id": "#",
+      "name": "الاسم",
+      "link": "الرابط",
+      "filePath": "مسار الملف",
+      "isActive": "نشط",
+      "actions": "الإجراءات",
+      "messageBody": "الرسالة",
+      "phoneNumber": "رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "price": "السعر",
+      "day": "الأيام",
+      "englishName": "الاسم بالإنجليزية",
+      "arabicName": "الاسم بالعربية",
+      "packages&groups": "الباقات والمجموعات",
+      "userList": "قائمة المستخدمين"
+    },
+    "pageReport": "عرض {first} إلى {last} من {totalRecords} سجلات"
+  },
+  "breadcrumb": {
+    "dashboard": "لوحة التحكم",
+    "admin": "المشرف",
+    "user": "المستخدم",
+    "message": "الرسالة",
+    "categories": "الفئات",
+    "settings": "الإعدادات",
+    "trainers": "المدربين",
+    "groups": "المجموعات",
+    "packages": "الباقات"
+  },
+  "labels": {
+    "search": "بحث...",
+    "signIn": "تسجيل الدخول",
+    "male": "ذكر",
+    "female": "أنثى",
+    "english": "English",
+    "arabic": "العربية",
+    "breifEn": "وصف بالإنجليزية",
+    "breifAr": "وصف بالعربية",
+    "new": "جديد",
+    "name": "الاسم",
+    "englishName": "الاسم بالإنجليزية",
+    "arabicName": "الاسم بالعربية",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "active": "نشط",
+    "phone": "رقم الهاتف",
+    "price": "السعر",
+    "days": "الأيام",
+    "phoneNumber": "رقم الهاتف",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "adminInfo": "معلومات المشرف",
+    "permission": "الصلاحيات",
+    "canAdd": "يمكن إضافة",
+    "canUpdate": "يمكن تحديث",
+    "canDelete": "يمكن حذف",
+    "canGet": "يمكن الحصول",
+    "areYouSureDelete": "هل أنت متأكد أنك تريد حذف",
+    "yes": "نعم",
+    "no": "لا",
+    "red": "أحمر",
+    "blue": "أزرق",
+    "lighGrey": "رمادي فاتح",
+    "black": "أسود",
+    "color": "اللون",
+    "groups": "المجموعات",
+    "gender": "الجنس",
+    "language": "اللغة",
+    "ID": "الرقم",
+    "aboutUsAr": "من نحن (بالعربية)",
+    "aboutUsEn": "من نحن (بالإنجليزية)",
+    "UsingPolicyAr": "سياسة الاستخدام (بالعربية)",
+    "UsingPolicyEn": "سياسة الاستخدام (بالإنجليزية)",
+    "WhatsApp": "واتساب",
+    "Facebook": "فيسبوك",
+    "Twitter": "تويتر",
+    "AppVersion": "إصدار التطبيق",
+    "Logo": "شعار",
+    "ChooseBanar": "اختر البانر",
+    "Submit": "إرسال",
+    "appFee": "رسوم التطبيق",
+    "packages": "الباقات",
+    "trainersForTest": "مدرب للاختبار..",
+    "category": "الفئات"
+  },
+  "messages": {
+    "nameIsRequired": "الاسم مطلوب",
+    "englishNameIsRequired": "الاسم بالإنجليزية مطلوب.",
+    "arabichNameIsRequired": "الاسم بالعربية مطلوب.",
+    "englishBreifIsRequired": "الوصف بالإنجليزية مطلوب.",
+    "arabichBreifIsRequired": "الوصف بالعربية مطلوب.",
+    "emailIsRequired": "البريد الإلكتروني مطلوب",
+    "passwordIsRequired": "كلمة المرور مطلوبة",
+    "trainerPhone": "رقم هاتف المدرب مطلوب.",
+    "categoryIsRequired": "الفئة مطلوبة.",
+    "priceIsRequired": "السعر مطلوب.",
+    "dayIsRequired": "اليوم مطلوب.",
+    "colorIsRequired": "اللون مطلوب.",
+    "phoneRegex": "الرجاء إدخال رقم صحيح، مثال: [9،5،6] + 7 أرقام."
+  },
+  "alert": {
+    "message": {
+      "Activated": "تم التفعيل",
+      "DeActivated": "تم الإلغاء",
+      "categoryDeleted": "تم حذف الفئة.",
+      "updating": "تم تحديث الإعدادات."
+    },
+    "severity": {
+      "success": "نجاح",
+      "error": "خطأ",
+      "warn": "تحذير"
+    },
+    "summary": {
+      "Successful": "ناجح",
+      "Error": "خطأ",
+      "Warning": "تحذير"
+    }
+  },
+  "placeHolders": {
+    "selectGender": "اختر الجنس",
+    "selectLanguage": "اختر اللغة",
+    "selectCategory": "اختر الفئة"
   }
 }
