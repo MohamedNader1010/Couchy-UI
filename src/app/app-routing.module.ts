@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: AppLayoutComponent,
     children: [
-      { path: '', loadChildren: () => import('../modules/features/dashboard/dashboard.module').then((m) => m.DashboardModule), canActivate: [AuthGuardClass]},
+      { path: '', loadChildren: () => import('../modules/features/dashboard/dashboard.module').then((m) => m.DashboardModule), canActivate: [AuthGuardClass] },
       {
         path: 'admin',
         loadChildren: () => import('../modules/features/features.module.module').then((f) => f.FeaturesModuleModule),
@@ -18,6 +18,7 @@ const routes: Routes = [
     ],
   },
   { path: 'auth', loadChildren: () => import('../modules/features/auth/auth.module').then((m) => m.AuthModule) },
+  { path: 'payment', loadChildren: () => import('../modules/features/payment/payment.module').then((m) => m.PaymentModule) },
   { path: 'notfound', component: NotfoundComponent },
   { path: '**', redirectTo: '/notfound' },
 ];
