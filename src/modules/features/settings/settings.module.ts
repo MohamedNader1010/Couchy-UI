@@ -20,15 +20,14 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [
-    SettingComponent
-  ],
+  declarations: [SettingComponent],
   imports: [
     CommonModule,
     SettingsRoutingModule,
-		BreadcrumbModule,
+    BreadcrumbModule,
     TableModule,
     FileUploadModule,
     FormsModule,
@@ -43,8 +42,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     RadioButtonModule,
     InputNumberModule,
     DialogModule,
-    InputSwitchModule, 
-    ProgressSpinnerModule
-  ]
+    InputSwitchModule,
+    TranslateModule,
+    ProgressSpinnerModule,
+  ],
 })
-export class SettingsModule { }
+export class SettingsModule {}

@@ -2,62 +2,62 @@
   <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
   <div class="p-fluid" *ngIf="!isLoading">
     <div class="p-field">
-      <label for="id">ID</label>
+      <label for="id">{{'labels.ID' | translate}}</label>
       <input [disabled]="true" type="number" id="id" name="id" class="p-inputtext" [(ngModel)]="setting.id" />
     </div>
 
     <div class="p-field">
-      <label for="aboutUsAr">About Us (Arabic)</label>
+      <label for="aboutUsAr">{{'labels.aboutUsAr' | translate}}</label>
       <input type="text" id="aboutUsAr" name="aboutUsAr" class="p-inputtext" [(ngModel)]="setting.aboutUsAr" required />
     </div>
 
     <div class="p-field">
-      <label for="aboutUsEn">About Us (English)</label>
+      <label for="aboutUsEn">{{'labels.aboutUsEn' | translate}}</label>
       <input type="text" id="aboutUsEn" name="aboutUsEn" class="p-inputtext" [(ngModel)]="setting.aboutUsEn" required />
     </div>
 
     <div class="p-field">
-      <label for="usingPolicyAr">Using Policy (Arabic)</label>
+      <label for="usingPolicyAr">{{'labels.UsingPolicyEn' | translate}}</label>
       <input type="text" id="usingPolicyAr" name="usingPolicyAr" class="p-inputtext" [(ngModel)]="setting.usingPoicyAr" required />
     </div>
 
     <div class="p-field">
-      <label for="usingPolicyEn">Using Policy (English)</label>
+      <label for="usingPolicyEn">{{'labels.UsingPolicyEn' | translate}}</label>
       <input type="text" id="usingPolicyEn" name="usingPolicyEn" class="p-inputtext" [(ngModel)]="setting.usingPoicyEn" required />
     </div>
 
     <div class="p-field">
-      <label for="phone">Phone</label>
+      <label for="phone">{{'labels.phone' | translate}}</label>
       <input type="text" id="phone" name="phone" class="p-inputtext" [(ngModel)]="setting.phone" required />
     </div>
 
     <div class="p-field">
-      <label for="whatsapp">WhatsApp</label>
+      <label for="whatsapp">{{'labels.WhatsApp' | translate}}</label>
       <input type="text" id="whatsapp" name="whatsapp" class="p-inputtext" [(ngModel)]="setting.whatsApp" required />
     </div>
 
     <div class="p-field">
-      <label for="facebook">Facebook</label>
+      <label for="facebook">{{'labels.Facebook' | translate}}</label>
       <input type="text" id="facebook" name="facebook" class="p-inputtext" [(ngModel)]="setting.faceBook" required />
     </div>
 
     <div class="p-field">
-      <label for="twitter">Twitter</label>
+      <label for="twitter">{{'labels.Twitter' | translate}}</label>
       <input type="text" id="twitter" name="twitter" class="p-inputtext" [(ngModel)]="setting.twitter" required />
     </div>
 
     <div class="p-field">
-      <label for="appVersion">App Version</label>
+      <label for="appVersion">{{'labels.AppVersion' | translate}}</label>
       <input type="text" id="appVersion" name="appVersion" class="p-inputtext" [(ngModel)]="setting.appVersion" required />
     </div>
 
     <div class="p-field">
-      <label for="logo">Logo</label>
-      <p-fileUpload mode="basic" chooseLabel="Choose banar" class="p-inputtext flex"  accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
+      <label for="logo">{{'labels.Logo' | translate}}Logo</label>
+      <p-fileUpload mode="basic" chooseLabel="{{'labels.ChooseBanar' | translate}}" class="p-inputtext flex"  accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
     </div>
 
     <div class="p-field">
-      <button pButton type="submit" label="Submit" class="p-button-primary" [disabled]="!settingsForm.valid"></button>
+      <button pButton type="submit" label="{{'labels.Submit' | translate}}" class="p-button-primary" [disabled]="!settingsForm.valid"></button>
     </div>
   </div>
 </form>

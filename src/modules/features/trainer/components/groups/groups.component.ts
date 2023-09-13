@@ -7,6 +7,7 @@ import { PermissionClaimsService } from 'src/core/services/permission-claims.ser
 import { MenuItem } from 'primeng/api';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { Table } from 'primeng/table';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-groups',
@@ -27,7 +28,13 @@ export class GroupsComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _activatedRoute: ActivatedRoute, private _alertService: AlertService, private _groupService: GenericService<Groups[]>, public permissionClaimService: PermissionClaimsService) {}
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _translate: TranslateService,
+    private _alertService: AlertService,
+    private _groupService: GenericService<Groups[]>,
+    public permissionClaimService: PermissionClaimsService,
+  ) {}
   ngOnInit(): void {
     this.isLoading = true;
     this._activatedRoute.queryParams.subscribe((param) => {
@@ -44,16 +51,16 @@ export class GroupsComponent implements OnInit {
       });
     });
     this.columns = [
-      { field: 'id', header: 'Id', sortable: true },
-      { field: 'nameEn', header: 'Name', sortable: true },
-      { field: 'userList', header: 'User List' },
-      { field: 'actions', header: 'Actions' },
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'nameEn', header: this._translate.instant('table.columns.name'), sortable: true },
+      { field: 'userList', header: this._translate.instant('table.columns.userList'), sortable: true },
+      { field: 'actions', header: this._translate.instant('table.columns.actions') },
     ];
     this.textColumns = this.columns.filter((col) => !(col.field === 'actions' || col.field === 'userList'));
 
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Groups' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.groups') });
   }
 
   openNew() {

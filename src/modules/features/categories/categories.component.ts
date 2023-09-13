@@ -12,6 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { LanguageService } from 'src/core/services/language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-categories',
@@ -31,7 +32,13 @@ export class CategoriesComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _alertService: AlertService, private categoriesService: GenericService<CategoryDto[]>, private _permissionClaimService: PermissionClaimsService, public languageService: LanguageService) {
+  constructor(
+    private _alertService: AlertService,
+    private categoriesService: GenericService<CategoryDto[]>,
+    private _permissionClaimService: PermissionClaimsService,
+    public languageService: LanguageService,
+    private _translate: TranslateService,
+  ) {
     this.claim = this._permissionClaimService.getPermission(PermissionClaims.CategoriesPermission);
   }
 
@@ -47,17 +54,17 @@ export class CategoriesComponent implements OnInit {
       this.isLoading = false;
     });
     this.columns = [
-      { field: 'id', header: 'Id', sortable: true },
-      { field: 'nameEn', header: 'English Name', sortable: true },
-      { field: 'nameAr', header: 'Arabic Name', sortable: true },
-      { field: 'isActive', header: 'Is Active', sortable: true },
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'nameEn', header: this._translate.instant('table.columns.englishName'), sortable: true },
+      { field: 'nameAr', header: this._translate.instant('table.columns.arabicName'), sortable: true },
+      { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
       { field: 'actions', header: '' },
     ];
     this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
 
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Categories' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.categories') });
   }
 
   getBreadcrumbIcon(): string {
@@ -74,9 +81,9 @@ export class CategoriesComponent implements OnInit {
       const updatedIndex = this.categories.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
         if (result.body.isActive) {
-          this._alertService.success('Activated');
+          this._alertService.success(this._translate.instant('alert.Activated'));
         } else {
-          this._alertService.warn('DeActivated');
+          this._alertService.warn(this._translate.instant('alert.DeActivated'));
         }
 
         this.categories[updatedIndex] = result.body;
@@ -110,7 +117,7 @@ export class CategoriesComponent implements OnInit {
         if (deletedIndex !== -1) {
           this.categories.splice(deletedIndex, 1);
           this._idToBeDeleted = 0;
-          this._alertService.success('category deleted.');
+          this._alertService.success(this._translate.instant('alert.categoryDeleted'));
         }
         this.isLoading = false;
       });

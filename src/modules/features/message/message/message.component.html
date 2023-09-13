@@ -18,7 +18,7 @@
         [paginator]="true"
         [rowsPerPageOptions]="rowsPerPageOptions"
         [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        currentPageReportTemplate="{{ 'table.pageReport' | translate }}"
         [rowHover]="true"
         dataKey="id"
         [totalRecords]="messages.length"
@@ -28,7 +28,7 @@
             <h5 class="m-0">Messages</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
               <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto" />
+              <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{ 'labels.search' | translate }}" class="w-full sm:w-auto" />
             </span>
           </div>
         </ng-template>
@@ -41,8 +41,7 @@
           <tr>
             <td *ngFor="let col of textColumns">
               <span class="p-column-title">{{ col.field }}</span>
-
-              {{ rowData[col.field] ?? 'trainer for test..' }}
+              {{ rowData[col.field] ?? ('labels.trainersForTest' | translate) }}
             </td>
           </tr>
         </ng-template>

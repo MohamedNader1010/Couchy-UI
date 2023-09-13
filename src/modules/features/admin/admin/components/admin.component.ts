@@ -73,9 +73,9 @@ export class AdminComponent implements OnInit {
       const updatedIndex = this.admins.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
         if (result.body.isActive) {
-          this._alertService.success('Activated');
+          this._alertService.success(this._translate.instant('alert.Activated'));
         } else {
-          this._alertService.warn('DeActivated');
+          this._alertService.warn(this._translate.instant('alert.DeActivated'));
         }
         this.admins[updatedIndex] = result.body;
         this.adminDialog = false;

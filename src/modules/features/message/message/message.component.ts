@@ -7,6 +7,7 @@ import { AlertService } from 'src/core/services/alert.service';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-message',
@@ -24,24 +25,24 @@ export class MessageComponent implements OnInit {
   submitted: boolean = false;
   message: Message = {} as Message;
   messages: Message[] = [];
-  constructor(private _messageApiService: GenericService<Message[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService) {
+  constructor(private _messageApiService: GenericService<Message[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService, private _translate: TranslateService) {
     this.claim = this._permissionService.getPermission(PermissionClaims.MessagePermission);
 
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Messages' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.messages') });
 
     this.columns = [
-      { field: 'id', header: 'Id', sortable: true },
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
       { field: 'messageBody', header: 'Message', sortable: true },
     ];
     this.textColumns = this.columns.filter((col) => col);
   }
   ngOnInit(): void {
-    this.isLoading = true; 
+    this.isLoading = true;
     this._messageApiService.setControllerName('Message');
-    this._messageApiService.getAll().subscribe((result) => {      
-      if(result.code == ResponseCode.Success) {
+    this._messageApiService.getAll().subscribe((result) => {
+      if (result.code == ResponseCode.Success) {
         this.messages = result.body;
         this.isLoading = false;
       }

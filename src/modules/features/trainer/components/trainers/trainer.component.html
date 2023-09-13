@@ -10,7 +10,7 @@
       <p-toolbar *ngIf="claim.CanAdd" styleClass="mb-4">
         <ng-template pTemplate="left">
           <div class="my-2">
-            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            <button pButton pRipple label="{{ 'labels.new' | translate }}" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
           </div>
         </ng-template>
       </p-toolbar>
@@ -26,17 +26,17 @@
         [paginator]="true"
         [rowsPerPageOptions]="rowsPerPageOptions"
         [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        currentPageReportTemplate="{{ 'table.pageReport' | translate }}"
         [rowHover]="true"
         dataKey="id"
         [totalRecords]="trainers.length"
       >
         <ng-template pTemplate="caption">
           <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 class="m-0">Trainers</h5>
+            <h5 class="m-0">{{ 'trainer.title' | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
               <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto" />
+              <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{ 'labels.search' | translate }}" class="w-full sm:w-auto" />
             </span>
           </div>
         </ng-template>
@@ -53,13 +53,13 @@
             </td>
 
             <td>
-              <span class="p-column-title">isActive</span>
+              <span class="p-column-title">{{ 'table.columns.isActive' | translate }}</span>
               <p-inputSwitch [(ngModel)]="rowData.isActive" (ngModelChange)="onToggleSwitch(rowData.id, $event)"></p-inputSwitch>
             </td>
 
             <td>
-              <p-button label="Packages" styleClass="custom-button m-1" icon="pi pi-package" (click)="naviagateToPackages(rowData.id)"></p-button>
-              <p-button label="Groups" styleClass="custom-button m-1" icon="pi pi-users" (click)="navigateToGroups(rowData.id)"></p-button>
+              <p-button label="{{ 'labels.packages' | translate }}" styleClass="custom-button m-1" icon="pi pi-package" (click)="naviagateToPackages(rowData.id)"></p-button>
+              <p-button label="{{ 'labels.groups' | translate }}" styleClass="custom-button m-1" icon="pi pi-users" (click)="navigateToGroups(rowData.id)"></p-button>
             </td>
           </tr>
         </ng-template>
@@ -69,7 +69,7 @@
     <p-dialog [(visible)]="trainerDialog" [style]="{ width: '40%' }" header="Add new trainer" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
 
-        <label for="name" class="block text-900 font-medium text-xl mb-2">Name</label>
+        <label for="name" class="block text-900 font-medium text-xl mb-2">{{ 'labels.name' | translate }}</label>
         <input
           type="text"
           pInputText
@@ -81,9 +81,9 @@
           [ngClass]="{ 'ng-invalid ng-dirty': nameInputText.touched && (!trainer.name) }"
           #nameInputText="ngModel"
         />
-        <small class="ng-dirty ng-invalid text-red-500" *ngIf="emailInputText.touched && !trainer.email">Email is required.</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="emailInputText.touched && !trainer.email">{{ 'messages.emailIsRequired' | translate }}</small>
 
-        <label for="phoneNumber" class="block text-900 font-medium text-xl mb-2">Phone Number</label>
+        <label for="phoneNumber" class="block text-900 font-medium text-xl mb-2">{{ 'labels.phoneNumber' | translate }}</label>
         <input
           type="text"
           pInputText
@@ -97,44 +97,44 @@
           pattern="[0-9]{8}"
           #phoneInputText="ngModel"
         />
-        <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && !trainer.phoneNumber">Trainer's phone number is required.</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && !trainer.phoneNumber">{{ 'messages.trainerPhone' | translate }}</small>
         <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && trainer.phoneNumber && !trainer.phoneNumber.match('[0-9]{8}')">
-          Phone number must be an 8-digit number.
+          {{ 'messages.phoneRegex' | translate }}
         </small>
-        <label for="gender" class="block text-900 font-medium text-xl mb-2">Gender</label>
+        <label for="gender" class="block text-900 font-medium text-xl mb-2">{{ 'labels.gender' | translate }}</label>
 
         <p-dropdown
           id="gender"
           [(ngModel)]="trainer.gender"
           [options]="genderOptions"
-          placeholder="Select Gender"
+          placeholder="{{ 'placeHolders.selectGender' | translate }}"
           styleClass="mb-5 w-full p-1 md:w-30rem"
           [ngClass]="{ 'ng-invalid ng-dirty': submitted && !trainer.gender }"
         ></p-dropdown>
 
-        <label for="language" class="block text-900 font-medium text-xl mb-2">Language</label>
+        <label for="language" class="block text-900 font-medium text-xl mb-2">{{ 'labels.language' | translate }}</label>
         <p-dropdown
         id="language"
         [(ngModel)]="trainer.lang"
         [options]="languageOptions"
-        placeholder="Select Language"
+        placeholder="{{ 'placeHolders.selectLanguage' | translate }}"
         styleClass="mb-5 w-full p-1 md:w-30rem"
-        
+
       ></p-dropdown>
 
-        <label for="categories" class="block text-900 font-medium text-xl mb-2">Categories</label>
+        <label for="categories" class="block text-900 font-medium text-xl mb-2">{{ 'labels.category' | translate }}</label>
         <p-dropdown
           id="categories"
           [(ngModel)]="trainer.categoryId"
           [options]="categoriesOptions"
-          placeholder="Select Category"
+          placeholder="{{ 'placeHolders.selectCategory' | translate }}"
           [required]="true"
           styleClass="mb-5 w-full p-1 md:w-30rem"
           [ngClass]="{ 'ng-invalid ng-dirty': submitted && !trainer.categoryId }"
         ></p-dropdown>
-        <small class="ng-dirty ng-invalid" *ngIf="submitted && !trainer.categoryId">Category is required.</small>
-        
-        <label for="email" class="block text-900 font-medium text-xl mb-2">Email</label>
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !trainer.categoryId">{{ 'messages.categoryIsRequired' | translate }}</small>
+
+        <label for="email" class="block text-900 font-medium text-xl mb-2">{{ 'labels.email' | translate }}</label>
         <input
           type="text"
           pInputText
@@ -146,9 +146,9 @@
           [ngClass]="{ 'ng-invalid ng-dirty': emailInputText.touched && (!trainer.email) }"
           #emailInputText="ngModel"
         />
-        <small class="ng-dirty ng-invalid text-red-500" *ngIf="emailInputText.touched && !trainer.email">Email is required.</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="emailInputText.touched && !trainer.email">{{ 'messages.emailIsRequired' | translate }}</small>
 
-        <label for="appFee" class="block text-900 font-medium text-xl mb-2">App_Fee</label>
+        <label for="appFee" class="block text-900 font-medium text-xl mb-2">{{ 'labels.appFee' | translate }}</label>
         <input
           type="text"
           class="m-1"
@@ -159,11 +159,11 @@
         />
 
         <p-fileUpload class="m-2"  mode="basic" chooseLabel="Choose Image" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
-      
+
       </ng-template>
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTrainer()" [disabled]="!trainer.phoneNumber || !trainer.phoneNumber.match('[0-9]{8}')"></button>
+        <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" (click)="saveTrainer()" [disabled]="!trainer.phoneNumber || !trainer.phoneNumber.match('[0-9]{8}')"></button>
       </ng-template>
     </p-dialog>
   </div>

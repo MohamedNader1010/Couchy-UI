@@ -23,6 +23,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { PackagesComponent } from './components/packages/packages.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations: [TrainerComponent, PackagesComponent, GroupsComponent],
   imports: [
@@ -44,7 +45,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputNumberModule,
     DialogModule,
     InputSwitchModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    TranslateModule,
   ],
 })
 export class TrainerModule {}
