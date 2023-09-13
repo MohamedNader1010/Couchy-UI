@@ -10,6 +10,7 @@ import { AlertService } from 'src/core/services/alert.service';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-banar',
@@ -30,7 +31,7 @@ export class BanarComponent implements OnInit {
   rowsPerPageOptions = [5, 10, 20];
   selectedFile!: File | null;
   claim: any;
-  constructor(private _alertService: AlertService, private banarsService: GenericService<BanarDto[]>, private _permissionService: PermissionClaimsService) {
+  constructor(private _alertService: AlertService, private banarsService: GenericService<BanarDto[]>, private _permissionService: PermissionClaimsService, private _translate: TranslateService) {
     this.claim = this._permissionService.getPermission(PermissionClaims.BanarPermission);
   }
 

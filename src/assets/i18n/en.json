@@ -1,49 +1,78 @@
 {
-    "title" : "Coachy",
-    "login" : {
-        "header" : "please enter your credintials", 
-        "email" : "email", 
-        "password": "password"
-    }, 
-    "banars" : {
-        "title": "banars"
-    }, 
-    "categories": {
-        "title": "categories"
-    }, 
-    "dashboard": {
-        "title": "dashoboard"
-    }, 
-    "message": {
-        "title" : "message"
-    }, 
-    "setting" : {
-        "title" : "setting"
-    }, 
-    "trainer": {
-        "title": "trainers"
-    }, 
-    "user" : {
-        "title": "users"
-    }, 
-    "table" : {
-        "columns": {
-            "id" : "#", 
-            "nameEn": "name-en", 
-            "nameAr": "name-ar", 
-            "link" : "link", 
-            "filePath": "file path", 
-            "isActive": "is active", 
-            "actions" : "actions", 
-            "messageBody": "message", 
-            "name" : "name", 
-            "phoneNumber" : "phoneNumber"
-        }, 
-        "pageReport": "Showing {first} to {last} of {totalRecords} entries" 
-    }, 
-    "labels": {
-        "search": "Search..."
-
-    }
-
+  "title": "Coachy",
+  "login": {
+    "header": "please enter your credintials",
+    "email": "email",
+    "password": "password"
+  },
+  "banar": {
+    "title": "Banars"
+  },
+  "category": {
+    "title": "Categories"
+  },
+  "dashboard": {
+    "title": "Dashoboard"
+  },
+  "message": {
+    "title": "Messages"
+  },
+  "setting": {
+    "title": "Settings"
+  },
+  "trainer": {
+    "title": "Trainers"
+  },
+  "user": {
+    "title": "Users"
+  },
+  "admin": {
+    "title": "Admins"
+  },
+  "table": {
+    "columns": {
+      "id": "#",
+      "name": "Name",
+      "link": "Link",
+      "filePath": "File Path",
+      "isActive": "Is Active",
+      "actions": "Actions",
+      "messageBody": "message",
+      "phoneNumber": "phoneNumber",
+      "email": "Email",
+      "englishName": "English Name", 
+      "arabicName" : "Arabic Name"
+    },
+    "pageReport": "Showing {first} to {last} of {totalRecords} entries"
+  },
+  "breadcrumb": {
+    "dashboard": "Dashboard",
+    "admin": "Admin",
+    "user": "User",
+    "message": "Message"
+  },
+  "labels": {
+    "search": "Search...",
+    "signIn": "Sign In",
+    "new": "New",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "active": "Active",
+    "phone": "Phone",
+    "save": "Save",
+    "cancel": "Cancel", 
+    "adminInfo": "Admin Information", 
+    "permission": "Permissions", 
+    "canAdd": "Can Add", 
+    "canUpdate":"Can Update", 
+    "canDelete": "Can Delete", 
+    "canGet": "Can Get"
+  },
+  "messages": {
+    "nameIsRequired": "Name is required",
+    "emailIsRequired": "Email is required",
+    "passwordIsRequired": "Password is required",
+    "phoneRegex": "Please enter a valid number ex: [9,5,6] + 7 digits."
+  }
 }

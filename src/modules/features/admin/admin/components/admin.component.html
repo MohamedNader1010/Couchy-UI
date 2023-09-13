@@ -9,13 +9,7 @@
       <p-toolbar *ngIf="claim.CanAdd" styleClass="mb-4">
         <ng-template pTemplate="right">
           <div class="my-2">
-            <button 
-            pButton pRipple 
-            label="New" 
-            icon="pi pi-plus" 
-            class="p-button-success mr-2" 
-            (click)="openNew()">
-          </button>
+            <button pButton pRipple label="{{ 'labels.new' | translate }}" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
           </div>
         </ng-template>
       </p-toolbar>
@@ -31,17 +25,17 @@
         [paginator]="true"
         [rowsPerPageOptions]="rowsPerPageOptions"
         [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        currentPageReportTemplate="{{ 'table.pageReport' | translate }}"
         [rowHover]="true"
         dataKey="id"
         [totalRecords]="admins.length"
       >
         <ng-template pTemplate="caption">
           <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 class="m-0">Admins</h5>
+            <h5 class="m-0">{{ 'admin.title' | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
               <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto" />
+              <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{ 'labels.search' | translate }}" class="w-full sm:w-auto" />
             </span>
           </div>
         </ng-template>
@@ -57,11 +51,11 @@
               {{ rowData[col.field] }}
             </td>
             <td>
-              <span class="p-column-title">isActive</span>
+              <span class="p-column-title">{{'table.columns.isActive'}}</span>
               <p-inputSwitch [(ngModel)]="rowData.isActive" (ngModelChange)="onToggleSwitch(rowData.id, $event)"></p-inputSwitch>
             </td>
             <td>
-              <span class="p-column-title">actions</span>
+              <span class="p-column-title">{{'table.columns.actions'}}</span>
               <div class="flex">
                 <button *ngIf="claim.CanUpdate" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editAdmin(rowData)"></button>
               </div>
@@ -74,25 +68,24 @@
     <p-dialog [(visible)]="adminDialog" [style]="{ width: '70%' }" header="Admin Details" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <p-accordion [multiple]="true" [activeIndex]="[0]">
-          <p-accordionTab header="Admin Information">
+          <p-accordionTab header="{{'labels.adminInfo' | translate}}">
             <div class="field">
-              <label for="name">Name</label>
+              <label for="name">{{'labels.name' | translate}}</label>
               <input type="text" pInputText id="name" [(ngModel)]="admin.name" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.name }" />
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.name">Name is required.</small>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.name">{{'messages.nameIsRequired' | translate}}</small>
             </div>
 
             <div class="field">
-              <label for="email">Email</label>
+              <label for="email">{{'labels.email' | translate}}</label>
               <input type="email" pInputText id="email" [(ngModel)]="admin.email" required [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.email }" />
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.email">Email is required.</small>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.email">{{'messages.emailIsRequired' | translate}}</small>
             </div>
 
-            <label for="password">Password</label>
+            <label for="password">{{'labels.password' | translate}}</label>
             <p-password
               id="password"
               [(ngModel)]="admin.password"
-              name="password"
-              placeholder="Password"
+              name="password"s
               [toggleMask]="true"
               styleClass="mb-5"
               inputStyleClass="w-full p-3"
@@ -100,36 +93,36 @@
               required="true"
               [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.password }"
             ></p-password>
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.password">Password is required.</small>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.password">{{'messages.passwordIsRequired'| translate}}</small>
 
             <div class="field">
-              <label for="isActive">Active</label>
+              <label for="isActive">{{'labels.active' | translate}}</label>
               <input type="checkbox" id="isActive" [(ngModel)]="admin.isActive" />
             </div>
 
             <div class="field">
-              <label for="phone">Phone</label>
+              <label for="phone">{{'labels.phone' | translate}}</label>
               <input
                 type="text"
                 pInputText
+                max="8"
                 id="phone"
                 [(ngModel)]="admin.mobileNumber"
                 required
                 pattern="^\+965\d{7}$"
-                placeholder="+965XXXXXXXX"
                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.mobileNumber }"
               />
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.mobileNumber">Please enter a valid Kuwait phone number (+965XXXXXXXX).</small>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.mobileNumber">{{'messages.phoneRegex' | translate}}</small>
             </div>
           </p-accordionTab>
-          <p-accordionTab header="Permissions">
+          <p-accordionTab header="{{'labels.permission' | translate}}">
             <tabs [admin]="admin" (permissionsChanged)="handlePermissionChanged($event)"></tabs>
           </p-accordionTab>
         </p-accordion>
       </ng-template>
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveAdmin()"></button>
+        <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" (click)="saveAdmin()"></button>
       </ng-template>
     </p-dialog>
   </div>

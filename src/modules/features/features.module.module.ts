@@ -10,7 +10,7 @@ import { FeaturesModuleRoutingModule } from './features.module-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    FeaturesModuleRoutingModule
+    FeaturesModuleRoutingModule, 
   ], 
 })
 export class FeaturesModuleModule { }
