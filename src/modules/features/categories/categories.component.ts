@@ -11,6 +11,7 @@ import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
+import { LanguageService } from 'src/core/services/language.service';
 
 @Component({
   selector: 'app-categories',
@@ -30,7 +31,7 @@ export class CategoriesComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _alertService: AlertService, private categoriesService: GenericService<CategoryDto[]>, private _permissionClaimService: PermissionClaimsService) {
+  constructor(private _alertService: AlertService, private categoriesService: GenericService<CategoryDto[]>, private _permissionClaimService: PermissionClaimsService, public languageService: LanguageService) {
     this.claim = this._permissionClaimService.getPermission(PermissionClaims.CategoriesPermission);
   }
 
@@ -57,6 +58,10 @@ export class CategoriesComponent implements OnInit {
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
     this.breadcrumbItems.push({ label: 'Categories' });
+  }
+
+  getBreadcrumbIcon(): string {
+    return this.languageService.isEnglish ? 'pi pi-chevron-right' : 'pi pi-chevron-left';
   }
   onToggleSwitch(id: number, newValue: boolean) {
     this.isLoading = true;

@@ -9,6 +9,7 @@ import { PermissionEntry } from 'src/modules/shared/interfaces/permissionsEntry'
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
+import { LanguageService } from 'src/core/services/language.service';
 
 @Component({
   selector: 'app-admin',
@@ -30,7 +31,7 @@ export class AdminComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _adminService: GenericService<AdminDto[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService) {
+  constructor(private _adminService: GenericService<AdminDto[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService, public languageService: LanguageService) {
     this.claim = this._permissionService.getPermission(PermissionClaims.AdminPermission);
   }
 

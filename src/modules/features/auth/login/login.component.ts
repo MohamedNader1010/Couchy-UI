@@ -4,9 +4,6 @@ import { GenericService } from 'src/core/services/generic.service';
 import { AuthService } from 'src/core/services/auth.service';
 import { AlertService } from 'src/core/services/alert.service';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
-import { UpdateLogoService } from 'src/core/services/update-logo.service';
-import { Settings } from '../../settings/interfaces/setttings.interface';
-import { HttpClient } from '@angular/common/http';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 
 @Component({

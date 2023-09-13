@@ -7,9 +7,15 @@
     <div class="card px-6 py-6">
       <p-toast></p-toast>
       <p-toolbar *ngIf="claim.CanAdd" styleClass="mb-4">
-        <ng-template pTemplate="left">
+        <ng-template pTemplate="right">
           <div class="my-2">
-            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            <button 
+            pButton pRipple 
+            label="New" 
+            icon="pi pi-plus" 
+            class="p-button-success mr-2" 
+            (click)="openNew()">
+          </button>
           </div>
         </ng-template>
       </p-toolbar>
@@ -126,17 +132,5 @@
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveAdmin()"></button>
       </ng-template>
     </p-dialog>
-
-    <!-- <p-dialog [(visible)]="deleteCategoryDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
-        <div class="flex align-items-center justify-content-center">
-          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-          <span *ngIf="category">Are you sure you want to delete <b>{{ category.nameEn }}</b>?</span>
-        </div>
-        <ng-template pTemplate="footer">
-          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-            (click)="deleteCategoryDialog = false"></button>
-          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
-        </ng-template>
-      </p-dialog> -->
   </div>
 </div>

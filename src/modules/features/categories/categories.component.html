@@ -2,14 +2,15 @@
   <div class="col-12">
     <p-breadcrumb [model]="breadcrumbItems" [home]="{ icon: 'pi pi-home' }"></p-breadcrumb>
   </div>
-
   <div class="col-12">
     <div class="card px-6 py-6">
       <p-toast></p-toast>
       <p-toolbar styleClass="mb-4" *ngIf="claim.CanAdd">
         <ng-template pTemplate="left">
           <div class="my-2">
-            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+            [iconPos]="!languageService.isEnglish? 'left':'right'"
+            (click)="openNew()"></button>
           </div>
         </ng-template>
       </p-toolbar>
@@ -57,8 +58,24 @@
             <td>
               <span class="p-column-title">actions</span>
               <div class="flex">
-                <button *ngIf="claim.CanUpdate" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCategory(rowData)"></button>
-                <button *ngIf="claim.CanDelete" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCategory(rowData)"></button>
+                <button
+                  *ngIf="claim.CanUpdate"
+                  pButton
+                  pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success"
+                  [ngClass]="languageService.isEnglish ? 'mr-2' : ''"
+                  (click)="editCategory(rowData)"
+                ></button>
+                <button
+                  *ngIf="claim.CanDelete"
+                  pButton
+                  pRipple
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-warning"
+                  [ngClass]="!languageService.isEnglish ? 'mr-2' : ''"
+                  (click)="deleteCategory(rowData)"
+                ></button>
               </div>
             </td>
           </tr>

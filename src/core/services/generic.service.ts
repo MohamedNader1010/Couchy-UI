@@ -35,7 +35,7 @@ export class GenericService<T> {
     if (selectedFile && formKey) formData.append(formKey, selectedFile);
     return this.http.post(`${this._baseUrl}/${this._controllerName}`, formData, { headers, reportProgress: true, observe: 'events' }).pipe(
       catchError((err) => {
-        return throwError(() => err);
+        return throwError(() => err.error);
       }),
     );
   };

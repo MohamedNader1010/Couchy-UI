@@ -22,7 +22,7 @@
         [columns]="columns"
         responsiveLayout="scroll"
         [rows]="10"
-        [globalFilterFields]="['id', 'name', 'mobileNumber']"
+        [globalFilterFields]="['id', 'name', 'phoneNumber']"
         [paginator]="true"
         [rowsPerPageOptions]="rowsPerPageOptions"
         [showCurrentPageReport]="true"
@@ -66,31 +66,104 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="trainerDialog" [style]="{ width: '450px' }" header="Add new trainer phone" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="trainerDialog" [style]="{ width: '40%' }" header="Add new trainer" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
-        <div class="field">
-          <label for="mobileNumber">Phone Number</label>
-          <input
-            type="text"
-            pInputText
-            id="mobileNumber"
-            [(ngModel)]="trainer.mobileNumber"
-            required
-            maxlength="8"
-            autofocus
-            [ngClass]="{ 'ng-invalid ng-dirty': phoneInputText.touched && (!trainer.mobileNumber || !trainer.mobileNumber.match('[0-9]{8}')) }"
-            pattern="[0-9]{8}"
-            #phoneInputText="ngModel"
-          />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && !trainer.mobileNumber">Trainer's phone number is required.</small>
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && trainer.mobileNumber && !trainer.mobileNumber.match('[0-9]{8}')">
-            Phone number must be an 8-digit number.
-          </small>
-        </div>
+
+        <label for="name" class="block text-900 font-medium text-xl mb-2">Name</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          class="m-1"
+          [(ngModel)]="trainer.name"
+          required
+          autofocus
+          [ngClass]="{ 'ng-invalid ng-dirty': nameInputText.touched && (!trainer.name) }"
+          #nameInputText="ngModel"
+        />
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="emailInputText.touched && !trainer.email">Email is required.</small>
+
+        <label for="phoneNumber" class="block text-900 font-medium text-xl mb-2">Phone Number</label>
+        <input
+          type="text"
+          pInputText
+          id="phoneNumber"
+          class="m-1"
+          [(ngModel)]="trainer.phoneNumber"
+          required
+          maxlength="8"
+          autofocus
+          [ngClass]="{ 'ng-invalid ng-dirty': phoneInputText.touched && (!trainer.phoneNumber || !trainer.phoneNumber.match('[0-9]{8}')) }"
+          pattern="[0-9]{8}"
+          #phoneInputText="ngModel"
+        />
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && !trainer.phoneNumber">Trainer's phone number is required.</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInputText.touched && trainer.phoneNumber && !trainer.phoneNumber.match('[0-9]{8}')">
+          Phone number must be an 8-digit number.
+        </small>
+        <label for="gender" class="block text-900 font-medium text-xl mb-2">Gender</label>
+
+        <p-dropdown
+          id="gender"
+          [(ngModel)]="trainer.gender"
+          [options]="genderOptions"
+          placeholder="Select Gender"
+          styleClass="mb-5 w-full p-1 md:w-30rem"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !trainer.gender }"
+        ></p-dropdown>
+
+        <label for="language" class="block text-900 font-medium text-xl mb-2">Language</label>
+        <p-dropdown
+        id="language"
+        [(ngModel)]="trainer.lang"
+        [options]="languageOptions"
+        placeholder="Select Language"
+        styleClass="mb-5 w-full p-1 md:w-30rem"
+        
+      ></p-dropdown>
+
+        <label for="categories" class="block text-900 font-medium text-xl mb-2">Categories</label>
+        <p-dropdown
+          id="categories"
+          [(ngModel)]="trainer.categoryId"
+          [options]="categoriesOptions"
+          placeholder="Select Category"
+          [required]="true"
+          styleClass="mb-5 w-full p-1 md:w-30rem"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !trainer.categoryId }"
+        ></p-dropdown>
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !trainer.categoryId">Category is required.</small>
+        
+        <label for="email" class="block text-900 font-medium text-xl mb-2">Email</label>
+        <input
+          type="text"
+          pInputText
+          class="m-1"
+          id="email"
+          [(ngModel)]="trainer.email"
+          required
+          autofocus
+          [ngClass]="{ 'ng-invalid ng-dirty': emailInputText.touched && (!trainer.email) }"
+          #emailInputText="ngModel"
+        />
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="emailInputText.touched && !trainer.email">Email is required.</small>
+
+        <label for="appFee" class="block text-900 font-medium text-xl mb-2">App_Fee</label>
+        <input
+          type="text"
+          class="m-1"
+          pInputText
+          id="appFee"
+          [(ngModel)]="trainer.appFee"
+          autofocus
+        />
+
+        <p-fileUpload class="m-2"  mode="basic" chooseLabel="Choose Image" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
+      
       </ng-template>
       <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTrainer()" [disabled]="!trainer.mobileNumber || !trainer.mobileNumber.match('[0-9]{8}')"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTrainer()" [disabled]="!trainer.phoneNumber || !trainer.phoneNumber.match('[0-9]{8}')"></button>
       </ng-template>
     </p-dialog>
   </div>

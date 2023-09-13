@@ -1,0 +1,47 @@
+<div class="surface-ground flex align-items-center justify-content-center overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+      <div class="surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
+        <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
+        <div *ngIf="!isLoading">
+          <label for="type" class="block text-900 font-medium text-xl mb-2">Type</label>
+          <p-dropdown
+            id="type"
+            [(ngModel)]="notification.type"
+            [options]="notificationOptions"     
+            [required]="true"
+            styleClass="mb-5 w-full p-1 md:w-30rem"
+          ></p-dropdown>
+  
+          <label for="title" class="block text-900 font-medium text-xl mb-2">Title</label>
+          <input
+            type="text"
+            pInputText
+            id="title"
+            placeholder="Title"
+            [(ngModel)]="notification.title"
+            required
+            class="w-full p-3 md:w-30rem mb-5"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !notification.title}"
+          />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !notification.title">Title is required.</small>
+  
+          <label for="body" class="block text-900 font-medium text-xl mb-2">Body</label>
+          <input
+            type="text"
+            pInputText
+            id="phone"
+            [(ngModel)]="notification.body"
+            required
+            class="w-full p-3 md:w-30rem mb-5"
+            placeholder="Body"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !notification.body }"
+          />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !notification.body">Body is required</small>
+
+          <button pButton pRipple label="Send Notification" (click)="SendNotificaiton()" class="w-full p-3 text-xl"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-toast></p-toast>
+  

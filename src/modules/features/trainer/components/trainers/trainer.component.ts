@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -9,7 +10,11 @@ import { CategoryIsActiveDto } from 'src/modules/features/categories/interfaces/
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { AddTrainer } from 'src/modules/shared/interfaces/addTrainer.interface';
-import { Users } from 'src/modules/shared/interfaces/users.interface';
+import { TrainerDto } from '../../interfaces/trainer.interface';
+import { Genders } from 'src/modules/shared/enums/genders.enum';
+import { CategoryDto } from 'src/modules/features/categories/interfaces/category.dto';
+import { LanguageEnum } from 'src/modules/shared/enums/languages.enums';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-trainer',
@@ -20,19 +25,30 @@ export class TrainerComponent implements OnInit {
   isLoading = false;
   claim: any;
   breadcrumbItems: MenuItem[] = [];
-  trainers: Users[] = [];
+  trainers: TrainerDto[] = [];
   columns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
   textColumns: any[] = [];
   trainerDialog: boolean = false;
   submitted: boolean = false;
-  trainer: Users = {} as Users;
+  selectedFile?: File;
+  trainer: TrainerDto = {} as TrainerDto;
+  genderOptions = [
+    { label: 'Male', value: Genders.Male },
+    { label: 'Female', value: Genders.Female },
+  ];
+  languageOptions = [
+    { label: 'English', value: LanguageEnum.English },
+    { label: 'Arabic', value: LanguageEnum.Arabic },
+  ];
+  categoriesOptions: { value: number; label: string }[] = [] as { value: number; label: string }[];
   constructor(
-    private _trainerService: GenericService<Users[]>,
+    private _trainerService: GenericService<TrainerDto[]>,
     private _alertService: AlertService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _permissionService: PermissionClaimsService,
+    private _categoriesService: GenericService<CategoryDto[]>,
   ) {
     this.claim = this._permissionService.getPermission(PermissionClaims.TrainerPermission);
     this.breadcrumbItems = [];
@@ -41,7 +57,7 @@ export class TrainerComponent implements OnInit {
     this.columns = [
       { field: 'id', header: 'Id', sortable: true },
       { field: 'name', header: 'Trainer Name', sortable: true },
-      { field: 'mobileNumber', header: 'Mobile Number', sortable: true },
+      { field: 'phoneNumber', header: 'Phone Number', sortable: true },
       { field: 'isActive', header: 'Is Active', sortable: true },
       { field: 'packages&groups', header: 'Package & Groups', sortable: false },
     ];
@@ -49,6 +65,14 @@ export class TrainerComponent implements OnInit {
   }
   ngOnInit(): void {
     this.isLoading = true;
+    this._categoriesService.setControllerName('Category');
+    this._categoriesService.getAll().subscribe((result) => {
+      if (result.code == ResponseCode.Success) {
+        result.body.map((category) => {
+          this.categoriesOptions.push({ value: category.id, label: category.nameEn });
+        });
+      }
+    });
     this._trainerService.setControllerName('User/Trainer');
     this._trainerService.getAll().subscribe((result) => {
       if (result.code == ResponseCode.Success) {
@@ -106,22 +130,35 @@ export class TrainerComponent implements OnInit {
   hideDialog() {
     this.trainerDialog = false;
     this.submitted = false;
-    this.trainer = {} as Users;
+    this.trainer = {} as TrainerDto;
   }
   saveTrainer() {
     this.isLoading = true;
-    const trainerToBeAdded: AddTrainer = { phoneNumber: this.trainer.mobileNumber } as AddTrainer;
     this._trainerService.setControllerName('User/AddTrainer');
-    this._trainerService.add(trainerToBeAdded as any).subscribe((result: any) => {
-      if (result.code == ResponseCode.Success) {
-        this.trainers.push({ id: result.body.id, mobileNumber: result.body.mobileNumber } as Users);
-        this.trainerDialog = false;
-      } else {
-        this._alertService.fail(result.message);
-      }
-      this.isLoading = false;
-    });
+    
+    this._trainerService.addWithFormData(this.trainer as any, this.selectedFile, 'image')
+      .pipe(
+        catchError((errorResponse) => {
+          this._alertService.fail(errorResponse.message); 
+          return [];
+        })
+      )
+      .subscribe({
+        next: (result: any) => {
+          if (result.body) this.trainers.push(result.body.body);
+        },
+        complete: () => {
+          this.isLoading = false;
+          this.trainerDialog = false;
+        },
+      });
   }
+  
+
+  onFileSelect(file: File) {
+    this.selectedFile = file;
+  }
+
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }

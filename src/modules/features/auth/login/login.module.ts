@@ -8,9 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, LoginRoutingModule, ButtonModule, CheckboxModule, InputTextModule, FormsModule, PasswordModule, ToastModule],
+  imports: [CommonModule, LoginRoutingModule, ButtonModule, CheckboxModule, InputTextModule, FormsModule, PasswordModule, ToastModule, TranslateModule],
   declarations: [LoginComponent],
 })
 export class LoginModule {}
