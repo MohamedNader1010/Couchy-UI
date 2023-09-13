@@ -10,6 +10,7 @@ import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { LanguageService } from 'src/core/services/language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin',
@@ -31,7 +32,7 @@ export class AdminComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _adminService: GenericService<AdminDto[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService, public languageService: LanguageService) {
+  constructor(private _adminService: GenericService<AdminDto[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService, public languageService: LanguageService, private _translate: TranslateService) {
     this.claim = this._permissionService.getPermission(PermissionClaims.AdminPermission);
   }
 
@@ -44,17 +45,17 @@ export class AdminComponent implements OnInit {
         this.isLoading = false;
       });
       this.columns = [
-        { field: 'id', header: 'Id', sortable: true },
-        { field: 'name', header: 'Name', sortable: true },
-        { field: 'email', header: 'Email', sortable: true },
-        { field: 'isActive', header: 'Is Active', sortable: true },
+        { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+        { field: 'name', header: this._translate.instant('table.columns.name'), sortable: true },
+        { field: 'email', header: this._translate.instant('table.columns.email'), sortable: true },
+        { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
         { field: 'actions', header: '' },
       ];
       this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
     }
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Admins' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.admin') });
   }
 
   openNew() {

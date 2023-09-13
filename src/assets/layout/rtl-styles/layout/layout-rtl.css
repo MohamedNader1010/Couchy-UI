@@ -541,3 +541,7 @@ p {
 p:last-child {
   margin-bottom: 0;
 }
+
+.p-input-icon-right > .p-icon-wrapper, .p-input-icon-right > i:last-of-type {
+  right: 27.75rem !important;
+}

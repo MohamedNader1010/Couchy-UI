@@ -2,23 +2,23 @@
   <p-tabPanel *ngFor="let permission of permissions" [header]="permission.header">
     <div class="col-12" style="display: inline-flex">
       <div class="col-6">
-        <label for="canAdd{{ permission.key }}">Can Add</label>
+        <label for="canAdd{{ permission.key }}">{{'labels.canAdd' | translate}}</label>
         <input type="checkbox" [id]="'canAdd' + permission.key" [(ngModel)]="claimByKey(permission.key)!.canAdd" (change)="updatePermission()" />
       </div>
 
       <div class="col-6">
-        <label for="canUpdate{{ permission.key }}">Can Update</label>
+        <label for="canUpdate{{ permission.key }}">{{'labels.canUpdate' | translate}}</label>
         <input type="checkbox" [id]="'canUpdate' + permission.key" [(ngModel)]="claimByKey(permission.key)!.canUpdate" (change)="updatePermission()" />
       </div>
     </div>
     <div class="col-12" style="display: inline-flex">
       <div class="col-6">
-        <label for="canDelete{{ permission.key }}">Can Delete</label>
+        <label for="canDelete{{ permission.key }}"> {{'labels.canDelete' | translate}}</label>
         <input type="checkbox" [id]="'canDelete' + permission.key" [(ngModel)]="claimByKey(permission.key)!.canDelete" (change)="updatePermission()" />
       </div>
 
       <div class="col-6">
-        <label for="canGet{{ permission.key }}">Can Get</label>
+        <label for="canGet{{ permission.key }}">{{'labels.canGet' | translate}}</label>
         <input type="checkbox" [id]="'canGet' + permission.key" [(ngModel)]="claimByKey(permission.key)!.canGet" (change)="updatePermission()" />
       </div>
     </div>

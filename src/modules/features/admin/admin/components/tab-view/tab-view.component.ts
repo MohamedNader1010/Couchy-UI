@@ -2,6 +2,7 @@ import { PermissionClaims } from './../../../../../shared/enums/permissionClaims
 import { PermissionEntry } from './../../../../../shared/interfaces/permissionsEntry';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AdminDto } from '../../interfaces/admin';
+import { TranslateService } from '@ngx-translate/core';
 
 type EmittedValue = { [key: number]: PermissionEntry }[];
 @Component({
@@ -11,6 +12,7 @@ type EmittedValue = { [key: number]: PermissionEntry }[];
 })
 export class TabViewComponent implements OnInit {
   claims: any[] = [];
+  constructor(private _translate: TranslateService) {}
   ngOnInit(): void {
     this.claims = [
       {
@@ -91,31 +93,31 @@ export class TabViewComponent implements OnInit {
   permissions = [
     {
       key: PermissionClaims.CategoriesPermission,
-      header: 'Categories',
+      header: this._translate.instant('category.title'),
     },
     {
       key: PermissionClaims.BanarPermission,
-      header: 'Banars',
+      header: this._translate.instant('banar.title'),
     },
     {
       key: PermissionClaims.AdminPermission,
-      header: 'Admins',
+      header: this._translate.instant('admin.title'),
     },
     {
       key: PermissionClaims.UserPermission,
-      header: 'Users',
+      header: this._translate.instant('user.title'),
     },
     {
       key: PermissionClaims.TrainerPermission,
-      header: 'Trainers',
+      header: this._translate.instant('trainer.title'),
     },
     {
       key: PermissionClaims.SettingPermission,
-      header: 'Settings',
+      header: this._translate.instant('setting.title'),
     },
     {
       key: PermissionClaims.MessagePermission,
-      header: 'Messages',
+      header: this._translate.instant('message.title'),
     },
   ];
 

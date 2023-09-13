@@ -24,6 +24,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { TabViewComponent } from './admin/components/tab-view/tab-view.component';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [AdminComponent, TabViewComponent],
@@ -49,7 +50,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     AccordionModule,
     TabViewModule,
     PasswordModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule, 
+    TranslateModule
   ],
 })
 export class AdminModule {}
