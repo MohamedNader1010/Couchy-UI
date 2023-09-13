@@ -158,7 +158,6 @@
   "placeHolders": {
     "selectGender": "Select Gender",
     "selectLanguage": "Select Language",
-    "selectCategory": "Select Category",
-    "": ""
+    "selectCategory": "Select Category"
   }
 }
