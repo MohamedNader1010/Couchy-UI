@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/core/services/alert.service';
 import { AuthService } from 'src/core/services/auth.service';
 import { GenericService } from 'src/core/services/generic.service';
@@ -18,10 +19,10 @@ export class ProfileComponent implements OnInit {
   admin: Users = {} as Users;
   submitted: boolean = false;
   genderOptions = [
-    { label: 'Male', value: Genders.Male },
-    { label: 'Female', value: Genders.Female },
+    { label: this._translate.instant('labels.male'), value: Genders.Male },
+    { label: this._translate.instant('labels.female'), value: Genders.Female },
   ];
-  constructor(private _authService: AuthService, private _userService: GenericService<Users>, private _alertService: AlertService, private _updateProfileService: UpdateProfileService) {}
+  constructor(private _authService: AuthService, private _userService: GenericService<Users>, private _alertService: AlertService, private _updateProfileService: UpdateProfileService, private _translate: TranslateService) {}
   ngOnInit(): void {
     this.isLoading = true;
     this._userService.setControllerName('User/UserById');

@@ -21,6 +21,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { ToolbarModule } from 'primeng/toolbar';
     InputSwitchModule,
     PasswordModule,
     ProgressSpinnerModule,
+    TranslateModule
   ]
 })
 export class NotificationModule { }

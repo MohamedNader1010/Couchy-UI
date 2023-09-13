@@ -8,6 +8,7 @@ import { Users } from 'src/modules/shared/interfaces/users.interface';
 import { CategoryIsActiveDto } from '../../categories/interfaces/update-isActive-category.dto';
 import { AlertService } from 'src/core/services/alert.service';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-users',
@@ -23,16 +24,16 @@ export class UsersComponent implements OnInit {
   rowsPerPageOptions = [5, 10, 20];
   textColumns: any[] = [];
 
-  constructor(private _userService: GenericService<Users[]>, private _permissionService: PermissionClaimsService, private _alertService: AlertService) {
+  constructor(private _userService: GenericService<Users[]>, private _permissionService: PermissionClaimsService, private _alertService: AlertService, private _translate: TranslateService) {
     this.claim = this._permissionService.getPermission(PermissionClaims.UserPermission);
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Users' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('user.title') });
     this.columns = [
-      { field: 'id', header: 'Id', sortable: true },
-      { field: 'name', header: 'User Name', sortable: true },
-      { field: 'mobileNumber', header: 'Mobile Number', sortable: true },
-      { field: 'isActive', header: 'Is Active' },
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'name', header: this._translate.instant('table.columns.username'), sortable: true },
+      { field: 'mobileNumber', header: this._translate.instant('table.columns.phoneNumber'), sortable: true },
+      { field: 'isActive', header: this._translate.instant('table.columns.isActive') },
     ];
     this.textColumns = this.columns.filter((col) => !(col.field === 'isActive'));
   }
@@ -62,9 +63,9 @@ export class UsersComponent implements OnInit {
         const updatedIndex = this.users.findIndex((c) => c.id === id);
         if (updatedIndex !== -1) {
           if (result.body.isActive) {
-            this._alertService.success('Activated');
+            this._alertService.success(this._translate.instant("labels.activated"));
           } else {
-            this._alertService.warn('DeActivated');
+            this._alertService.warn(this._translate.instant('labels.deActivated'));
           }
           this.users[updatedIndex] = result.body as any;
         }
