@@ -152,7 +152,8 @@
     "user" : "مستخدم", 
     "sendNotification" : "إرسال إشعار", 
     "chooseProfileImage" : "إختر صوره شخصيه",
-    "update" : "تحديث البيانات"
+    "update" : "تحديث البيانات", 
+    "totalSubscribedUsers" :"مجموع العملاء المشتركون"
   },
   "messages": {
     "genderRequired": "يجب إختار الجنس",

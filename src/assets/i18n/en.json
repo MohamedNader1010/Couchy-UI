@@ -158,7 +158,8 @@
     "chooseImage" : "Choose Image", 
     "top5Trainers": "Top 5 Trainers", 
     "top5Packages": "Top 5 Packages", 
-    "totalIncome": "Total Income"
+    "totalIncome": "Total Income", 
+    "totalSubscribedUsers": "Total Subscribed Users"
   },
   "messages": {
     "genderRequired": "Gender is required",
