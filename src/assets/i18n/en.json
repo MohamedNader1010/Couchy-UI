@@ -29,6 +29,12 @@
   "admin": {
     "title": "Admins"
   },
+  "package": {
+    "title": "Packages"
+  },
+  "group": {
+    "title": "Groups"
+  },
   "table": {
     "columns": {
       "id": "#",
@@ -40,10 +46,14 @@
       "messageBody": "Message",
       "phoneNumber": "Phone Number",
       "email": "Email",
-      "englishName": "English Name", 
-      "arabicName" : "Arabic Name", 
       "image": "Image", 
-      "username":"Username"
+      "username":"Username",
+      "price": "Price",
+      "day": "Days",
+      "englishName": "English Name",
+      "arabicName": "Arabic Name",
+      "packages&groups": "Package & Groups",
+      "userList": "User List"
     },
     "pageReport": "Showing {first} to {last} of {totalRecords} entries"
   },
@@ -51,31 +61,36 @@
     "dashboard": "Dashboard",
     "admin": "Admin",
     "user": "User",
-    "message": "Message"
+    "message": "Message",
+    "categories": "Categories",
+    "settings": "Settings",
+    "trainers": "Trainers",
+    "groups": "Groups",
+    "packages": "Packages"
   },
   "labels": {
     "search": "Search...",
     "signIn": "Sign In",
+    "male": "Male",
+    "female": "Female",
+    "english": "English",
+    "arabic": "العربية",
+    "breifEn": "Breif En",
+    "breifAr": "Breif Ar",
     "new": "New",
     "name": "Name",
+    "englishName": "English Name",
+    "arabicName": "Arabic Name",
     "email": "Email",
     "password": "Password",
     "active": "Active",
     "phone": "Phone",
+    "price": "Price",
+    "days": "Days",
+    "phoneNumber": "Phone Number",
     "save": "Save",
-    "cancel": "Cancel", 
-    "adminInfo": "Admin Information", 
-    "permission": "Permissions", 
-    "canAdd": "Can Add", 
-    "canUpdate":"Can Update", 
-    "canDelete": "Can Delete", 
-    "canGet": "Can Get", 
-    "englishName": "English Name", 
-    "arabicName":"Arabic Name", 
     "image": "Image", 
-    "chooseBanar":"Choose Banar", 
-    "yes": "Yes", 
-    "no": "No", 
+    "chooseBanar":"Choose Banar",  
     "totalAdmins": "Total Admins", 
     "totalUsers" :"Total Users", 
     "totalTrainers": "Total Trainers", 
@@ -87,14 +102,45 @@
     "title":"Title", 
     "body": "Body", 
     "sendNotification":"Send Notification", 
-    "male": "Male", 
-    "female":"Female", 
     "chooseProfileImage": "Choose Profile Image", 
     "selectGender" :"Select Gender", 
-    "gender": "Gender", 
     "update": "Update", 
     "activated": "Activated", 
-    "deActivated": "DeActivated"
+    "deActivated": "DeActivated",
+    "cancel": "Cancel",
+    "adminInfo": "Admin Information",
+    "permission": "Permissions",
+    "canAdd": "Can Add",
+    "canUpdate": "Can Update",
+    "canDelete": "Can Delete",
+    "canGet": "Can Get",
+    "areYouSureDelete": "Are you sure you want to delete",
+    "yes": "Yes",
+    "no": "No",
+    "red": "Red",
+    "blue": "Blue",
+    "lighGrey": "Ligh Grey",
+    "black": "Black",
+    "color": "Color",
+    "groups": "Groups",
+    "gender": "Gender",
+    "language": "Language",
+    "ID": "ID",
+    "aboutUsAr": "About Us (Arabic)",
+    "aboutUsEn": "About Us (English)",
+    "UsingPolicyAr": "Using Policy (Arabic)",
+    "UsingPolicyEn": "Using Policy (English)",
+    "WhatsApp": "WhatsApp",
+    "Facebook": "Facebook",
+    "Twitter": "Twitter",
+    "AppVersion": "App Version",
+    "Logo": "Logo",
+    "ChooseBanar": "Choose banar",
+    "Submit": "Submit",
+    "appFee": "App_Fee",
+    "packages": "Packages",
+    "trainersForTest": "trainer for test..",
+    "category": "Categories"
   },
   "messages": {
     "genderRequired": "Gender is required",
@@ -103,11 +149,43 @@
     "englishNameRequired": "English Name is required", 
     "arabicNameRequired":"Arabis Name is required",
     "nameIsRequired": "Name is required",
+    "englishNameIsRequired": "English Name is required.",
+    "arabichNameIsRequired": "Arabic Name is required.",
+    "englishBreifIsRequired": "English Breif is required.",
+    "arabichBreifIsRequired": "Arabic Breif is required.",
     "emailIsRequired": "Email is required",
     "passwordIsRequired": "Password is required",
-    "phoneRegex": "Please enter a valid number ex: [9,5,6] + 7 digits.", 
     "delete" : "Item is deleted", 
     "save" : "Item is saved", 
-    "areYouSureDelete": "Are you sure to delete"
+    "areYouSureDelete": "Are you sure to delete",
+    "trainerPhone": "Trainer's phone number is required.",
+    "categoryIsRequired": "Category is required.",
+    "priceIsRequired": "Price is required.",
+    "dayIsRequired": "Day is required.",
+    "colorIsRequired": "Color is required.",
+    "phoneRegex": "Please enter a valid number ex: [9,5,6] + 7 digits."
+  },
+  "alert": {
+    "message": {
+      "Activated": "Activated",
+      "DeActivated": "DeActivated",
+      "categoryDeleted": "category deleted.",
+      "updating": "setting updated.."
+    },
+    "severity": {
+      "success": "success",
+      "error": "error",
+      "warn": "warn"
+    },
+    "summary": {
+      "Successful": "Successful",
+      "Error": "Error",
+      "Warning": "Warning"
+    }
+  },
+  "placeHolders": {
+    "selectGender": "Select Gender",
+    "selectLanguage": "Select Language",
+    "selectCategory": "Select Category"
   }
 }

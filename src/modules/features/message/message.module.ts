@@ -20,6 +20,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [MessageComponent],
@@ -43,6 +44,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     DialogModule,
     InputSwitchModule,
     ProgressSpinnerModule,
+    TranslateModule,
   ],
 })
 export class MessageModule {}

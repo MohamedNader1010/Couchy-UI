@@ -8,6 +8,7 @@ import { PermissionClaimsService } from 'src/core/services/permission-claims.ser
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { UpdateLogoService } from 'src/core/services/update-logo.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-setting',
@@ -27,11 +28,17 @@ export class SettingComponent implements OnInit {
   submitted: boolean = false;
   setting: Settings = {} as Settings;
 
-  constructor(private _settingService: GenericService<Settings>, private _alertService: AlertService, private _permissionService: PermissionClaimsService, private _updateLogoService: UpdateLogoService) {
+  constructor(
+    private _settingService: GenericService<Settings>,
+    private _alertService: AlertService,
+    private _permissionService: PermissionClaimsService,
+    private _updateLogoService: UpdateLogoService,
+    private _translate: TranslateService,
+  ) {
     this.claim = this._permissionService.getPermission(PermissionClaims.SettingPermission);
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Settings' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.settings') });
   }
 
   ngOnInit(): void {
@@ -51,15 +58,15 @@ export class SettingComponent implements OnInit {
     this.isLoading = true;
     this._settingService.setControllerName('ApplicationSetting');
     this._settingService.updateWithFormData(this.setting as any, this.selectedFile, 'image').subscribe((result: any) => {
-      if (result && result.body){
+      if (result && result.body) {
         if (result.body.code == ResponseCode.Success) {
-          this._alertService.success("setting updated..");
+          this._alertService.success(this._translate.instant('breadcrumb.updating'));
           this._updateLogoService.updateLogoPath();
         } else {
           this._alertService.fail(result.body.message);
         }
       }
-        
+
       this.isLoading = false;
     });
   }

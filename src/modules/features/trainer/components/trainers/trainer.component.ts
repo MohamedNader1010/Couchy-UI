@@ -1,7 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { AlertService } from 'src/core/services/alert.service';
 import { GenericService } from 'src/core/services/generic.service';
@@ -9,12 +8,12 @@ import { PermissionClaimsService } from 'src/core/services/permission-claims.ser
 import { CategoryIsActiveDto } from 'src/modules/features/categories/interfaces/update-isActive-category.dto';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
-import { AddTrainer } from 'src/modules/shared/interfaces/addTrainer.interface';
 import { TrainerDto } from '../../interfaces/trainer.interface';
 import { Genders } from 'src/modules/shared/enums/genders.enum';
 import { CategoryDto } from 'src/modules/features/categories/interfaces/category.dto';
 import { LanguageEnum } from 'src/modules/shared/enums/languages.enums';
 import { catchError } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-trainer',
@@ -34,12 +33,12 @@ export class TrainerComponent implements OnInit {
   selectedFile?: File;
   trainer: TrainerDto = {} as TrainerDto;
   genderOptions = [
-    { label: 'Male', value: Genders.Male },
-    { label: 'Female', value: Genders.Female },
+    { label: this._translate.instant('labels.male'), value: Genders.Male },
+    { label: this._translate.instant('labels.female'), value: Genders.Female },
   ];
   languageOptions = [
-    { label: 'English', value: LanguageEnum.English },
-    { label: 'Arabic', value: LanguageEnum.Arabic },
+    { label: this._translate.instant('labels.english'), value: LanguageEnum.English },
+    { label: this._translate.instant('labels.arabic'), value: LanguageEnum.Arabic },
   ];
   categoriesOptions: { value: number; label: string }[] = [] as { value: number; label: string }[];
   constructor(
@@ -49,17 +48,18 @@ export class TrainerComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _permissionService: PermissionClaimsService,
     private _categoriesService: GenericService<CategoryDto[]>,
+    private _translate: TranslateService,
   ) {
     this.claim = this._permissionService.getPermission(PermissionClaims.TrainerPermission);
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Trainers' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.trainers') });
     this.columns = [
-      { field: 'id', header: 'Id', sortable: true },
-      { field: 'name', header: 'Trainer Name', sortable: true },
-      { field: 'phoneNumber', header: 'Phone Number', sortable: true },
-      { field: 'isActive', header: 'Is Active', sortable: true },
-      { field: 'packages&groups', header: 'Package & Groups', sortable: false },
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'name', header: this._translate.instant('table.columns.name'), sortable: true },
+      { field: 'phoneNumber', header: this._translate.instant('table.columns.phoneNumber'), sortable: true },
+      { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
+      { field: 'packages&groups', header: this._translate.instant('table.columns.packages&groups'), sortable: false },
     ];
     this.textColumns = this.columns.filter((col) => !(col.field === 'packages&groups' || col.field === 'isActive'));
   }
@@ -73,7 +73,7 @@ export class TrainerComponent implements OnInit {
         });
       }
     });
-    this._trainerService.setControllerName('User/Trainer');
+    this._trainerService.setControllerName('User/GetAllUserTrainers');
     this._trainerService.getAll().subscribe((result) => {
       if (result.code == ResponseCode.Success) {
         this.trainers = result.body;
@@ -113,9 +113,9 @@ export class TrainerComponent implements OnInit {
         const updatedIndex = this.trainers.findIndex((c) => c.id === id);
         if (updatedIndex !== -1) {
           if (result.body.isActive) {
-            this._alertService.success('Activated');
+            this._alertService.success(this._translate.instant('alert.Activated'));
           } else {
-            this._alertService.warn('DeActivated');
+            this._alertService.warn(this._translate.instant('alert.DeActivated'));
           }
 
           this.trainers[updatedIndex] = result.body as any;
@@ -135,13 +135,14 @@ export class TrainerComponent implements OnInit {
   saveTrainer() {
     this.isLoading = true;
     this._trainerService.setControllerName('User/AddTrainer');
-    
-    this._trainerService.addWithFormData(this.trainer as any, this.selectedFile, 'image')
+
+    this._trainerService
+      .addWithFormData(this.trainer as any, this.selectedFile, 'image')
       .pipe(
         catchError((errorResponse) => {
-          this._alertService.fail(errorResponse.message); 
+          this._alertService.fail(errorResponse.message);
           return [];
-        })
+        }),
       )
       .subscribe({
         next: (result: any) => {
@@ -153,7 +154,6 @@ export class TrainerComponent implements OnInit {
         },
       });
   }
-  
 
   onFileSelect(file: File) {
     this.selectedFile = file;

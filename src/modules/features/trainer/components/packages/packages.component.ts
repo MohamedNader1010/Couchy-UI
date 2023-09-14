@@ -9,6 +9,7 @@ import { Table } from 'primeng/table';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { ActivatedRoute } from '@angular/router';
 import { Colors } from 'src/modules/shared/enums/colors.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-packages',
@@ -20,19 +21,19 @@ export class PackagesComponent implements OnInit {
   _idToBeDeleted: number = 0;
   colorsOptions = [
     {
-      label: 'Red',
+      label: this._translate.instant('breadcrumb.red'),
       value: Colors.red,
     },
     {
-      label: 'Blue',
+      label: this._translate.instant('breadcrumb.blue'),
       value: Colors.blue,
     },
     {
-      label: 'ligh grey',
+      label: this._translate.instant('breadcrumb.lighGrey'),
       value: Colors.lightGrey,
     },
     {
-      label: 'Black',
+      label: this._translate.instant('breadcrumb.black'),
       value: Colors.black,
     },
   ];
@@ -50,6 +51,7 @@ export class PackagesComponent implements OnInit {
     private _alertService: AlertService,
     private _packageService: GenericService<Packages[]>,
     public permissionClaimService: PermissionClaimsService,
+    private _translate: TranslateService,
   ) {}
   ngOnInit(): void {
     this._activatedRoute.queryParams.subscribe((param) => {
@@ -66,17 +68,17 @@ export class PackagesComponent implements OnInit {
     });
 
     this.columns = [
-      { field: 'id', header: 'Id', sortable: true },
-      { field: 'nameEn', header: 'Name', sortable: true },
-      { field: 'price', header: 'Price', sortable: true },
-      { field: 'day', header: 'Days', sortable: true },
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'nameEn', header: this._translate.instant('table.columns.name'), sortable: true },
+      { field: 'price', header: this._translate.instant('table.columns.price'), sortable: true },
+      { field: 'day', header: this._translate.instant('table.columns.day'), sortable: true },
       { field: 'actions', header: '' },
     ];
     this.textColumns = this.columns.filter((col) => !(col.field === 'actions'));
 
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Packages' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.packages') });
   }
 
   openNew() {
@@ -105,7 +107,7 @@ export class PackagesComponent implements OnInit {
             this.packages.splice(deletedIndex, 1);
             this._idToBeDeleted = 0;
             this._alertService.success(result.message);
-          } 
+          }
         } else {
           this._alertService.fail(result.message);
         }
