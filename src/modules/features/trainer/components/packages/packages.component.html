@@ -60,29 +60,29 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="packageDialog" [style]="{ width: '50%' }" header="package Details" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="packageDialog" [style]="{ width: '50%' }" header="{{'labels.packageDetails' | translate}}" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">{{ 'labels.englishName' | translate }}</label>
-          <input type="text" pInputText id="nameEn" [(ngModel)]="package.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.nameEn }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
+          <input #nameEn="ngModel" type="text" pInputText id="nameEn" [(ngModel)]="package.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameEn.touched && !package.nameEn }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
         </div>
         <div class="field">
           <label for="nameAr">{{ 'labels.arabicName' | translate }}</label>
-          <input type="text" pInputText id="nameAr" [(ngModel)]="package.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.nameAr }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
+          <input #nameAr="ngModel" type="text" pInputText id="nameAr" [(ngModel)]="package.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameAr.touched && !package.nameAr }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
           <label for="breifEn">{{ 'labels.breifEn' | translate }}</label>
-          <input type="text" pInputText id="breifEn" [(ngModel)]="package.breifEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.breifEn }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.nameAr">{{ 'messages.englishBreifIsRequired' | translate }}</small>
+          <input #breifEn="ngModel" type="text" pInputText id="breifEn" [(ngModel)]="package.breifEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': breifEn.touched && !package.breifEn }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.nameAr">{{ 'messages.englishBreifIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
           <label for="breifAr">{{ 'labels.breifAr' | translate }}</label>
-          <input type="text" pInputText id="breifAr" [(ngModel)]="package.breifAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.breifAr }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.breifAr">{{ 'messages.arabichBreifIsRequired' | translate }}</small>
+          <input #breifAr="ngModel" type="text" pInputText id="breifAr" [(ngModel)]="package.breifAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':breifAr.touched && !package.breifAr }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.breifAr">{{ 'messages.arabichBreifIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
@@ -93,31 +93,31 @@
             [options]="colorsOptions"
             placeholder="Select Color"
             [required]="true"
-            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.color }"
+            [ngClass]="{ 'ng-invalid ng-dirty':  !package.color }"
           ></p-dropdown>
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.color">{{ 'messages.colorIsRequired' | translate }}</small>
+          <small class="ng-dirty ng-invalid" *ngIf=" !package.color">{{ 'messages.colorIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
-          <label for="breifAr">{{ 'labels.price' | translate }}</label>
-          <input type="text" pInputText id="price" [(ngModel)]="package.price" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.price }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.price">{{ 'messages.priceIsRequired' | translate }}</small>
+          <label for="price">{{ 'labels.price' | translate }}</label>
+          <input #price="ngModel" type="text" pInputText id="price" [(ngModel)]="package.price" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':price.touched && !package.price }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.price">{{ 'messages.priceIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
-          <label for="breifAr">{{ 'labels.days' | translate }}</label>
-          <input type="text" pInputText id="color" [(ngModel)]="package.day" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !package.day }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !package.day">{{ 'messages.dayIsRequired' | translate }}</small>
+          <label for="day">{{ 'labels.days' | translate }}</label>
+          <input #day="ngModel" type="text" pInputText id="day" [(ngModel)]="package.day" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':day.touched && !package.day }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.day">{{ 'messages.dayIsRequired' | translate }}</small>
         </div>
       </ng-template>
 
       <ng-template pTemplate="footer">
         <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" (click)="savePackage()"></button>
+        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" [disabled]="!isValid()" class="p-button-text" (click)="savePackage()"></button>
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="deletePackageDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+    <p-dialog [(visible)]="deletePackageDialog" header="{{'labels.confirm' | translate}}" [modal]="true" [style]="{ width: '450px' }">
       <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="package"

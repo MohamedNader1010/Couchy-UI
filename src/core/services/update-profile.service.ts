@@ -22,7 +22,7 @@ export class UpdateProfileService implements OnInit {
   updateProfilePath() {
     this._userService.setControllerName('User/UserById');
     this._userId = this._authService.getUserId()
-    this._userService.getById(this._userId).subscribe((result) => {
+    this._userService.getByIdWithSlash(this._userId).subscribe((result) => {
       if (result && result.code == ResponseCode.Success) {
         const imagePath = result.body.filePath ?? '';
         this.profileImagePathSubject.next(imagePath);

@@ -22,11 +22,12 @@ export class AppComponent implements OnInit {
     private _authService: AuthService,
   ) {
     this._permissionService.setPermissionClaims();
-    _translate.setDefaultLang('en');
+    // this._translate.setDefaultLang('en');
   }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+    this.setLanguage();
     this.setTitle();
     this.setStyle();
     this.onLanguageChanged();
@@ -40,7 +41,14 @@ export class AppComponent implements OnInit {
       this._titleService.setTitle(translatedTitle);
     });
   }
-  private onLanguageChanged() {
+  private setLanguage() {
+    const lang = this._languageService.getLanguage();
+    if (lang) {
+      this._translate.use(lang);
+    }
+  }
+  private onLanguageChanged() { 
+    
     this._translate.onLangChange.subscribe((event) => {
       this.setTitle();
       this.setDirection();

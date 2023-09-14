@@ -3,7 +3,7 @@
       <div class="surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
         <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
         <div *ngIf="!isLoading">
-          <label for="type" class="block text-900 font-medium text-xl mb-2">Type</label>
+          <label for="type" class="block text-900 font-medium text-xl mb-2">{{'labels.type' | translate}}</label>
           <p-dropdown
             id="type"
             [(ngModel)]="notification.type"
@@ -12,33 +12,33 @@
             styleClass="mb-5 w-full p-1 md:w-30rem"
           ></p-dropdown>
   
-          <label for="title" class="block text-900 font-medium text-xl mb-2">Title</label>
+          <label for="title" class="block text-900 font-medium text-xl mb-2">{{'labels.title' | translate}} </label>
           <input
             type="text"
             pInputText
             id="title"
-            placeholder="Title"
+            placeholder="{{'labels.title' | translate}}"
             [(ngModel)]="notification.title"
             required
             class="w-full p-3 md:w-30rem mb-5"
             [ngClass]="{ 'ng-invalid ng-dirty': submitted && !notification.title}"
           />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !notification.title">Title is required.</small>
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !notification.title">{{'messages.titleRequired' | translate}}</small>
   
-          <label for="body" class="block text-900 font-medium text-xl mb-2">Body</label>
+          <label for="body" class="block text-900 font-medium text-xl mb-2">{{'labels.body' | translate}}</label>
           <input
             type="text"
             pInputText
-            id="phone"
+            id="body"
             [(ngModel)]="notification.body"
             required
             class="w-full p-3 md:w-30rem mb-5"
             placeholder="Body"
             [ngClass]="{ 'ng-invalid ng-dirty': submitted && !notification.body }"
           />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !notification.body">Body is required</small>
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !notification.body">{{'messages.bodyRequired' | translate}}</small>
 
-          <button pButton pRipple label="Send Notification" (click)="SendNotificaiton()" class="w-full p-3 text-xl"></button>
+          <button pButton pRipple label="{{'labels.sendNotification' | translate}}" (click)="SendNotificaiton()" class="w-full p-3 text-xl"></button>
         </div>
       </div>
     </div>

@@ -21,6 +21,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations: [ProfileComponent],
   imports: [
@@ -44,6 +45,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputSwitchModule,
     PasswordModule,
     ProgressSpinnerModule,
+    TranslateModule
   ],
 })
 export class ProfileModule {}

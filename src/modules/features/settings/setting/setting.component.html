@@ -1,62 +1,73 @@
 <form *ngIf="claim.CanUpdate || claim.canAdd" #settingsForm="ngForm" (ngSubmit)="onSubmit()">
   <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
   <div class="p-fluid" *ngIf="!isLoading">
-    <div class="p-field">
-      <label for="id">{{'labels.ID' | translate}}</label>
+    <div class="p-3">
+      <label for="id" class="block text-900 font-medium text-xl mb-2">{{'labels.ID' | translate}}</label>
       <input [disabled]="true" type="number" id="id" name="id" class="p-inputtext" [(ngModel)]="setting.id" />
     </div>
 
-    <div class="p-field">
-      <label for="aboutUsAr">{{'labels.aboutUsAr' | translate}}</label>
+    <div class="p-3">
+      <label for="aboutUsAr" class="block text-900 font-medium text-xl mb-2">{{'labels.aboutUsAr' | translate}}</label>
       <input type="text" id="aboutUsAr" name="aboutUsAr" class="p-inputtext" [(ngModel)]="setting.aboutUsAr" required />
     </div>
 
-    <div class="p-field">
-      <label for="aboutUsEn">{{'labels.aboutUsEn' | translate}}</label>
+    <div class="p-3">
+      <label for="aboutUsEn" class="block text-900 font-medium text-xl mb-2">{{'labels.aboutUsEn' | translate}}</label>
       <input type="text" id="aboutUsEn" name="aboutUsEn" class="p-inputtext" [(ngModel)]="setting.aboutUsEn" required />
     </div>
 
-    <div class="p-field">
-      <label for="usingPolicyAr">{{'labels.UsingPolicyEn' | translate}}</label>
+    <div class="p-3">
+      <label for="usingPolicyAr" class="block text-900 font-medium text-xl mb-2">{{'labels.UsingPolicyEn' | translate}}</label>
       <input type="text" id="usingPolicyAr" name="usingPolicyAr" class="p-inputtext" [(ngModel)]="setting.usingPoicyAr" required />
     </div>
 
-    <div class="p-field">
-      <label for="usingPolicyEn">{{'labels.UsingPolicyEn' | translate}}</label>
+    <div class="p-3">
+      <label for="usingPolicyEn" class="block text-900 font-medium text-xl mb-2">{{'labels.UsingPolicyEn' | translate}}</label>
       <input type="text" id="usingPolicyEn" name="usingPolicyEn" class="p-inputtext" [(ngModel)]="setting.usingPoicyEn" required />
     </div>
 
-    <div class="p-field">
-      <label for="phone">{{'labels.phone' | translate}}</label>
-      <input type="text" id="phone" name="phone" class="p-inputtext" [(ngModel)]="setting.phone" required />
+    <div class="p-3">
+      <label for="phone" class="block text-900 font-medium text-xl mb-2">{{'labels.phone' | translate}}</label>
+        <input
+          type="text"
+          pInputText
+          maxlength="8"
+          id="phone"
+          [(ngModel)]="setting.phone"
+          required
+          class="w-full p-3 md:w-30rem mb-5"
+          pattern="^\+965\d{7}$"
+          #phone="ngModel"
+          [ngClass]="{ 'ng-invalid ng-dirty':phone.touched && !setting.phone }"
+        />
     </div>
 
-    <div class="p-field">
-      <label for="whatsapp">{{'labels.WhatsApp' | translate}}</label>
+    <div class="p-3">
+      <label for="whatsapp" class="block text-900 font-medium text-xl mb-2">{{'labels.WhatsApp' | translate}}</label>
       <input type="text" id="whatsapp" name="whatsapp" class="p-inputtext" [(ngModel)]="setting.whatsApp" required />
     </div>
 
-    <div class="p-field">
-      <label for="facebook">{{'labels.Facebook' | translate}}</label>
+    <div class="p-3">
+      <label for="facebook" class="block text-900 font-medium text-xl mb-2">{{'labels.Facebook' | translate}}</label>
       <input type="text" id="facebook" name="facebook" class="p-inputtext" [(ngModel)]="setting.faceBook" required />
     </div>
 
-    <div class="p-field">
-      <label for="twitter">{{'labels.Twitter' | translate}}</label>
+    <div class="p-3">
+      <label for="twitter" class="block text-900 font-medium text-xl mb-2">{{'labels.Twitter' | translate}}</label>
       <input type="text" id="twitter" name="twitter" class="p-inputtext" [(ngModel)]="setting.twitter" required />
     </div>
 
-    <div class="p-field">
-      <label for="appVersion">{{'labels.AppVersion' | translate}}</label>
+    <div class="p-3" >
+      <label for="appVersion" class="block text-900 font-medium text-xl mb-2">{{'labels.AppVersion' | translate}}</label>
       <input type="text" id="appVersion" name="appVersion" class="p-inputtext" [(ngModel)]="setting.appVersion" required />
     </div>
 
-    <div class="p-field">
-      <label for="logo">{{'labels.Logo' | translate}}Logo</label>
+    <div class="p-3">
+      <label for="logo" class="block text-900 font-medium text-xl mb-2">{{'labels.Logo' | translate}}Logo</label>
       <p-fileUpload mode="basic" chooseLabel="{{'labels.ChooseBanar' | translate}}" class="p-inputtext flex"  accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
     </div>
 
-    <div class="p-field">
+    <div class="p-3">
       <button pButton type="submit" label="{{'labels.Submit' | translate}}" class="p-button-primary" [disabled]="!settingsForm.valid"></button>
     </div>
   </div>

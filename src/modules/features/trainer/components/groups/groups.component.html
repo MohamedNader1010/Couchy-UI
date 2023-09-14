@@ -64,27 +64,27 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="groupDialog" [style]="{ width: '50%' }" header="Group Details" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="groupDialog" [style]="{ width: '50%' }" header="{{'labels.groupDetails' | translate}}" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">{{ 'labels.englishName' | translate }}</label>
-          <input type="text" pInputText id="nameEn" [(ngModel)]="group.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !group.nameEn }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !group.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
+          <input #nameEn="ngModel" type="text" pInputText id="nameEn" [(ngModel)]="group.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': nameEn.touched && !group.nameEn }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !group.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
         </div>
         <div class="field">
           <label for="nameAr">{{ 'labels.arabicName' | translate }}</label>
-          <input type="text" pInputText id="nameAr" [(ngModel)]="group.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !group.nameAr }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !group.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
+          <input #nameAr="ngModel" type="text" pInputText id="nameAr" [(ngModel)]="group.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': nameAr.touched && !group.nameAr }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !group.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
         </div>
       </ng-template>
 
       <ng-template pTemplate="footer">
         <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" (click)="saveGroup()"></button>
+        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" [disabled]="!isValid()" class="p-button-text" (click)="saveGroup()"></button>
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="deleteGroupDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+    <p-dialog [(visible)]="deleteGroupDialog" header="{{'labels.confirm' | translate}}" [modal]="true" [style]="{ width: '450px' }">
       <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="group"

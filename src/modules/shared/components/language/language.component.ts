@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/core/services/language.service';
 
 @Component({
   selector: 'app-language',
@@ -13,8 +14,8 @@ export class LanguageComponent {
   ];
   selectedLanguage: string = '';
 
-  constructor(private _tranlsateService: TranslateService) {
-    this.selectedLanguage = this._tranlsateService.currentLang;
+  constructor(private _tranlsateService: TranslateService, private _langService: LanguageService) {
+    this.selectedLanguage = this._langService.currentLanguage;
   }
 
   changeLanguage() {

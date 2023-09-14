@@ -4,12 +4,13 @@ import { filter, Subscription } from 'rxjs';
 import { AppSidebarComponent } from 'src/modules/shared/components/sidebar/app.sidebar.component';
 import { AppTopBarComponent } from 'src/modules/shared/components/topbar/app.topbar.component';
 import { LayoutService } from './layout-service.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-layout',
     templateUrl: './layout.component.html'
 })
-    export class AppLayoutComponent implements OnDestroy {
+    export class AppLayoutComponent implements   OnDestroy {
 
         overlayMenuOpenSubscription: Subscription;
 
@@ -21,7 +22,7 @@ import { LayoutService } from './layout-service.service';
 
         @ViewChild(AppTopBarComponent) appTopbar!: AppTopBarComponent;
 
-        constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
+        constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router, private _translate: TranslateService) {
             this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
                 if (!this.menuOutsideClickListener) {
                     this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {
@@ -56,6 +57,7 @@ import { LayoutService } from './layout-service.service';
                     this.hideProfileMenu();
                 });
         }
+
 
         hideMenu() {
             this.layoutService.state.overlayMenuActive = false;

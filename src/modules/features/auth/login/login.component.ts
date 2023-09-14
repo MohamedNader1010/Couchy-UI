@@ -5,6 +5,7 @@ import { AuthService } from 'src/core/services/auth.service';
 import { AlertService } from 'src/core/services/alert.service';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
+import { LanguageService } from 'src/core/services/language.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
   error: string = '';
   email: string = '';
   isSubmitted: boolean = false;
-  constructor(private _loginService: GenericService<LoginAdmin>, private _authService: AuthService, private _alertService: AlertService, private _permissionService: PermissionClaimsService) {}
+  constructor(private _loginService: GenericService<LoginAdmin>, private _authService: AuthService, private _alertService: AlertService, private _permissionService: PermissionClaimsService, private _langService: LanguageService) {}
   ngOnInit(): void {
     this._loginService.setControllerName('Authorization/LogInAdmin');
   }
@@ -43,11 +44,19 @@ export class LoginComponent implements OnInit {
           this._permissionService.setPermissionClaims();
           this.isSubmitted = true;
           this._alertService.success(result.message);
+          this._langService.setLanguage(result.body.lang);
         } else {
           this.isSubmitted = false;
           this._alertService.fail(result.message);
         }
       });
+    }
+  }
+  isValid() {
+    if(!this.password || !this.email) {
+      return false;
+    } else {
+      return true;
     }
   }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
@@ -22,6 +22,7 @@ import { ThemesComponent } from '../shared/components/themes/themes.component';
 import { LanguageComponent } from '../shared/components/language/language.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { AvatarModule } from 'primeng/avatar';
+import {  TranslateModule, TranslatePipe } from '@ngx-translate/core';
 @NgModule({
   declarations: [AppMenuitemComponent, AppTopBarComponent, AppFooterComponent, AppMenuComponent, AppSidebarComponent, AppLayoutComponent, ThemesComponent, LanguageComponent],
   imports: [
@@ -46,6 +47,7 @@ import { AvatarModule } from 'primeng/avatar';
     InputSwitchModule,
     DropdownModule,
     AvatarModule,
+    TranslateModule,
   ],
   exports: [AppLayoutComponent],
 })

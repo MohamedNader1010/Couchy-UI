@@ -1,5 +1,4 @@
 import { CategoriesRoutingModule } from './categories-routing.module';
-import { MessageService } from 'primeng/api';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

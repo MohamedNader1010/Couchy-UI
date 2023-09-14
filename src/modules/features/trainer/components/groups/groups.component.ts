@@ -8,6 +8,7 @@ import { MenuItem } from 'primeng/api';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { Table } from 'primeng/table';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-groups',
@@ -40,15 +41,24 @@ export class GroupsComponent implements OnInit {
     this._activatedRoute.queryParams.subscribe((param) => {
       this._trainerId = param['id'] || 0;
       this._groupService.setControllerName('Group/ByTrainerId');
-      this._groupService.getById(this._trainerId).subscribe((result) => {
-        if (result.code == +ResponseCode.Success) {
-          this.groups = result.body;
-          this._alertService.success(result.message);
-        } else {
-          this._alertService.fail(result.message);
-        }
-        this.isLoading = false;
-      });
+      this._groupService
+        .getById(this._trainerId)
+        .pipe(
+          catchError((error) => {
+            this._alertService.fail(error.message);
+            this.isLoading = false;
+            return [];
+          }),
+        )
+        .subscribe((result) => {
+          if (result.code == +ResponseCode.Success) {
+            this.groups = result.body;
+            this._alertService.success(result.message);
+          } else {
+            this._alertService.fail(result.message);
+          }
+          this.isLoading = false;
+        });
     });
     this.columns = [
       { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
@@ -84,7 +94,13 @@ export class GroupsComponent implements OnInit {
     this.isLoading = true;
     this._groupService.setControllerName('Group');
     if (this._idToBeDeleted)
-      this._groupService.delete(this._idToBeDeleted).subscribe((result) => {
+      this._groupService.delete(this._idToBeDeleted)
+      .pipe(catchError((error) => {
+        this._alertService.fail(error.message);
+        this.isLoading = false;
+        return [];
+      }))
+      .subscribe((result) => {
         if (result.code == ResponseCode.Success) {
           const deletedIndex = this.groups.findIndex((c) => c.id == this._idToBeDeleted);
           if (deletedIndex !== -1) {
@@ -111,40 +127,63 @@ export class GroupsComponent implements OnInit {
     if (this.group.nameAr?.trim() && this.group.nameEn?.trim()) {
       if (this.group.id) {
         this._groupService.setControllerName('Group');
-        this._groupService.update(this.group as any).subscribe((result) => {
-          const updatedIndex = this.groups.findIndex((c) => c.id === this.group.id);
-          if (updatedIndex !== -1 && result.code == +ResponseCode.Success) {
-            this._alertService.success(result.message);
-            this.groups[updatedIndex] = result.body as any;
-            this.groupDialog = false;
-            this.submitted = true;
-            this.group = {} as Groups;
-          } else {
-            this._alertService.fail(result.message);
-          }
-          this.isLoading = false;
-        });
-      } else {
-        this._groupService.setControllerName('Group/ByTrainerId');
-        this._groupService.add(this.group as any).subscribe({
-          next: (result) => {
-            if (result.code == +ResponseCode.Success) {
+        this._groupService
+          .update(this.group as any)
+          .pipe(
+            catchError((error) => {
+              this.isLoading = false;
+              this._alertService.fail(error.message);
+              return [];
+            }),
+          )
+          .subscribe((result) => {
+            const updatedIndex = this.groups.findIndex((c) => c.id === this.group.id);
+            if (updatedIndex !== -1 && result.code == +ResponseCode.Success) {
               this._alertService.success(result.message);
-              this.groups.push(result.body as any);
+              this.groups[updatedIndex] = result.body as any;
+              this.groupDialog = false;
               this.submitted = true;
               this.group = {} as Groups;
-              this.groupDialog = false;
             } else {
               this._alertService.fail(result.message);
             }
             this.isLoading = false;
-          },
-        });
+          });
+      } else {
+        this._groupService.setControllerName('Group/ByTrainerId');
+        this._groupService
+          .add(this.group as any)
+          .pipe(
+            catchError((error) => {
+              this.isLoading = false;
+              this._alertService.fail(error.message);
+              return [];
+            }),
+          )
+          .subscribe({
+            next: (result) => {
+              if (result.code == +ResponseCode.Success) {
+                this._alertService.success(result.message);
+                this.groups.push(result.body as any);
+                this.submitted = true;
+                this.group = {} as Groups;
+                this.groupDialog = false;
+              } else {
+                this._alertService.fail(result.message);
+              }
+              this.isLoading = false;
+            },
+          });
       }
     }
   }
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  isValid() {
+    if(!this.group.nameAr || !this.group.nameEn) return false;
+    return true;
   }
 }

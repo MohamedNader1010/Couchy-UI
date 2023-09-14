@@ -13,6 +13,7 @@ import { PermissionClaimsService } from 'src/core/services/permission-claims.ser
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { LanguageService } from 'src/core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -81,9 +82,9 @@ export class CategoriesComponent implements OnInit {
       const updatedIndex = this.categories.findIndex((c) => c.id === id);
       if (updatedIndex !== -1) {
         if (result.body.isActive) {
-          this._alertService.success(this._translate.instant('alert.Activated'));
+          this._alertService.success(this._translate.instant('alert.message.Activated'));
         } else {
-          this._alertService.warn(this._translate.instant('alert.DeActivated'));
+          this._alertService.warn(this._translate.instant('alert.message.DeActivated'));
         }
 
         this.categories[updatedIndex] = result.body;
@@ -148,7 +149,14 @@ export class CategoriesComponent implements OnInit {
         });
       } else {
         this.categoriesService.setControllerName('Category');
-        this.categoriesService.add(this.category as any).subscribe({
+        this.categoriesService.add(this.category as any)
+        .pipe(
+          catchError((errorMessage) => {
+            this._alertService.fail(errorMessage)
+            return [];
+          })
+        )
+        .subscribe({
           next: (result) => {
             this._alertService.success(result.message);
             this.categories.push(result.body as any);
@@ -164,5 +172,13 @@ export class CategoriesComponent implements OnInit {
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  isValid() {
+    if(!this.category.nameAr || !this.category.nameEn) {
+      return false; 
+    } else {
+      return true;
+    }
   }
 }

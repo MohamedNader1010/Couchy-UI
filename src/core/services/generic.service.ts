@@ -41,18 +41,23 @@ export class GenericService<T> {
   };
 
   getById(id: number | string): Observable<ResponseInfoDto<T>> {
+    return this.http.get<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}/?id=${id}`).pipe(
+      catchError((err) => {
+        return throwError(() => err.error);
+      }),
+    );
+  }
+  getByIdWithSlash(id: number | string): Observable<ResponseInfoDto<T>> {
     return this.http.get<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}/${id}`).pipe(
       catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
+        return throwError(() => err.error);
       }),
     );
   }
   getAll(): Observable<ResponseInfoDto<T>> {
     return this.http.get<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}`).pipe(
       catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
+        return throwError(() => err.error);
       }),
     );
   }
@@ -60,8 +65,7 @@ export class GenericService<T> {
   update(item: T): Observable<ResponseInfoDto<T>> {
     return this.http.put<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}`, item).pipe(
       catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
+        return throwError(() => err.error);
       }),
     );
   }
@@ -74,8 +78,7 @@ export class GenericService<T> {
     if (selectedFile && formKey) formData.append(formKey, selectedFile);
     return this.http.put(`${this._baseUrl}/${this._controllerName}`, formData, { headers, reportProgress: true, observe: 'events' }).pipe(
       catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
+        return throwError(() => err.error);
       }),
     );
   };
@@ -84,8 +87,7 @@ export class GenericService<T> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.delete<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}`, { headers: headers, params: { id: id } }).pipe(
       catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
+        return throwError(() => err.error);
       }),
     );
   }

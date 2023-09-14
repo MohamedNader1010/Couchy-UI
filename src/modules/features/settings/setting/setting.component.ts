@@ -66,7 +66,8 @@ export class SettingComponent implements OnInit {
           this._alertService.fail(result.body.message);
         }
       }
-
+      
+      this.selectedFile  = null;
       this.isLoading = false;
     });
   }
@@ -76,5 +77,11 @@ export class SettingComponent implements OnInit {
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+  isValid() {
+    if(!this.setting.phone || !this.setting.phone.match("^\+965\d{7}$")) {
+      return false; 
+    }
+    return true;
   }
 }

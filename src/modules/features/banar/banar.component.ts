@@ -48,19 +48,18 @@ export class BanarComponent implements OnInit {
         this.isLoading = false;
       });
       this.columns = [
-        { field: 'id', header: 'Id', sortable: true },
-        { field: 'nameEn', header: 'English Name', sortable: true },
-        { field: 'nameAr', header: 'Arabic Name', sortable: true },
-        { field: 'link', header: 'link', sortable: true },
-        { field: 'filePath', header: 'image', sortable: false },
-        { field: 'isActive', header: 'Is Active', sortable: true },
+        { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+        { field: 'nameEn', header: this._translate.instant('table.columns.englishName'), sortable: true },
+        { field: 'nameAr', header: this._translate.instant('table.columns.arabicName'), sortable: true },
+        { field: 'filePath', header: this._translate.instant('table.columns.image'), sortable: false },
+        { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
         { field: 'actions', header: '' },
       ];
       this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions' || col.field === 'filePath'));
     }
     this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Dashboard', routerLink: '/' });
-    this.breadcrumbItems.push({ label: 'Banars' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('banar.title') });
   }
   onFileSelect(file: File) {
     this.selectedFile = file;
@@ -111,7 +110,7 @@ export class BanarComponent implements OnInit {
         if (deletedIndex !== -1) {
           this.banars.splice(deletedIndex, 1);
           this._idToBeDeleted = 0;
-          this._alertService.success('Banar Deleted.');
+          this._alertService.success(this._translate.instant('messages.delete'));
         }
         this.isLoading = false;
         this.banar = {} as BanarDto;
@@ -180,5 +179,12 @@ export class BanarComponent implements OnInit {
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+  isValid() {
+    if(!this.banar.nameAr || !this.banar.nameEn) {
+      return false; 
+    } else {
+      return true;
+    }
   }
 }

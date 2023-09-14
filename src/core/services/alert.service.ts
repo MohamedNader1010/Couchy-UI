@@ -10,7 +10,7 @@ export class AlertService {
 
   public success(message: string) {
     this._messageService.add({
-      severity: this._translate.instant('alert.severity.success'),
+      severity: 'success',
       summary: this._translate.instant('alert.summary.Successful'),
       detail: message,
       life: 3000,
@@ -18,7 +18,7 @@ export class AlertService {
   }
   public fail(message: string) {
     this._messageService.add({
-      severity: this._translate.instant('alert.severity.error'),
+      severity: 'error',
       summary: this._translate.instant('alert.summary.Error'),
       detail: message,
       life: 3000,
@@ -26,7 +26,7 @@ export class AlertService {
   }
   public warn(message: string) {
     this._messageService.add({
-      severity: this._translate.instant('alert.severity.warn'),
+      severity: 'warn',
       summary: this._translate.instant('alert.summary.Warning'),
       detail: message,
       life: 3000,
