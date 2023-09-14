@@ -44,25 +44,10 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.claim.CanGet) {
-      this.isLoading = true;
-      this._adminService.setControllerName('User/Admin');
-      this._adminService.getAll().subscribe((result) => {
-        this.admins = result.body;
-        this.isLoading = false;
-      });
-      this.columns = [
-        { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
-        { field: 'name', header: this._translate.instant('table.columns.name'), sortable: true },
-        { field: 'email', header: this._translate.instant('table.columns.email'), sortable: true },
-        { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
-        { field: 'actions', header: '' },
-      ];
-      this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
-    }
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.admin') });
+    this._translate.onLangChange.subscribe(event => { 
+      this.initComponents();
+    })
+    this.initComponents()
   }
 
   openNew() {
@@ -165,10 +150,32 @@ export class AdminComponent implements OnInit {
     }
   }
   isValid() {
-    if (!this.admin.email || this.admin.mobileNumber.match('^+965d{7}$') || !this.admin.name || !this.admin.password) {
+    if (!this.admin.email  || !this.admin.name || !this.admin.password) {
       return false;
     } else {
       return true;
     }
+  }
+  private initComponents() {
+    this.columns = [];
+    if (this.claim.CanGet) {
+      this.isLoading = true;
+      this._adminService.setControllerName('User/Admin');
+      this._adminService.getAll().subscribe((result) => {
+        this.admins = result.body;
+        this.isLoading = false;
+      });
+      this.columns = [
+        { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+        { field: 'name', header: this._translate.instant('table.columns.name'), sortable: true },
+        { field: 'email', header: this._translate.instant('table.columns.email'), sortable: true },
+        { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
+        { field: 'actions', header: '' },
+      ];
+      this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
+    }
+    this.breadcrumbItems = [];
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.admin') });
   }
 }
