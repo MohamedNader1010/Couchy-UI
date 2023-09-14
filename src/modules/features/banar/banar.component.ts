@@ -36,30 +36,10 @@ export class BanarComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.claim.CanGet) {
-      this.isLoading = true;
-      this.banarsService.setControllerName('Banar');
-      this.banarsService.getAll().subscribe((result) => {
-        if (result.code == ResponseCode.Success) {
-          this.banars = result.body;
-        } else {
-          this._alertService.fail(result.message);
-        }
-        this.isLoading = false;
-      });
-      this.columns = [
-        { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
-        { field: 'nameEn', header: this._translate.instant('table.columns.englishName'), sortable: true },
-        { field: 'nameAr', header: this._translate.instant('table.columns.arabicName'), sortable: true },
-        { field: 'filePath', header: this._translate.instant('table.columns.image'), sortable: false },
-        { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
-        { field: 'actions', header: '' },
-      ];
-      this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions' || col.field === 'filePath'));
-    }
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
-    this.breadcrumbItems.push({ label: this._translate.instant('banar.title') });
+    this._translate.onLangChange.subscribe((_) => {
+      this.initComponents();
+    });
+    this.initComponents();
   }
   onFileSelect(file: File) {
     this.selectedFile = file;
@@ -181,10 +161,37 @@ export class BanarComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   isValid() {
-    if(!this.banar.nameAr || !this.banar.nameEn) {
-      return false; 
+    if (!this.banar.nameAr || !this.banar.nameEn) {
+      return false;
     } else {
       return true;
     }
+  }
+  private initComponents() {
+    if (this.claim.CanGet) {
+      this.columns = [];
+      this.isLoading = true;
+      this.banarsService.setControllerName('Banar');
+      this.banarsService.getAll().subscribe((result) => {
+        if (result.code == ResponseCode.Success) {
+          this.banars = result.body;
+        } else {
+          this._alertService.fail(result.message);
+        }
+        this.isLoading = false;
+      });
+      this.columns = [
+        { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+        { field: 'nameEn', header: this._translate.instant('table.columns.englishName'), sortable: true },
+        { field: 'nameAr', header: this._translate.instant('table.columns.arabicName'), sortable: true },
+        { field: 'filePath', header: this._translate.instant('table.columns.image'), sortable: false },
+        { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
+        { field: 'actions', header: '' },
+      ];
+      this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions' || col.field === 'filePath'));
+    }
+    this.breadcrumbItems = [];
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('banar.title') });
   }
 }

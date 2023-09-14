@@ -21,11 +21,12 @@ export class AppComponent implements OnInit {
     private _languageService: LanguageService,
     private _authService: AuthService,
   ) {
-    this._permissionService.setPermissionClaims();
-    // this._translate.setDefaultLang('en');
+   
   }
 
   ngOnInit() {
+    this._permissionService.setPermissionClaims();
+    this._translate.setDefaultLang('en');
     this.primengConfig.ripple = true;
     this.setLanguage();
     this.setTitle();

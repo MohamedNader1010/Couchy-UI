@@ -37,6 +37,10 @@ export class GroupsComponent implements OnInit {
     public permissionClaimService: PermissionClaimsService,
   ) {}
   ngOnInit(): void {
+    this._translate.onLangChange.subscribe(_ => {
+      this.initComponent();
+    })
+    this.initComponent();
     this.isLoading = true;
     this._activatedRoute.queryParams.subscribe((param) => {
       this._trainerId = param['id'] || 0;
@@ -60,17 +64,7 @@ export class GroupsComponent implements OnInit {
           this.isLoading = false;
         });
     });
-    this.columns = [
-      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
-      { field: 'nameEn', header: this._translate.instant('table.columns.name'), sortable: true },
-      { field: 'userList', header: this._translate.instant('table.columns.userList'), sortable: true },
-      { field: 'actions', header: this._translate.instant('table.columns.actions') },
-    ];
-    this.textColumns = this.columns.filter((col) => !(col.field === 'actions' || col.field === 'userList'));
-
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.groups') });
+    
   }
 
   openNew() {
@@ -185,5 +179,19 @@ export class GroupsComponent implements OnInit {
   isValid() {
     if(!this.group.nameAr || !this.group.nameEn) return false;
     return true;
+  }
+  private initComponent() {
+    this.columns = [];
+    this.columns = [
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'nameEn', header: this._translate.instant('table.columns.name'), sortable: true },
+      { field: 'userList', header: this._translate.instant('table.columns.userList'), sortable: true },
+      { field: 'actions', header: this._translate.instant('table.columns.actions') },
+    ];
+    this.textColumns = this.columns.filter((col) => !(col.field === 'actions' || col.field === 'userList'));
+
+    this.breadcrumbItems = [];
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.groups') });
   }
 }

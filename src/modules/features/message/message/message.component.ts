@@ -28,7 +28,36 @@ export class MessageComponent implements OnInit {
   messages: Message[] = [];
   constructor(private _messageApiService: GenericService<Message[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService, private _translate: TranslateService) {
     this.claim = this._permissionService.getPermission(PermissionClaims.MessagePermission);
+  }
+  ngOnInit(): void {
+    this._translate.onLangChange.subscribe((_) => {
+      this.initComponent();
+    });
+    this.initComponent();
+    this.isLoading = true;
+    this._messageApiService.setControllerName('Message');
+    this._messageApiService
+      .getAll()
+      .pipe(
+        catchError((errorMessage) => {
+          this._alertService.fail(errorMessage.message);
+          return [];
+        }),
+      )
+      .subscribe((result) => {
+        if (result.code == ResponseCode.Success) {
+          this.messages = result.body;
+          this.isLoading = false;
+        }
+      });
+  }
 
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  private initComponent() {
+    this.columns = [];
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
     this.breadcrumbItems.push({ label: this._translate.instant('labels.message') });
@@ -38,26 +67,5 @@ export class MessageComponent implements OnInit {
       { field: 'messageBody', header: this._translate.instant('labels.message'), sortable: true },
     ];
     this.textColumns = this.columns.filter((col) => col);
-  }
-  ngOnInit(): void {
-    this.isLoading = true;
-    this._messageApiService.setControllerName('Message');
-    this._messageApiService.getAll()
-    .pipe(
-      catchError((errorMessage) => {
-        this._alertService.fail(errorMessage.message)
-        return [];
-      })
-    )
-    .subscribe((result) => {
-      if (result.code == ResponseCode.Success) {
-        this.messages = result.body;
-        this.isLoading = false;
-      }
-    });
-  }
-
-  onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 }

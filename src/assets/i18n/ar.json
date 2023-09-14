@@ -143,9 +143,19 @@
     "chooseImage": "إختر صوره", 
     "top5Trainers": "أفضل ٥ مدربين", 
     "top5Packages": "أفضل ٥ حزم", 
-    "totalIncome": "مجموع الدخل"
+    "totalIncome": "مجموع الدخل", 
+    "general" : "عام", 
+    "title": "عنوان", 
+    "body" : "المحتوى",
+    "type" : "العنوان", 
+    "trainer" : "مدرب", 
+    "user" : "مستخدم", 
+    "sendNotification" : "إرسال إشعار", 
+    "chooseProfileImage" : "إختر صوره شخصيه",
+    "update" : "تحديث البيانات"
   },
   "messages": {
+    "genderRequired": "يجب إختار الجنس",
     "nameIsRequired": "الاسم مطلوب",
     "englishNameIsRequired": "الاسم بالإنجليزية مطلوب.",
     "arabichNameIsRequired": "الاسم بالعربية مطلوب.",

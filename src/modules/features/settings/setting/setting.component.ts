@@ -36,12 +36,14 @@ export class SettingComponent implements OnInit {
     private _translate: TranslateService,
   ) {
     this.claim = this._permissionService.getPermission(PermissionClaims.SettingPermission);
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.settings') });
+    
   }
 
   ngOnInit(): void {
+    this._translate.onLangChange.subscribe(_ => {
+      this.initComponent();
+    })
+    this.initComponent();
     this.isLoading = true;
     this._settingService.setControllerName('ApplicationSetting');
     this._settingService.getAll().subscribe((result) => {
@@ -79,9 +81,14 @@ export class SettingComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   isValid() {
-    if(!this.setting.phone || !this.setting.phone.match("^\+965\d{7}$")) {
+    if(!this.setting.phone) {
       return false; 
     }
     return true;
+  }
+  private initComponent() {
+    this.breadcrumbItems = [];
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.settings') });
   }
 }

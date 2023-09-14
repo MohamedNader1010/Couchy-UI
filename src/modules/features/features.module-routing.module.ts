@@ -4,10 +4,6 @@ import { AuthGuardClass } from 'src/core/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'payment',
-    loadChildren: () => import('./payment/payment.module').then((m) => m.PaymentModule),
-  },
-  {
     path: 'categories',
     loadChildren: () => import('./categories/categories.module').then((m) => m.CategoriesModule),
     canActivate: [AuthGuardClass],

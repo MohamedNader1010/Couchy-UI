@@ -41,7 +41,6 @@
           [(ngModel)]="admin.mobileNumber"
           required
           class="w-full p-3 md:w-30rem mb-5"
-          pattern="^\+965\d{7}$"
           #phone="ngModel"
           [ngClass]="{ 'ng-invalid ng-dirty':phone.touched && !admin.mobileNumber }"
         />
@@ -64,7 +63,7 @@
           [ngClass]="{ 'ng-invalid ng-dirty':  !admin.gender }"
           #gender="ngModel"
         ></p-dropdown>
-        <small class="ng-dirty ng-invalid text-red-500" *ngIf="gender.touched && !admin.gender">{{'message.genderRequired' | translate}}</small>
+        <!-- <small class="ng-dirty ng-invalid text-red-500" *ngIf="gender.touched && !admin.gender">{{'messages.genderRequired' | translate}}</small> -->
 
 
         <button pButton pRipple label="{{'labels.update' | translate}}" [disabled]="!isValid()" (click)="updateUser()" class="w-full p-3 text-xl"></button>

@@ -54,6 +54,10 @@ export class PackagesComponent implements OnInit {
     private _translate: TranslateService,
   ) {}
   ngOnInit(): void {
+    this.initComponent(); 
+    this._translate.onLangChange.subscribe(_ => {
+      this.initComponent();
+    })
     this._activatedRoute.queryParams.subscribe((param) => {
       this._trainerId = param['id'] || 0;
       this._packageService.setControllerName('Packages/TrainerPackage');
@@ -69,19 +73,6 @@ export class PackagesComponent implements OnInit {
           }
         });
     });
-
-    this.columns = [
-      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
-      { field: 'nameEn', header: this._translate.instant('table.columns.name'), sortable: true },
-      { field: 'price', header: this._translate.instant('table.columns.price'), sortable: true },
-      { field: 'day', header: this._translate.instant('table.columns.day'), sortable: true },
-      { field: 'actions', header: '' },
-    ];
-    this.textColumns = this.columns.filter((col) => !(col.field === 'actions'));
-
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.packages') });
   }
 
   openNew() {
@@ -181,5 +172,39 @@ export class PackagesComponent implements OnInit {
   isValid() {
     if (!this.package.breifAr || !this.package.breifEn || !this.package.day || !this.package.price || !this.package.color) return false;
     else return true;
+  }
+  private initComponent() {
+    this.columns = [];
+    this.colorsOptions = [];
+    this.columns = [
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'nameEn', header: this._translate.instant('table.columns.name'), sortable: true },
+      { field: 'price', header: this._translate.instant('table.columns.price'), sortable: true },
+      { field: 'day', header: this._translate.instant('table.columns.day'), sortable: true },
+      { field: 'actions', header: '' },
+    ];
+    this.textColumns = this.columns.filter((col) => !(col.field === 'actions'));
+
+    this.breadcrumbItems = [];
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.packages') });
+    this.colorsOptions = [
+      {
+        label: this._translate.instant('labels.red'),
+        value: Colors.red,
+      },
+      {
+        label: this._translate.instant('labels.blue'),
+        value: Colors.blue,
+      },
+      {
+        label: this._translate.instant('labels.lighGrey'),
+        value: Colors.lightGrey,
+      },
+      {
+        label: this._translate.instant('labels.black'),
+        value: Colors.black,
+      },
+    ];
   }
 }

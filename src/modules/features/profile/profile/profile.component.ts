@@ -19,10 +19,7 @@ export class ProfileComponent implements OnInit {
   isLoading = false;
   admin: Users = {} as Users;
   submitted: boolean = false;
-  genderOptions = [
-    { label: this._translate.instant('labels.male'), value: Genders.Male },
-    { label: this._translate.instant('labels.female'), value: Genders.Female },
-  ];
+  genderOptions: any[]  = [];  
   constructor(
     private _authService: AuthService,
     private _userService: GenericService<Users>,
@@ -31,6 +28,10 @@ export class ProfileComponent implements OnInit {
     private _translate: TranslateService,
   ) {}
   ngOnInit(): void {
+    this._translate.onLangChange.subscribe(_ => {
+      this.initComponent()
+    })
+    this.initComponent();
     this.isLoading = true;
     this._userService.setControllerName('User/UserById');
     const id = this._authService.getUserId();
@@ -73,10 +74,18 @@ export class ProfileComponent implements OnInit {
       });
   }
   isValid() {
-    if (!this.admin.name || !this.admin.email || !this.admin.mobileNumber || this.admin.mobileNumber.match("^\+965\d{7}$") || !this.admin.gender || !this.admin.password) {
+    if (!this.admin.name || !this.admin.email || !this.admin.mobileNumber ) {
       return false;
     } else {
       return true;
     }
   }
+  private initComponent(){
+    this.genderOptions = [];
+    this.genderOptions = [
+      { label: this._translate.instant('labels.male'), value: Genders.Male },
+      { label: this._translate.instant('labels.female'), value: Genders.Female },
+    ];
+  }
+
 }

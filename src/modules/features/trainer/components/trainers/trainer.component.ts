@@ -51,19 +51,13 @@ export class TrainerComponent implements OnInit {
     private _translate: TranslateService,
   ) {
     this.claim = this._permissionService.getPermission(PermissionClaims.TrainerPermission);
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.trainers') });
-    this.columns = [
-      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
-      { field: 'name', header: this._translate.instant('table.columns.name'), sortable: true },
-      { field: 'phoneNumber', header: this._translate.instant('table.columns.phoneNumber'), sortable: true },
-      { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
-      { field: 'packages&groups', header: this._translate.instant('table.columns.packages&groups'), sortable: false },
-    ];
-    this.textColumns = this.columns.filter((col) => !(col.field === 'packages&groups' || col.field === 'isActive'));
+   
   }
   ngOnInit(): void {
+    this.intiComponent(); 
+    this._translate.onLangChange.subscribe(_ => {
+      this.intiComponent();
+    })
     this.isLoading = true;
     this._categoriesService.setControllerName('Category');
     this._categoriesService.getAll().subscribe((result) => {
@@ -172,10 +166,35 @@ export class TrainerComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   isValid() {
-    if (!this.trainer.email || !this.trainer.name || !this.trainer.gender || !this.trainer.phoneNumber || this.trainer.phoneNumber.match('^+965d{7}$')) {
+    if (!this.trainer.email || !this.trainer.name || !this.trainer.gender || !this.trainer.phoneNumber) {
       return false;
     } else {
       return true;
     }
+  }
+  private intiComponent() {
+    this.columns = [];
+    this.breadcrumbItems = [];
+    this.genderOptions = []; 
+    this.languageOptions = [];
+
+    this.genderOptions = [
+      { label: this._translate.instant('labels.male'), value: Genders.Male },
+      { label: this._translate.instant('labels.female'), value: Genders.Female },
+    ];
+    this.languageOptions = [
+      { label: this._translate.instant('labels.english'), value: LanguageEnum.English },
+      { label: this._translate.instant('labels.arabic'), value: LanguageEnum.Arabic },
+    ];
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.trainers') });
+    this.columns = [
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'name', header: this._translate.instant('table.columns.name'), sortable: true },
+      { field: 'phoneNumber', header: this._translate.instant('table.columns.phoneNumber'), sortable: true },
+      { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
+      { field: 'packages&groups', header: this._translate.instant('table.columns.packages&groups'), sortable: false },
+    ];
+    this.textColumns = this.columns.filter((col) => !(col.field === 'packages&groups' || col.field === 'isActive'));
   }
 }

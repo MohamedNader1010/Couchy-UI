@@ -44,28 +44,10 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    this.categoriesService.setControllerName('Category');
-    this.categoriesService.getAll().subscribe((result) => {
-      if (result.code == +ResponseCode.Success) {
-        this.categories = result.body;
-      } else {
-        this._alertService.fail(result.message);
-      }
-      this.isLoading = false;
+    this._translate.onLangChange.subscribe((_) => {
+      this.initComponents();
     });
-    this.columns = [
-      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
-      { field: 'nameEn', header: this._translate.instant('table.columns.englishName'), sortable: true },
-      { field: 'nameAr', header: this._translate.instant('table.columns.arabicName'), sortable: true },
-      { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
-      { field: 'actions', header: '' },
-    ];
-    this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
-
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.categories') });
+    this.initComponents();
   }
 
   getBreadcrumbIcon(): string {
@@ -149,23 +131,24 @@ export class CategoriesComponent implements OnInit {
         });
       } else {
         this.categoriesService.setControllerName('Category');
-        this.categoriesService.add(this.category as any)
-        .pipe(
-          catchError((errorMessage) => {
-            this._alertService.fail(errorMessage)
-            return [];
-          })
-        )
-        .subscribe({
-          next: (result) => {
-            this._alertService.success(result.message);
-            this.categories.push(result.body as any);
-            this.submitted = true;
-            this.category = {} as CategoryDto;
-            this.categoryDialog = false;
-          },
-          complete: () => (this.isLoading = false),
-        });
+        this.categoriesService
+          .add(this.category as any)
+          .pipe(
+            catchError((errorMessage) => {
+              this._alertService.fail(errorMessage);
+              return [];
+            }),
+          )
+          .subscribe({
+            next: (result) => {
+              this._alertService.success(result.message);
+              this.categories.push(result.body as any);
+              this.submitted = true;
+              this.category = {} as CategoryDto;
+              this.categoryDialog = false;
+            },
+            complete: () => (this.isLoading = false),
+          });
       }
     }
   }
@@ -175,10 +158,35 @@ export class CategoriesComponent implements OnInit {
   }
 
   isValid() {
-    if(!this.category.nameAr || !this.category.nameEn) {
-      return false; 
+    if (!this.category.nameAr || !this.category.nameEn) {
+      return false;
     } else {
       return true;
     }
+  }
+  private initComponents() {
+    this.columns = [];
+    this.isLoading = true;
+    this.categoriesService.setControllerName('Category');
+    this.categoriesService.getAll().subscribe((result) => {
+      if (result.code == +ResponseCode.Success) {
+        this.categories = result.body;
+      } else {
+        this._alertService.fail(result.message);
+      }
+      this.isLoading = false;
+    });
+    this.columns = [
+      { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
+      { field: 'nameEn', header: this._translate.instant('table.columns.englishName'), sortable: true },
+      { field: 'nameAr', header: this._translate.instant('table.columns.arabicName'), sortable: true },
+      { field: 'isActive', header: this._translate.instant('table.columns.isActive'), sortable: true },
+      { field: 'actions', header: '' },
+    ];
+    this.textColumns = this.columns.filter((col) => !(col.field === 'isActive' || col.field === 'actions'));
+
+    this.breadcrumbItems = [];
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
+    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.categories') });
   }
 }

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SuccessComponent } from './success/success.component';
-import { FailedComponent } from './failed/failed.component';
+
 
 const routes: Routes = [
   { path: 'failed', loadChildren: () => import('./failed/failed.module').then((m) => m.FailedModule) },
