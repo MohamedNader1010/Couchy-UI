@@ -70,17 +70,17 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="banarDialog" [style]="{ width: '450px' }" header="Banar Details" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="banarDialog" [style]="{ width: '450px' }" header="{{'labels.banarDetails' | translate}}" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">{{'labels.englishName' | translate}}</label>
-          <input type="text" pInputText id="nameEn" [(ngModel)]="banar.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !banar.nameEn }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !banar.nameEn">{{'messages.englishNameRequired'| translate}}</small>
+          <input type="text" pInputText id="nameEn" [(ngModel)]="banar.nameEn" required autofocus #nameEnInput="ngModel" [ngClass]="{ 'ng-invalid ng-dirty': nameEnInput.touched && !banar.nameEn }" />
+          <small class="ng-dirty ng-invalid text-500-red" *ngIf=" !banar.nameEn">{{'messages.englishNameRequired'| translate}}</small>
         </div>
         <div class="field">
           <label for="nameAr">{{'labels.arabicName' | translate}}</label>
-          <input type="text" pInputText id="nameAr" [(ngModel)]="banar.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !banar.nameAr }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !banar.nameAr">{{'messages.arabicNameRequired' | translate}}</small>
+          <input type="text" pInputText id="nameAr" [(ngModel)]="banar.nameAr" #nameArInput="ngModel" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': nameArInput.touched && !banar.nameAr }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !banar.nameAr">{{'messages.arabicNameRequired' | translate}}</small>
         </div>
         <div class="field">
           <label for="nameAr">{{'labels.image' | translate}}</label>
@@ -91,11 +91,11 @@
       </ng-template>
       <ng-template pTemplate="footer">
         <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="{{'labels.save'}}" icon="pi pi-check" class="p-button-text" (click)="saveBanar()"></button>
+        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" [disabled]="!isValid()" (click)="saveBanar()"></button>
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="deleteBanarDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+    <p-dialog [(visible)]="deleteBanarDialog" header="{{'labels.confirm' | translate}}" [modal]="true" [style]="{ width: '450px' }">
       <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="banar"

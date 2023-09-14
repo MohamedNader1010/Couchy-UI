@@ -545,3 +545,18 @@ p:last-child {
 .p-input-icon-right > .p-icon-wrapper, .p-input-icon-right > i:last-of-type {
   right: 27.75rem !important;
 }
+.p-datatable .p-datatable-thead > tr > th , .p-datatable .p-datatable-tbody > tr > td {
+  text-align: right;
+}
+.p-paginator {
+  direction: ltr;
+}
+.p-link{
+  text-align: center !important;
+}
+.p-button .p-button-icon-left {
+  margin-left: 0.5rem !important;
+}
+.mr-2 {
+  margin-left: 0.5rem !important;
+}

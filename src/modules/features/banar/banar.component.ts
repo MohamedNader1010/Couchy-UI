@@ -180,4 +180,11 @@ export class BanarComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
+  isValid() {
+    if(!this.banar.nameAr || !this.banar.nameEn) {
+      return false; 
+    } else {
+      return true;
+    }
+  }
 }

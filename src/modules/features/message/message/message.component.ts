@@ -8,6 +8,7 @@ import { PermissionClaimsService } from 'src/core/services/permission-claims.ser
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-message',
@@ -30,18 +31,25 @@ export class MessageComponent implements OnInit {
 
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.dashboard'), routerLink: '/' });
-    this.breadcrumbItems.push({ label: this._translate.instant('breadcrumb.messages') });
+    this.breadcrumbItems.push({ label: this._translate.instant('labels.message') });
 
     this.columns = [
       { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
-      { field: 'messageBody', header: 'Message', sortable: true },
+      { field: 'messageBody', header: this._translate.instant('labels.message'), sortable: true },
     ];
     this.textColumns = this.columns.filter((col) => col);
   }
   ngOnInit(): void {
     this.isLoading = true;
     this._messageApiService.setControllerName('Message');
-    this._messageApiService.getAll().subscribe((result) => {
+    this._messageApiService.getAll()
+    .pipe(
+      catchError((errorMessage) => {
+        this._alertService.fail(errorMessage.message)
+        return [];
+      })
+    )
+    .subscribe((result) => {
       if (result.code == ResponseCode.Success) {
         this.messages = result.body;
         this.isLoading = false;

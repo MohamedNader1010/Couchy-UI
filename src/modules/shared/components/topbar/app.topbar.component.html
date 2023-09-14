@@ -9,7 +9,7 @@
   <div #topbarmenu class="layout-topbar-menu" [ngClass]="{ 'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible }">
     <app-language></app-language>
 
-    <span class="p-link layout-topbar-button w-10">{{name}}</span>
+    <span class="p-link layout-topbar-button w-10">{{ name }}</span>
     <p-avatar [image]="profilePath" routerLink="/admin/profile" styleClass="p-link layout-topbar-button" size="xlarge" shape="circle"></p-avatar>
 
     <button class="p-link layout-topbar-button" (click)="logout()">
@@ -22,10 +22,10 @@
 <p-dialog [(visible)]="confirmLogoutDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
   <div class="flex align-items-center justify-content-center">
     <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-    <span>Are you sure to logout?</span>
+    <span>{{ 'messages.areYouSureToLogout' | translate }}</span>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="confirmLogoutDialog = false"></button>
-    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmLogout()"></button>
+    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'labels.no' | translate }}" (click)="confirmLogoutDialog = false"></button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'labels.yes' | translate }}" (click)="confirmLogout()"></button>
   </ng-template>
 </p-dialog>

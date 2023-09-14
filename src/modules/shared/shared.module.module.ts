@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedModuleRoutingModule } from './shared.module-routing.module';
-import { LanguageComponent } from './components/language/language.component';
-import { DropdownModule } from 'primeng/dropdown';
-import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -13,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    SharedModuleRoutingModule,
+    SharedModuleRoutingModule
   ]
 })
 export class SharedModuleModule { }

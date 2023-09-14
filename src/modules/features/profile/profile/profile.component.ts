@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError } from 'rxjs';
 import { AlertService } from 'src/core/services/alert.service';
 import { AuthService } from 'src/core/services/auth.service';
 import { GenericService } from 'src/core/services/generic.service';
@@ -22,12 +23,18 @@ export class ProfileComponent implements OnInit {
     { label: this._translate.instant('labels.male'), value: Genders.Male },
     { label: this._translate.instant('labels.female'), value: Genders.Female },
   ];
-  constructor(private _authService: AuthService, private _userService: GenericService<Users>, private _alertService: AlertService, private _updateProfileService: UpdateProfileService, private _translate: TranslateService) {}
+  constructor(
+    private _authService: AuthService,
+    private _userService: GenericService<Users>,
+    private _alertService: AlertService,
+    private _updateProfileService: UpdateProfileService,
+    private _translate: TranslateService,
+  ) {}
   ngOnInit(): void {
     this.isLoading = true;
     this._userService.setControllerName('User/UserById');
     const id = this._authService.getUserId();
-    this._userService.getById(id).subscribe((result) => {
+    this._userService.getByIdWithSlash(id).subscribe((result) => {
       if (result.code === +ResponseCode.Success) {
         this.admin = result.body;
       } else {
@@ -43,17 +50,33 @@ export class ProfileComponent implements OnInit {
   updateUser() {
     this.isLoading = true;
     this._userService.setControllerName('User/EditUser');
-    this._userService.updateWithFormData(this.admin, this.selectedFile, 'image').subscribe((result: any) => {
-      if (result && result.body) {
-        if (result.body.code === +ResponseCode.Success) {
-          this.admin = result.body.body;
-          this._alertService.success(result.message);
-          this._updateProfileService.updateProfilePath();
-        } else {
-          this._alertService.fail(result.message);
+    this._userService
+      .updateWithFormData(this.admin, this.selectedFile, 'image')
+      .pipe(
+        catchError((error) => {
+          this.isLoading = false;
+          this._alertService.fail(error.message);
+          return [];
+        }),
+      )
+      .subscribe((result: any) => {
+        if (result && result.body) {
+          if (result.body.code === +ResponseCode.Success) {
+            this.admin = result.body.body;
+            this._alertService.success(result.message);
+            this._updateProfileService.updateProfilePath();
+          } else {
+            this._alertService.fail(result.message);
+          }
+          this.isLoading = false;
         }
-        this.isLoading = false;
-      }
-    });
+      });
+  }
+  isValid() {
+    if (!this.admin.name || !this.admin.email || !this.admin.mobileNumber || this.admin.mobileNumber.match("^\+965\d{7}$") || !this.admin.gender || !this.admin.password) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

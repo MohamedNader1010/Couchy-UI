@@ -428,3 +428,6 @@ p {
   line-height: 1.5; }
   p:last-child {
     margin-bottom: 0; }
+    .p-link{
+      text-align: center !important;
+    }

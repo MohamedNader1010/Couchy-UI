@@ -73,15 +73,23 @@ export class TrainerComponent implements OnInit {
         });
       }
     });
-    this._trainerService.setControllerName('User/GetAllUserTrainers');
-    this._trainerService.getAll().subscribe((result) => {
-      if (result.code == ResponseCode.Success) {
-        this.trainers = result.body;
-      } else {
-        this._alertService.fail(result.message);
-      }
-      this.isLoading = false;
-    });
+    this._trainerService.setControllerName('User/Trainer');
+    this._trainerService
+      .getAll()
+      .pipe(
+        catchError((errorMessage) => {
+          this._alertService.fail(errorMessage.message);
+          return [];
+        }),
+      )
+      .subscribe((result) => {
+        if (result && result.code == ResponseCode.Success) {
+          this.trainers = result.body;
+        } else {
+          if (result) this._alertService.fail(result.message);
+        }
+        this.isLoading = false;
+      });
   }
   naviagateToPackages(id: string) {
     this.navigateToPage('packages', id);
@@ -140,6 +148,7 @@ export class TrainerComponent implements OnInit {
       .addWithFormData(this.trainer as any, this.selectedFile, 'image')
       .pipe(
         catchError((errorResponse) => {
+          this.isLoading = false;
           this._alertService.fail(errorResponse.message);
           return [];
         }),
@@ -161,5 +170,12 @@ export class TrainerComponent implements OnInit {
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+  isValid() {
+    if (!this.trainer.email || !this.trainer.name || !this.trainer.gender || !this.trainer.phoneNumber || this.trainer.phoneNumber.match('^+965d{7}$')) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

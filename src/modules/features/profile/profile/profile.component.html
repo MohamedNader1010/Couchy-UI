@@ -13,9 +13,10 @@
           required
           autofocus
           class="w-full p-3 md:w-30rem mb-5"
-          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.name }"
+          [ngClass]="{ 'ng-invalid ng-dirty':  !admin.name }"
+          #name="ngModel"
         />
-        <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.name">{{'messages.nameIsRequired' | translate}}</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="name.touched && !admin.name">{{'messages.nameIsRequired' | translate}}</small>
 
         <label for="email" class="block text-900 font-medium text-xl mb-2">{{'labels.email' | translate}}</label>
         <input
@@ -26,22 +27,25 @@
           [(ngModel)]="admin.email"
           required
           class="w-full p-3 md:w-30rem mb-5"
-          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.email }"
+          [ngClass]="{ 'ng-invalid ng-dirty':  !admin.email }"
+          #email="ngModel"
         />
-        <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.email">{{'messages.emailIsRequired' | translate}}</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="email.touched && !admin.email">{{'messages.emailIsRequired' | translate}}</small>
 
         <label for="phone" class="block text-900 font-medium text-xl mb-2">{{'labels.phone' | translate}}</label>
         <input
           type="text"
           pInputText
+          maxlength="8"
           id="phone"
           [(ngModel)]="admin.mobileNumber"
           required
           class="w-full p-3 md:w-30rem mb-5"
           pattern="^\+965\d{7}$"
-          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.mobileNumber }"
+          #phone="ngModel"
+          [ngClass]="{ 'ng-invalid ng-dirty':phone.touched && !admin.mobileNumber }"
         />
-        <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.mobileNumber">{{'messages.phoneRegex' | translate}}</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !admin.mobileNumber">{{'messages.phoneRegex' | translate}}</small>
 
         <label for="nameAr" class="block text-900 font-medium text-xl mb-2">{{'labels.image' | translate}}</label>
         <div class="card w-full md:w-30rem w-flex justify-cntent-center">
@@ -57,12 +61,13 @@
           placeholder="{{'labels.selectGender' | translate}}"
           [required]="true"
           styleClass="mb-5 w-full p-1 md:w-30rem"
-          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !admin.gender }"
+          [ngClass]="{ 'ng-invalid ng-dirty':  !admin.gender }"
+          #gender="ngModel"
         ></p-dropdown>
-        <small class="ng-dirty ng-invalid" *ngIf="submitted && !admin.gender">{{'message.genderRequired' | translate}}</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="gender.touched && !admin.gender">{{'message.genderRequired' | translate}}</small>
 
 
-        <button pButton pRipple label="{{'labels.update' | translate}}" (click)="updateUser()" class="w-full p-3 text-xl"></button>
+        <button pButton pRipple label="{{'labels.update' | translate}}" [disabled]="!isValid()" (click)="updateUser()" class="w-full p-3 text-xl"></button>
       </div>
     </div>
   </div>

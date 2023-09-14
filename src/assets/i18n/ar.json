@@ -35,6 +35,12 @@
   "group": {
     "title": "المجموعات"
   },
+  "notification": {
+    "title": "الإشعارات"
+  },
+  "profile": {
+    "title": "الملف الشخصى"
+  },
   "table": {
     "columns": {
       "id": "#",
@@ -44,6 +50,7 @@
       "isActive": "نشط",
       "actions": "الإجراءات",
       "messageBody": "الرسالة",
+      "username" : "إسم المستخدم",
       "phoneNumber": "رقم الهاتف",
       "email": "البريد الإلكتروني",
       "price": "السعر",
@@ -120,7 +127,23 @@
     "appFee": "رسوم التطبيق",
     "packages": "الباقات",
     "trainersForTest": "مدرب للاختبار..",
-    "category": "الفئات"
+    "category": "الفئات", 
+    "totalAdmins": "إجمالي المشرفين",
+    "totalUsers": "إجمالي المستخدمين",
+    "totalTrainers": "إجمالي المدربين",
+    "totalPackages": "إجمالي الحزم", 
+    "home": "الرئيسيه", 
+    "page": "الصفحات", 
+    "message": "الرسائل", 
+    "confirm": "تأكيد", 
+    "banarDetails" : "تفاصيل البانر", 
+    "categoryDetails" : "تفاصيل الفئات", 
+    "packageDetails": "تفاصيل الباقه",
+    "groupDetails": "تفاصيل المجموعه", 
+    "chooseImage": "إختر صوره", 
+    "top5Trainers": "أفضل ٥ مدربين", 
+    "top5Packages": "أفضل ٥ حزم", 
+    "totalIncome": "مجموع الدخل"
   },
   "messages": {
     "nameIsRequired": "الاسم مطلوب",
@@ -131,6 +154,8 @@
     "emailIsRequired": "البريد الإلكتروني مطلوب",
     "passwordIsRequired": "كلمة المرور مطلوبة",
     "trainerPhone": "رقم هاتف المدرب مطلوب.",
+    "areYouSureDelete": "هل أنت متأكد أنك تريد حذف",
+    "areYouSureToLogout": "هل أنت متأكد من تسجيل الخروج؟",
     "categoryIsRequired": "الفئة مطلوبة.",
     "priceIsRequired": "السعر مطلوب.",
     "dayIsRequired": "اليوم مطلوب.",

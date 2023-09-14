@@ -109,7 +109,7 @@
           [options]="genderOptions"
           placeholder="{{ 'placeHolders.selectGender' | translate }}"
           styleClass="mb-5 w-full p-1 md:w-30rem"
-          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !trainer.gender }"
+          [ngClass]="{ 'ng-invalid ng-dirty':  !trainer.gender }"
         ></p-dropdown>
 
         <label for="language" class="block text-900 font-medium text-xl mb-2">{{ 'labels.language' | translate }}</label>
@@ -130,9 +130,9 @@
           placeholder="{{ 'placeHolders.selectCategory' | translate }}"
           [required]="true"
           styleClass="mb-5 w-full p-1 md:w-30rem"
-          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !trainer.categoryId }"
+          [ngClass]="{ 'ng-invalid ng-dirty':  !trainer.categoryId }"
         ></p-dropdown>
-        <small class="ng-dirty ng-invalid" *ngIf="submitted && !trainer.categoryId">{{ 'messages.categoryIsRequired' | translate }}</small>
+        <small class="ng-dirty ng-invalid" *ngIf=" !trainer.categoryId">{{ 'messages.categoryIsRequired' | translate }}</small>
 
         <label for="email" class="block text-900 font-medium text-xl mb-2">{{ 'labels.email' | translate }}</label>
         <input
@@ -158,12 +158,12 @@
           autofocus
         />
 
-        <p-fileUpload class="m-2"  mode="basic" chooseLabel="Choose Image" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
+        <p-fileUpload class="m-2"  mode="basic" chooseLabel="{{'labels.chooseImage' | translate}}" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>
 
       </ng-template>
       <ng-template pTemplate="footer">
         <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" (click)="saveTrainer()" [disabled]="!trainer.phoneNumber || !trainer.phoneNumber.match('[0-9]{8}')"></button>
+        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" [disabled]="!isValid()" (click)="saveTrainer()" [disabled]="!trainer.phoneNumber || !trainer.phoneNumber.match('[0-9]{8}')"></button>
       </ng-template>
     </p-dialog>
   </div>

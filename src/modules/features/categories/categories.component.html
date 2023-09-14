@@ -8,9 +8,15 @@
       <p-toolbar styleClass="mb-4" *ngIf="claim.CanAdd">
         <ng-template pTemplate="left">
           <div class="my-2">
-            <button pButton pRipple label="{{ 'labels.new' | translate }}" icon="pi pi-plus" class="p-button-success mr-2"
-            [iconPos]="!languageService.isEnglish? 'left':'right'"
-            (click)="openNew()"></button>
+            <button
+              pButton
+              pRipple
+              label="{{ 'labels.new' | translate }}"
+              icon="pi pi-plus"
+              class="p-button-success mr-2"
+              [iconPos]="!languageService.isEnglish ? 'left' : 'right'"
+              (click)="openNew()"
+            ></button>
           </div>
         </ng-template>
       </p-toolbar>
@@ -83,36 +89,36 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="categoryDialog" [style]="{ width: '450px' }" header="Category Details" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="categoryDialog" [style]="{ width: '450px' }" header="{{ 'labels.categoryDetails' | translate }}" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">{{ 'labels.englishName' | translate }}</label>
-          <input type="text" pInputText id="nameEn" [(ngModel)]="category.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !category.nameEn }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !category.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
+          <input type="text" pInputText id="nameEn" [(ngModel)]="category.nameEn" #nameEnInput="ngModel" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameEnInput.touched && !category.nameEn }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!category.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
         </div>
         <div class="field">
           <label for="nameAr">{{ 'labels.arabicName' | translate }}</label>
-          <input type="text" pInputText id="nameAr" [(ngModel)]="category.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !category.nameAr }" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !category.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
+          <input type="text" pInputText id="nameAr" [(ngModel)]="category.nameAr" #nameArInput="ngModel" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameArInput.touched && !category.nameAr }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!category.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
         </div>
       </ng-template>
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" (click)="saveCategory()"></button>
+        <button pButton pRipple label="{{ 'labels.cancel' | translate }}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="{{ 'labels.save' | translate }}" [disabled]="!isValid()" icon="pi pi-check" class="p-button-text" (click)="saveCategory()"></button>
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="deleteCategoryDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+    <p-dialog [(visible)]="deleteCategoryDialog" header="{{ 'labels.confirm' | translate }}" [modal]="true" [style]="{ width: '450px' }">
       <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="category"
-          >{{'labels.areYouSureDelete' | translate}} <b>{{ category.nameEn }}</b
-          >?</span
+          >{{ 'labels.areYouSureDelete' | translate }} <b>{{ category.nameEn }}</b
+          >{{ languageService.isEnglish ? '?' : '؟' }}</span
         >
       </div>
       <ng-template pTemplate="footer">
-        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{'labels.no' | translate}}" (click)="deleteCategoryDialog = false"></button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{'labels.yes' | translate}}" (click)="confirmDelete()"></button>
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'labels.no' | translate }}" (click)="deleteCategoryDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'labels.yes' | translate }}" (click)="confirmDelete()"></button>
       </ng-template>
     </p-dialog>
   </div>

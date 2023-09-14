@@ -11,6 +11,7 @@ import { PermissionClaimsService } from 'src/core/services/permission-claims.ser
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { LanguageService } from 'src/core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -32,7 +33,13 @@ export class AdminComponent implements OnInit {
   columns: any[] = [];
   textColumns: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
-  constructor(private _adminService: GenericService<AdminDto[]>, private _alertService: AlertService, private _permissionService: PermissionClaimsService, public languageService: LanguageService, private _translate: TranslateService) {
+  constructor(
+    private _adminService: GenericService<AdminDto[]>,
+    private _alertService: AlertService,
+    private _permissionService: PermissionClaimsService,
+    public languageService: LanguageService,
+    private _translate: TranslateService,
+  ) {
     this.claim = this._permissionService.getPermission(PermissionClaims.AdminPermission);
   }
 
@@ -130,23 +137,38 @@ export class AdminComponent implements OnInit {
     } else {
       this.admin.permissions = this._permissions;
       this._adminService.setControllerName('User/UpdateAdmin');
-      this._adminService.update(this.admin as any).subscribe((result) => {
-        if (result.code == ResponseCode.Success) {
-          this._alertService.success(result.message);
-          const updatedIndex = this.admins.findIndex((c) => c.id === this.admin.id);
-          if (updatedIndex !== -1 && result.code == +ResponseCode.Success) {
-            this.admins[updatedIndex] = result.body as any;
-            this.adminDialog = false;
-            this.submitted = true;
-            this.admin = {} as AdminDto;
+      this._adminService
+        .update(this.admin as any)
+        .pipe(
+          catchError((errorMessage) => {
+            this._alertService.fail(errorMessage.message);
+            return [];
+          }),
+        )
+        .subscribe((result: any) => {
+          if (result.code == ResponseCode.Success) {
+            this._alertService.success(result.message);
+            const updatedIndex = this.admins.findIndex((c) => c.id === this.admin.id);
+            if (updatedIndex !== -1 && result.code == +ResponseCode.Success) {
+              this.admins[updatedIndex] = result.body as any;
+              this.adminDialog = false;
+              this.submitted = true;
+              this.admin = {} as AdminDto;
+            }
+          } else {
+            this._alertService.fail(result.error.message);
           }
-        } else {
-          this._alertService.fail(result.message);
-        }
-        this.isLoading = false;
-        this.admin = {} as AdminDto;
-        this.adminDialog = false;
-      });
+          this.isLoading = false;
+          this.admin = {} as AdminDto;
+          this.adminDialog = false;
+        });
+    }
+  }
+  isValid() {
+    if (!this.admin.email || this.admin.mobileNumber.match('^+965d{7}$') || !this.admin.name || !this.admin.password) {
+      return false;
+    } else {
+      return true;
     }
   }
 }
