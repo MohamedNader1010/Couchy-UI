@@ -25,6 +25,7 @@ import { TabViewComponent } from './admin/components/tab-view/tab-view.component
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TranslateModule } from '@ngx-translate/core';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [AdminComponent, TabViewComponent],
@@ -51,7 +52,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TabViewModule,
     PasswordModule,
     ProgressSpinnerModule, 
-    TranslateModule
+    TranslateModule, 
+    CheckboxModule
   ],
 })
 export class AdminModule {}

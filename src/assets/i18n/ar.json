@@ -141,6 +141,7 @@
     "packageDetails": "تفاصيل الباقه",
     "groupDetails": "تفاصيل المجموعه", 
     "chooseImage": "إختر صوره", 
+    "chooseLogo" : "إختر شعار",
     "top5Trainers": "أفضل ٥ مدربين", 
     "top5Packages": "أفضل ٥ حزم", 
     "totalIncome": "مجموع الدخل", 
@@ -153,7 +154,9 @@
     "sendNotification" : "إرسال إشعار", 
     "chooseProfileImage" : "إختر صوره شخصيه",
     "update" : "تحديث البيانات", 
-    "totalSubscribedUsers" :"مجموع العملاء المشتركون"
+    "totalSubscribedUsers" :"مجموع العملاء المشتركون", 
+    "updated": "تم التحديث", 
+    "addNewTrainer": "إضافة مدرب جديد"
   },
   "messages": {
     "genderRequired": "يجب إختار الجنس",

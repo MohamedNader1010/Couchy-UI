@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BanarDto } from './interfaces/banar.dto';
 import { MenuItem, MessageService } from 'primeng/api';
 import { GenericService } from '../../../core/services/generic.service';
 import { Table } from 'primeng/table';
 import { BanarIsActiveDto } from './interfaces/update-isActive-banar.dto';
-import { Observer, retry } from 'rxjs';
+import { Observer, catchError, retry } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { AlertService } from 'src/core/services/alert.service';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-banar',
@@ -18,6 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./banar.component.scss'],
 })
 export class BanarComponent implements OnInit {
+  @ViewChild('fileUpload') fileUpload!: FileUpload;
   isLoading = false;
   _idToBeDeleted: number = 0;
   breadcrumbItems: MenuItem[] = [];
@@ -65,6 +67,10 @@ export class BanarComponent implements OnInit {
       this.isLoading = false;
     });
   }
+  cancelImageSelection() {
+    this.selectedFile = null;
+    this.fileUpload.clear();
+  }
   openNew() {
     this.submitted = false;
     this.banarDialog = true;
@@ -85,7 +91,12 @@ export class BanarComponent implements OnInit {
     this.isLoading = true;
     this.banarsService.setControllerName('Banar');
     if (this._idToBeDeleted)
-      this.banarsService.delete(this._idToBeDeleted).subscribe(() => {
+      this.banarsService.delete(this._idToBeDeleted)
+      .pipe(catchError((error) => {
+        this._alertService.fail(error.message);
+        return [];
+      }))
+      .subscribe(() => {
         const deletedIndex = this.banars.findIndex((c) => c.id == this._idToBeDeleted);
         if (deletedIndex !== -1) {
           this.banars.splice(deletedIndex, 1);

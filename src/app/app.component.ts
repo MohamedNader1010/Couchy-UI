@@ -72,9 +72,9 @@ export class AppComponent implements OnInit {
     const currentLang = this._translate.currentLang;
     if (styleLink) {
       if (currentLang === 'ar') {
-        styleLink.href = '/assets/layout/rtl-styles/layout/layout-rtl.css';
+        styleLink.href = 'assets/layout/rtl-styles/layout/layout-rtl.css';
       } else {
-        styleLink.href = '/assets/layout/styles/layout/layout.css';
+        styleLink.href = 'assets/layout/styles/layout/layout.css';
       }
     }
   }

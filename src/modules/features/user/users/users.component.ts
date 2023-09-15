@@ -9,6 +9,7 @@ import { CategoryIsActiveDto } from '../../categories/interfaces/update-isActive
 import { AlertService } from 'src/core/services/alert.service';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -35,7 +36,12 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     this._userService.setControllerName('User/User');
-    this._userService.getAll().subscribe((result) => {
+    this._userService.getAll()
+    .pipe(catchError((error) => {
+      this._alertService.fail(error.message);
+      return [];
+    }))
+    .subscribe((result) => {
       if (result.code == ResponseCode.Success) {
         this.users = result.body;
       } else {

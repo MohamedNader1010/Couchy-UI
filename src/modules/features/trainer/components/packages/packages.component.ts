@@ -17,6 +17,7 @@ import { catchError } from 'rxjs';
   styleUrls: ['./packages.component.scss'],
 })
 export class PackagesComponent implements OnInit {
+  isLoading = false;
   _trainerId = '';
   _idToBeDeleted: number = 0;
   colorsOptions = [
@@ -60,10 +61,16 @@ export class PackagesComponent implements OnInit {
     })
     this._activatedRoute.queryParams.subscribe((param) => {
       this._trainerId = param['id'] || 0;
+
+      this.isLoading = true;
       this._packageService.setControllerName('Packages/TrainerPackage');
       this._packageService
         .getById(this._trainerId)
-
+        .pipe(catchError((error) => {
+          this.isLoading = false;
+          this._alertService.fail(error.fa)
+          return [];
+        }))
         .subscribe((result) => {
           if (result.code == +ResponseCode.Success) {
             this.packages = result.body;
@@ -71,6 +78,7 @@ export class PackagesComponent implements OnInit {
           } else {
             this._alertService.fail(result.message);
           }
+          this.isLoading = false;
         });
     });
   }
@@ -92,9 +100,16 @@ export class PackagesComponent implements OnInit {
   }
 
   confirmDelete() {
+    this.isLoading = true;
     this._packageService.setControllerName('Packages');
     if (this._idToBeDeleted)
-      this._packageService.delete(this._idToBeDeleted).subscribe((result) => {
+      this._packageService.delete(this._idToBeDeleted)
+      .pipe(catchError((error) => {
+        this.isLoading = false;
+        this._alertService.fail(error.message)
+        return [];
+      }))
+      .subscribe((result) => {
         if (result.code == ResponseCode.Success) {
           const deletedIndex = this.packages.findIndex((c) => c.id == this._idToBeDeleted);
           if (deletedIndex !== -1) {
@@ -105,6 +120,7 @@ export class PackagesComponent implements OnInit {
         } else {
           this._alertService.fail(result.message);
         }
+        this.isLoading = false;
       });
     this.deletePackageDialog = false;
   }
@@ -115,6 +131,7 @@ export class PackagesComponent implements OnInit {
   }
 
   savePackage() {
+    this.isLoading = true;
     if (this.package.nameAr?.trim() && this.package.nameEn?.trim()) {
       if (this.package.id) {
         this._packageService.setControllerName('Packages');
@@ -122,6 +139,7 @@ export class PackagesComponent implements OnInit {
           .update(this.package as any)
           .pipe(
             catchError((error) => {
+              this.isLoading = false;
               this._alertService.fail(error.message);
               return [];
             }),
@@ -137,6 +155,7 @@ export class PackagesComponent implements OnInit {
             } else {
               this._alertService.fail(result.message);
             }
+            this.isLoading = false;
           });
       } else {
         this.package.trainerId = this._trainerId;
@@ -145,6 +164,7 @@ export class PackagesComponent implements OnInit {
           .add(this.package as any)
           .pipe(
             catchError((error) => {
+              this.isLoading = false;
               this._alertService.fail(error.message);
               return [];
             }),
@@ -160,6 +180,7 @@ export class PackagesComponent implements OnInit {
               } else {
                 this._alertService.fail(result.message);
               }
+              this.isLoading = false;
             },
           });
       }

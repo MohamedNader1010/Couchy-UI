@@ -110,7 +110,14 @@ export class AdminComponent implements OnInit {
     if (this.admin.name?.trim() && this.admin.password?.trim() && this.admin.email.trim() && !this.admin.id) {
       this.admin.permissions = this._permissions;
       this._adminService.setControllerName('User/AddAdmin');
-      this._adminService.add(this.admin as any).subscribe((result: any) => {
+      this._adminService.add(this.admin as any)
+      .pipe(catchError((error) => {
+        this.isLoading = false;
+        this.admin = {} as AdminDto;
+        this.adminDialog = false;
+        return [];
+      }))
+      .subscribe((result: any) => {
         if (result.code == ResponseCode.Success) {
           this._alertService.success(result.message);
           this.admins.push(result.body);
@@ -118,6 +125,8 @@ export class AdminComponent implements OnInit {
           this._alertService.fail(result.message);
         }
         this.isLoading = false;
+        this.admin = {} as AdminDto;
+        this.adminDialog = false;
       });
     } else {
       this.admin.permissions = this._permissions;
@@ -127,6 +136,9 @@ export class AdminComponent implements OnInit {
         .pipe(
           catchError((errorMessage) => {
             this._alertService.fail(errorMessage.message);
+            this.isLoading = false;
+            this.admin = {} as AdminDto;
+            this.adminDialog = false;
             return [];
           }),
         )

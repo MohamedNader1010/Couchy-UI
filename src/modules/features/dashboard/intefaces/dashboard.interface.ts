@@ -3,8 +3,14 @@ export interface DashboardStatistics {
     totalUsers: number; 
     totalTrainers: number; 
     totalPackages: number;
-    top5Trainers?: string[]; 
+    top5Trainers?: TrainerDashboardDto[]; 
     top5Categories?: string[]; 
     totalIncome: number;
     totalSubscribedUsers:number;
+}
+
+interface TrainerDashboardDto {
+    id: string; 
+    name: string; 
+    filePath: string;
 }

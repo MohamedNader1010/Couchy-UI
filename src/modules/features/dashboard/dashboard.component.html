@@ -5,7 +5,7 @@
         <div>
           <i class="pi pi-user text-primary"></i>
           <span class="block text-2xl font-medium mb-3">{{ 'labels.totalAdmins' | translate }}</span>
-          <div class="text-900 font-medium text-xl">{{ dashboardData.totalAdmins }}</div>
+          <div class="text-900 text-purple-600 font-medium text-xl">{{ dashboardData.totalAdmins }}</div>
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
         <div>
           <i class="pi pi-users text-primary"></i>
           <span class="block text-2xl font-medium mb-3">{{ 'labels.totalUsers' | translate }}</span>
-          <div class="text-900 font-medium text-xl">{{ dashboardData.totalUsers }}</div>
+          <div class="text-900 text-purple-600 font-medium text-xl">{{ dashboardData.totalUsers }}</div>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
         <div>
           <i class="pi pi-user-plus text-primary"></i>
           <span class="block text-2xl font-medium mb-3">{{ 'labels.totalTrainers' | translate }}</span>
-          <div class="text-900 font-medium text-xl">{{ dashboardData.totalTrainers }}</div>
+          <div class="text-900 text-purple-600 font-medium text-xl">{{ dashboardData.totalTrainers }}</div>
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@
         <div>
           <i class="pi pi-folder-open text-primary"></i>
           <span class="block text-2xl font-medium mb-3">{{ 'labels.totalPackages' | translate }}</span>
-          <div class="text-900 font-medium text-xl">{{ dashboardData.totalPackages }}</div>
+          <div class="text-900 text-purple-600 font-medium text-xl">{{ dashboardData.totalPackages }}</div>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
         <div>
           <i class="pi pi-dollar text-primary"></i>
           <span class="block text-2xl font-medium mb-3">{{ 'labels.totalIncome' | translate }}</span>
-          <div class="text-900 font-medium text-xl">{{ dashboardData.totalIncome }}</div>
+          <div class="text-900 text-purple-600 font-medium text-xl">{{ dashboardData.totalIncome }}</div>
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
         <div>
           <i class="pi pi-users text-primary"></i>
           <span class="block text-2xl font-medium mb-3">{{ 'labels.totalSubscribedUsers' | translate }}</span>
-          <div class="text-900 font-medium text-xl">{{ dashboardData.totalSubscribedUsers }}</div>
+          <div class="text-900 text-purple-600 font-medium text-xl">{{ dashboardData.totalSubscribedUsers }}</div>
         </div>
       </div>
     </div>
@@ -76,9 +76,10 @@
       <div class="flex justify-content-between mb-3">
         <div>
           <i class="pi pi-user text-primary"></i>
-          <span class="block text-2xl font-medium mb-3">{{ 'labels.top5Trainers' | translate }}</span>      
-          <div class="text-900 font-medium text-xl" *ngFor="let trainer of  dashboardData.top5Trainers">
-            <span class="block text-2xl font-medium mb-3">{{trainer}}</span>
+          <span class="block text-2xl font-medium mb-3">{{ 'labels.top5Trainers' | translate }}</span>
+          <div class="text-900 font-medium text-xl" *ngFor="let trainer of dashboardData.top5Trainers">
+            <p-avatar [image]="trainer.filePath" styleClass="p-link layout-topbar-button" size="xlarge" shape="circle"></p-avatar>
+            <span class="block text-900 text-purple-600 font-medium mb-3">{{ trainer }}</span>
           </div>
         </div>
       </div>
@@ -91,8 +92,8 @@
           <i class="pi pi-folder text-primary"></i>
           <span class="block text-2xl font-medium mb-3">{{ 'labels.top5Packages' | translate }}</span>
           <div class="text-900 font-medium text-xl" *ngFor="let user of dashboardData.top5Categories">
-            <span class="block text-2xl font-medium mb-3">{{user}}</span>
-        </div>
+            <span class="block text-900 text-purple-600 font-medium mb-3">{{ user }}</span>
+          </div>
         </div>
       </div>
     </div>

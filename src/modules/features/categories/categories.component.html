@@ -89,17 +89,18 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="categoryDialog" [style]="{ width: '450px' }" header="{{ 'labels.categoryDetails' | translate }}" [modal]="true" class="p-fluid">
+    <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
+    <p-dialog *ngIf="!isLoading" [(visible)]="categoryDialog" [style]="{ width: '450px' }" header="{{ 'labels.categoryDetails' | translate }}" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">{{ 'labels.englishName' | translate }}</label>
           <input type="text" pInputText id="nameEn" [(ngModel)]="category.nameEn" #nameEnInput="ngModel" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameEnInput.touched && !category.nameEn }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!category.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!category.nameEn && nameEnInput.touched">{{ 'messages.englishNameIsRequired' | translate }}</small>
         </div>
         <div class="field">
           <label for="nameAr">{{ 'labels.arabicName' | translate }}</label>
           <input type="text" pInputText id="nameAr" [(ngModel)]="category.nameAr" #nameArInput="ngModel" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameArInput.touched && !category.nameAr }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!category.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!category.nameAr && nameArInput.touched">{{ 'messages.arabichNameIsRequired' | translate }}</small>
         </div>
       </ng-template>
       <ng-template pTemplate="footer">

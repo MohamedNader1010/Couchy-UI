@@ -59,11 +59,14 @@
       "englishName": "English Name",
       "arabicName": "Arabic Name",
       "packages&groups": "Package & Groups",
-      "userList": "User List"
+      "userList": "User List", 
+      "updated": "Updated", 
+      "addNewTrainer": "Add new trainer"
     },
     "pageReport": "Showing {first} to {last} of {totalRecords} entries"
   },
   "breadcrumb": {
+    "updaing": "updated", 
     "dashboard": "Dashboard",
     "admin": "Admin",
     "user": "User",
@@ -142,6 +145,7 @@
     "AppVersion": "App Version",
     "Logo": "Logo",
     "ChooseBanar": "Choose banar",
+    "chooseLogo" : "Choose Logo",
     "Submit": "Submit",
     "appFee": "App_Fee",
     "packages": "Packages",

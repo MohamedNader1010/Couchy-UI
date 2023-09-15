@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -14,6 +14,7 @@ import { CategoryDto } from 'src/modules/features/categories/interfaces/category
 import { LanguageEnum } from 'src/modules/shared/enums/languages.enums';
 import { catchError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-trainer',
@@ -21,6 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./trainer.component.scss'],
 })
 export class TrainerComponent implements OnInit {
+  @ViewChild("fileUpload") fileUpload!: FileUpload;
   isLoading = false;
   claim: any;
   breadcrumbItems: MenuItem[] = [];
@@ -30,7 +32,7 @@ export class TrainerComponent implements OnInit {
   textColumns: any[] = [];
   trainerDialog: boolean = false;
   submitted: boolean = false;
-  selectedFile?: File;
+  selectedFile: File | null = null;
   trainer: TrainerDto = {} as TrainerDto;
   genderOptions = [
     { label: this._translate.instant('labels.male'), value: Genders.Male },
@@ -160,6 +162,10 @@ export class TrainerComponent implements OnInit {
 
   onFileSelect(file: File) {
     this.selectedFile = file;
+  }
+  cancelImageSelection() {
+    this.fileUpload.clear();
+    this.selectedFile = null;
   }
 
   onGlobalFilter(table: Table, event: Event) {

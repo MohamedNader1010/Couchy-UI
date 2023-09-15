@@ -12,8 +12,10 @@ import { UpdateLogoService } from 'src/core/services/update-logo.service';
   templateUrl: './app.topbar.component.html',
 })
 export class AppTopBarComponent implements OnInit {
-  logoPath = '';
-  profilePath = '';
+  defaulImagePath = 'assets/layout/images/defaultProfile.jpeg';
+  defaultLogoPath = 'assets/layout/images/defaultLogo.png';
+  logoPath: string | null = '';
+  profilePath: string | null = null;
   name: string = '';
   confirmLogoutDialog: boolean = false;
   items!: MenuItem[];
@@ -28,18 +30,24 @@ export class AppTopBarComponent implements OnInit {
 
   @ViewChild('topbarmenu') menu!: ElementRef;
 
-  constructor(public layoutService: LayoutService, private _authService: AuthService, private _router: Router, private _updateLogoService: UpdateLogoService, private _updateProfileService: UpdateProfileService) {
+  constructor(
+    public layoutService: LayoutService,
+    private _authService: AuthService,
+    private _router: Router,
+    private _updateLogoService: UpdateLogoService,
+    private _updateProfileService: UpdateProfileService,
+  ) {
     this.name = this._authService.getUserName();
   }
   ngOnInit(): void {
     this._updateLogoService.updateLogoPath();
-    this._updateProfileService.updateProfilePath(); 
-    this._updateProfileService.profilePath$.subscribe(newProfilePath => {
+    this._updateProfileService.updateProfilePath();
+    this._updateProfileService.profilePath$.subscribe((newProfilePath) => {
       this.profilePath = newProfilePath;
-    })
-    this._updateLogoService.logoPath$.subscribe(newImagePath => {
-      this.logoPath = newImagePath
-    })
+    });
+    this._updateLogoService.logoPath$.subscribe((newImagePath) => {
+      this.logoPath = newImagePath;
+    });
   }
 
   confirmLogout() {

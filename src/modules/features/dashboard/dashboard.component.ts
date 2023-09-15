@@ -10,7 +10,7 @@ import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 })
 export class DashboardComponent implements OnInit {
   items!: MenuItem[];
-
+  defaulImagePath= "assets/layout/images/defaultProfile.jpeg"
   dashboardData: DashboardStatistics = {} as DashboardStatistics;
   chartData: any;
 
