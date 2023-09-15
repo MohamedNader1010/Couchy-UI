@@ -59,14 +59,14 @@
       "englishName": "English Name",
       "arabicName": "Arabic Name",
       "packages&groups": "Package & Groups",
-      "userList": "User List", 
-      "updated": "Updated", 
+      "userList": "User List",
+      "updated": "Updated",
       "addNewTrainer": "Add new trainer"
     },
     "pageReport": "Showing {first} to {last} of {totalRecords} entries"
   },
   "breadcrumb": {
-    "updaing": "updated", 
+    "updaing": "updated",
     "dashboard": "Dashboard",
     "admin": "Admin",
     "user": "User",
@@ -145,7 +145,7 @@
     "AppVersion": "App Version",
     "Logo": "Logo",
     "ChooseBanar": "Choose banar",
-    "chooseLogo" : "Choose Logo",
+    "chooseLogo": "Choose Logo",
     "Submit": "Submit",
     "appFee": "App_Fee",
     "packages": "Packages",
@@ -158,12 +158,13 @@
     "banarDetails": "Banar Details",
     "categoryDetails": "Category Details",
     "packageDetails": "Package Details",
-    "groupDetails": "Group Details", 
-    "chooseImage" : "Choose Image", 
-    "top5Trainers": "Top 5 Trainers", 
-    "top5Packages": "Top 5 Packages", 
-    "totalIncome": "Total Income", 
-    "totalSubscribedUsers": "Total Subscribed Users"
+    "groupDetails": "Group Details",
+    "chooseImage": "Choose Image",
+    "top5Trainers": "Top 5 Trainers",
+    "top5Packages": "Top 5 Packages",
+    "totalIncome": "Total Income",
+    "totalSubscribedUsers": "Total Subscribed Users", 
+    "adminDetails": "Admin Details"
   },
   "messages": {
     "genderRequired": "Gender is required",
@@ -187,7 +188,9 @@
     "priceIsRequired": "Price is required.",
     "dayIsRequired": "Day is required.",
     "colorIsRequired": "Color is required.",
-    "phoneRegex": "Please enter a valid number ex: [9,5,6] + 7 digits."
+    "phoneRegex": "Please enter a valid number ex:(5 or 6 or 9) + 7 digits.",
+    "phoneIsRequired": "Phone is required"
+
   },
   "alert": {
     "message": {

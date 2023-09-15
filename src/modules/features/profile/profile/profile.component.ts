@@ -88,11 +88,16 @@ export class ProfileComponent implements OnInit {
       });
   }
   isValid() {
-    if (!this.admin.name || !this.admin.email || !this.admin.mobileNumber) {
+    if (!this.admin.name || !this.admin.email || !this.admin.mobileNumber || !this.isValidPhoneNumber()) {
       return false;
     } else {
       return true;
     }
+  }
+  isValidPhoneNumber(): boolean {
+    const phoneNumber = this.admin.mobileNumber;
+    const pattern = /^[956]\d{7}$/; 
+    return pattern.test(phoneNumber ?? '');
   }
   private initComponent() {
     this.genderOptions = [];

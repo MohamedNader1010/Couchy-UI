@@ -5,7 +5,7 @@ export interface Packages {
   nameEn: string;
   day: number;
   trainerId: string;
-  color: number;
+  color: string;
   welcomeMessageAr: string;
   welocomeMessageEn: string;
   breifAr: string;

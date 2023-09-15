@@ -7,19 +7,16 @@
   </button>
 
   <div #topbarmenu class="layout-topbar-menu" [ngClass]="{ 'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible }">
-    <app-language></app-language>
-
-    <span class="p-link layout-topbar-button w-10">{{ name }}</span>
     <p-avatar [image]="profilePath ?? defaulImagePath" routerLink="/admin/profile" styleClass="p-link layout-topbar-button" size="xlarge" shape="circle"></p-avatar>
-
-    <button class="p-link layout-topbar-button" (click)="logout()">
-      <i class="pi pi-sign-out"></i>
-      <span>Sign out</span>
-    </button>
   </div>
+
+  <app-language class="m-2"></app-language>
+  <button class="p-link layout-topbar-button m-2" (click)="logout()">
+    <i class="pi pi-sign-out"></i>
+  </button>
 </div>
 
-<p-dialog [(visible)]="confirmLogoutDialog" header="{{'labels.confirm' | translate}}" [modal]="true" [style]="{ width: '450px' }">
+<p-dialog [(visible)]="confirmLogoutDialog" header="{{ 'labels.confirm' | translate }}" [modal]="true" [style]="{ width: '450px' }">
   <div class="flex align-items-center justify-content-center">
     <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
     <span>{{ 'messages.areYouSureToLogout' | translate }}</span>

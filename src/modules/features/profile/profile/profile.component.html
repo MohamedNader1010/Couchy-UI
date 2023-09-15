@@ -26,26 +26,28 @@
           placeholder="{{ 'labels.email' | translate }}"
           [(ngModel)]="admin.email"
           required
-          class="w-full p-3 md:w-30rem mb-5"
+          class="w-full p-3 md:w-30rem mb-2"
           [ngClass]="{ 'ng-invalid ng-dirty': !admin.email }"
           #email="ngModel"
         />
-        <small class="ng-dirty ng-invalid text-red-500" *ngIf="email.touched && !admin.email">{{ 'messages.emailIsRequired' | translate }}</small>
+        <small class="block ng-dirty ng-invalid text-red-500" *ngIf="email.touched && !admin.email">{{ 'messages.emailIsRequired' | translate }}</small>
 
         <label for="phone" class="block text-900 font-medium text-xl mb-2">{{ 'labels.phone' | translate }}</label>
         <input
           type="text"
           pInputText
-          maxlength="8"
           id="phone"
+          max="10"
+          pattern="^[956]\d{7}$"
           [(ngModel)]="admin.mobileNumber"
           required
-          class="w-full p-3 md:w-30rem mb-5"
+          class="w-full p-3 md:w-30rem mb-2"
           #phone="ngModel"
           [ngClass]="{ 'ng-invalid ng-dirty': phone.touched && !admin.mobileNumber }"
         />
-        <small class="ng-dirty ng-invalid text-red-500" *ngIf="!admin.mobileNumber">{{ 'messages.phoneRegex' | translate }}</small>
-
+        <small class="block ng-dirty ng-invalid text-red-500" *ngIf="phone.touched && !admin.mobileNumber">{{ 'messages.phoneIsRequired' | translate }}</small>
+        <small class="block ng-dirty ng-invalid text-red-500" *ngIf="admin.mobileNumber && !isValidPhoneNumber()">{{ 'messages.phoneRegex' | translate }}</small>
+        
         <label for="nameAr" class="block text-900 font-medium text-xl mb-2">{{ 'labels.image' | translate }}</label>
         <div class="card w-full md:w-30rem w-flex justify-cntent-center">
           <p-fileUpload #fileUpload mode="basic" chooseLabel="{{ 'labels.chooseProfileImage' | translate }}" accept="image/*" [fileLimit]="1" (onSelect)="onFileSelect($event.files[0])"> </p-fileUpload>

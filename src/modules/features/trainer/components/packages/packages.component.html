@@ -67,25 +67,25 @@
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">{{ 'labels.englishName' | translate }}</label>
-          <input #nameEn="ngModel" type="text" pInputText id="nameEn" [(ngModel)]="package.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameEn.touched && !package.nameEn }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
+          <input #nameEn="ngModel" name="nameEn" type="text" pInputText id="nameEn" [(ngModel)]="package.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameEn.touched && !package.nameEn }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="nameEn.touched && !package.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
         </div>
         <div class="field">
           <label for="nameAr">{{ 'labels.arabicName' | translate }}</label>
-          <input #nameAr="ngModel" type="text" pInputText id="nameAr" [(ngModel)]="package.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameAr.touched && !package.nameAr }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
+          <input #nameAr="ngModel" name="nameAr" type="text" pInputText id="nameAr" [(ngModel)]="package.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':nameAr.touched && !package.nameAr }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="nameAr.touched && !package.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
           <label for="breifEn">{{ 'labels.breifEn' | translate }}</label>
-          <input #breifEn="ngModel" type="text" pInputText id="breifEn" [(ngModel)]="package.breifEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': breifEn.touched && !package.breifEn }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.nameAr">{{ 'messages.englishBreifIsRequired' | translate }}</small>
+          <input #breifEn="ngModel" name="breifEn" type="text" pInputText id="breifEn" [(ngModel)]="package.breifEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': breifEn.touched && !package.breifEn }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="breifEn.touched && !package.nameAr">{{ 'messages.englishBreifIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
           <label for="breifAr">{{ 'labels.breifAr' | translate }}</label>
-          <input #breifAr="ngModel" type="text" pInputText id="breifAr" [(ngModel)]="package.breifAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':breifAr.touched && !package.breifAr }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.breifAr">{{ 'messages.arabichBreifIsRequired' | translate }}</small>
+          <input #breifAr="ngModel" name="breifAr" type="text" pInputText id="breifAr" [(ngModel)]="package.breifAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':breifAr.touched && !package.breifAr }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="breifAr.touched && !package.breifAr">{{ 'messages.arabichBreifIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
@@ -94,23 +94,33 @@
             id="color"
             [(ngModel)]="package.color"
             [options]="colorsOptions"
-            placeholder="Select Color"
             [required]="true"
-            [ngClass]="{ 'ng-invalid ng-dirty':  !package.color }"
+            [ngClass]="{ 'ng-invalid ng-dirty': color.touched && !package.color }"
+            #color="ngModel"
+            name="color"
           ></p-dropdown>
-          <small class="ng-dirty ng-invalid" *ngIf=" !package.color">{{ 'messages.colorIsRequired' | translate }}</small>
+          <small class="ng-dirty ng-invalid" *ngIf="color.touched && !package.color">{{ 'messages.colorIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
           <label for="price">{{ 'labels.price' | translate }}</label>
-          <input #price="ngModel" type="text" pInputText id="price" [(ngModel)]="package.price" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':price.touched && !package.price }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.price">{{ 'messages.priceIsRequired' | translate }}</small>
+          <input 
+          #price="ngModel" 
+          name="price"
+           type="number" 
+           pInputText 
+           id="price" 
+           [(ngModel)]="package.price" 
+           required 
+           autofocus 
+           [ngClass]="{ 'ng-invalid ng-dirty':price.touched && !package.price }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="price.touched && !package.price">{{ 'messages.priceIsRequired' | translate }}</small>
         </div>
 
         <div class="field">
           <label for="day">{{ 'labels.days' | translate }}</label>
-          <input #day="ngModel" type="text" pInputText id="day" [(ngModel)]="package.day" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':day.touched && !package.day }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !package.day">{{ 'messages.dayIsRequired' | translate }}</small>
+          <input #day="ngModel" name="day" type="number" pInputText id="day" [(ngModel)]="package.day" required autofocus [ngClass]="{ 'ng-invalid ng-dirty':day.touched && !package.day }" />
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="day.touched && !package.day">{{ 'messages.dayIsRequired' | translate }}</small>
         </div>
       </ng-template>
 
@@ -129,7 +139,8 @@
         >
       </div>
       <ng-template pTemplate="footer">
-        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{'labels.no' | translate}}" (click)="deletePackageDialog = false"></button>
+        <p-progressSpinner *ngIf="isLoading" class="w-10 flex justify-content-center"></p-progressSpinner>
+        <button *ngIf="!isLoading" pButton pRipple icon="pi pi-times" class="p-button-text" label="{{'labels.no' | translate}}" (click)="deletePackageDialog = false"></button>
         <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{'labels.yes' | translate}}" (click)="confirmDelete()"></button>
       </ng-template>
     </p-dialog>

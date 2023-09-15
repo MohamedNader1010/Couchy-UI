@@ -79,6 +79,7 @@ export class SettingComponent implements OnInit {
       .updateWithFormData(this.setting as any, this.selectedFile, 'image')
       .pipe(
         catchError((error) => {
+          this.isLoading = false;
           this._alertService.fail(error.message);
           return [];
         }),
@@ -99,8 +100,12 @@ export class SettingComponent implements OnInit {
         this.isLoading = false;
       });
   }
+  isValidPhoneNumber(): boolean {
+    const phoneNumber = this.setting.phone;
+    const pattern = /^[956]\d{7}$/; 
+    return pattern.test(phoneNumber ?? '');
+  }
   onFileSelect(file: File) {
-    console.log(this.settingForm);
     this.selectedFile = file;
   }
 
@@ -112,7 +117,7 @@ export class SettingComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   isValid() {
-    if (!this.setting.phone) {
+    if (!this.setting.phone || !this.isValidPhoneNumber() || !this.setting.aboutUsAr || !this.setting.aboutUsEn) {
       return false;
     }
     return true;

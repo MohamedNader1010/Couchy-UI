@@ -172,11 +172,16 @@ export class TrainerComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   isValid() {
-    if (!this.trainer.email || !this.trainer.name || !this.trainer.gender || !this.trainer.phoneNumber) {
+    if (!this.trainer.email || !this.trainer.name || !this.trainer.gender || !this.trainer.phoneNumber || !this.isValidPhoneNumber()) {
       return false;
     } else {
       return true;
     }
+  }
+  isValidPhoneNumber(): boolean {
+    const phoneNumber = this.trainer.phoneNumber;
+    const pattern = /^[956]\d{7}$/; 
+    return pattern.test(phoneNumber ?? '');
   }
   private intiComponent() {
     this.columns = [];

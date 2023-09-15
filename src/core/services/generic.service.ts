@@ -22,7 +22,7 @@ export class GenericService<T> {
   add(item: T): Observable<ResponseInfoDto<T>> {
     return this.http.post<ResponseInfoDto<T>>(`${this._baseUrl}/${this._controllerName}`, item).pipe(
       catchError((err) => {
-        return throwError(() => err);
+        return throwError(() => err.error);
       }),
     );
   }

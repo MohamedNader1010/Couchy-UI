@@ -426,7 +426,7 @@ a {
     padding-right: 2rem;
   }
   .layout-wrapper .layout-sidebar {
-    transform: translatex(-100%);
+    transform: translatex(100%);
     right: 0;
     top: 0;
     height: 100vh;
@@ -543,7 +543,8 @@ p:last-child {
 }
 
 .p-input-icon-right > .p-icon-wrapper, .p-input-icon-right > i:last-of-type {
-  right: 27.75rem !important;
+  right: initial;
+  left: 0.75rem !important;
 }
 .p-datatable .p-datatable-thead > tr > th , .p-datatable .p-datatable-tbody > tr > td {
   text-align: right;

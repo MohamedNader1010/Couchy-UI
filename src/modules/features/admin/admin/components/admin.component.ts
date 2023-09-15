@@ -107,7 +107,7 @@ export class AdminComponent implements OnInit {
 
   saveAdmin() {
     this.isLoading = true;
-    if (this.admin.name?.trim() && this.admin.password?.trim() && this.admin.email.trim() && !this.admin.id) {
+    if (!this.admin.id) {
       this.admin.permissions = this._permissions;
       this._adminService.setControllerName('User/AddAdmin');
       this._adminService.add(this.admin as any)
@@ -115,6 +115,7 @@ export class AdminComponent implements OnInit {
         this.isLoading = false;
         this.admin = {} as AdminDto;
         this.adminDialog = false;
+        this._alertService.fail(error.message)
         return [];
       }))
       .subscribe((result: any) => {
@@ -161,8 +162,13 @@ export class AdminComponent implements OnInit {
         });
     }
   }
+  isValidPhoneNumber(): boolean {
+    const phoneNumber = this.admin.mobileNumber;
+    const pattern = /^[956]\d{7}$/; 
+    return pattern.test(phoneNumber ?? '');
+  }
   isValid() {
-    if (!this.admin.email  || !this.admin.name || !this.admin.password) {
+    if (!this.admin.email  || !this.admin.name || !this.admin.password || !this.isValidPhoneNumber()) {
       return false;
     } else {
       return true;

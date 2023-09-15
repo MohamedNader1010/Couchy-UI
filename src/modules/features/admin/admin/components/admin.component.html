@@ -65,7 +65,7 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="adminDialog" [style]="{ width: '40%' }" header="Admin Details" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="adminDialog" [style]="{ width: '40%' }" header="{{'labels.adminDetails' | translate}}" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <p-accordion [multiple]="true" [activeIndex]="[0]">
           <p-accordionTab header="{{ 'labels.adminInfo' | translate }}">
@@ -105,14 +105,16 @@
               <input
                 type="text"
                 pInputText
-                max="8"
+                [maxlength]="12"
                 id="phone"
                 [(ngModel)]="admin.mobileNumber"
                 required
                 [ngClass]="{ 'ng-invalid ng-dirty': !admin.mobileNumber }"
                 #phoneInput="ngModel"
+                pattern="^[956]\d{7}$"
               />
               <small class="ng-dirty ng-invalid text-red-500" *ngIf="phoneInput.touched && !admin.mobileNumber">{{ 'messages.phoneIsRequired' | translate }}</small>
+              <small class="block ng-dirty ng-invalid text-red-500" *ngIf="admin.mobileNumber && !isValidPhoneNumber()">{{ 'messages.phoneRegex' | translate }}</small>
             </div>
           </p-accordionTab>
           <p-accordionTab header="{{ 'labels.permission' | translate }}">
