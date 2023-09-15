@@ -13,8 +13,11 @@
           </div>
         </ng-template>
       </p-toolbar>
+
+      <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
       <p-table
         #dt
+        *ngIf="!isLoading"
         [value]="packages"
         [columns]="columns"
         responsiveLayout="scroll"
