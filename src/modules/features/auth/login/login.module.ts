@@ -9,9 +9,23 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SharedModuleModule } from 'src/modules/shared/shared.module.module';
 
 @NgModule({
-  imports: [CommonModule, LoginRoutingModule, ButtonModule, CheckboxModule, InputTextModule, FormsModule, PasswordModule, ToastModule, TranslateModule],
+  imports: [
+    CommonModule, 
+    ProgressSpinnerModule, 
+    LoginRoutingModule, 
+    ButtonModule, 
+    CheckboxModule,   
+    InputTextModule, 
+    FormsModule, 
+    PasswordModule, 
+    ToastModule, 
+    TranslateModule, 
+    SharedModuleModule
+  ],
   declarations: [LoginComponent],
 })
 export class LoginModule {}

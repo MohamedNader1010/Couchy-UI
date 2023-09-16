@@ -26,6 +26,7 @@ import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TranslateModule } from '@ngx-translate/core';
 import { CheckboxModule } from 'primeng/checkbox';
+import { SharedModuleModule } from 'src/modules/shared/shared.module.module';
 
 @NgModule({
   declarations: [AdminComponent, TabViewComponent],
@@ -53,7 +54,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     PasswordModule,
     ProgressSpinnerModule, 
     TranslateModule, 
-    CheckboxModule
+    CheckboxModule, 
+    SharedModuleModule
   ],
 })
 export class AdminModule {}

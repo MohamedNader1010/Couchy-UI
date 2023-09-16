@@ -78,12 +78,15 @@
             </div>
           </div>
 
-          <div *ngIf="isLoading" class="p-3">
-            <p-progressSpinner class="flex justify-content-center"></p-progressSpinner>
-          </div>
-          <div class="p-3">
-            <button *ngIf="!isLoading" pButton type="submit" label="{{ 'labels.Submit' | translate }}" class="p-button-primary" [disabled]="!settingsForm.valid"></button>
-          </div>
+          <ng-container *ngIf="!isLoading; else loadingTemplate">
+            <div class="p-3">
+              <button  pButton type="submit" label="{{ 'labels.Submit' | translate }}" class="p-button-primary" [disabled]="!settingsForm.valid"></button>
+            </div>
+          </ng-container>
+          <ng-template #loadingTemplate>
+            <app-spinner [isLoading]="isLoading"></app-spinner>
+          </ng-template>
+         
         </div>
       </form>
       <p-toast></p-toast>

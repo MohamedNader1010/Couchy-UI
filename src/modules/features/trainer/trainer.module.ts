@@ -24,6 +24,7 @@ import { PackagesComponent } from './components/packages/packages.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModuleModule } from 'src/modules/shared/shared.module.module';
 @NgModule({
   declarations: [TrainerComponent, PackagesComponent, GroupsComponent],
   imports: [
@@ -47,6 +48,7 @@ import { TranslateModule } from '@ngx-translate/core';
     InputSwitchModule,
     ProgressSpinnerModule,
     TranslateModule,
+    SharedModuleModule
   ],
 })
 export class TrainerModule {}

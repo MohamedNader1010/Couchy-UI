@@ -6,10 +6,12 @@ import { AlertService } from 'src/core/services/alert.service';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { LanguageService } from 'src/core/services/language.service';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./logn.component.scss'],
   styles: [
     `
       :host ::ng-deep .pi-eye,
@@ -18,15 +20,22 @@ import { LanguageService } from 'src/core/services/language.service';
         margin-right: 1rem;
         color: var(--primary-color) !important;
       }
-    `,
+    `
   ],
 })
 export class LoginComponent implements OnInit {
+  isLoading = false;
   password: string = '';
   error: string = '';
   email: string = '';
   isSubmitted: boolean = false;
-  constructor(private _loginService: GenericService<LoginAdmin>, private _authService: AuthService, private _alertService: AlertService, private _permissionService: PermissionClaimsService, private _langService: LanguageService) {}
+  constructor(
+    private _loginService: GenericService<LoginAdmin>,
+    private _authService: AuthService,
+    private _alertService: AlertService,
+    private _permissionService: PermissionClaimsService,
+    private _langService: LanguageService,
+  ) {}
   ngOnInit(): void {
     this._loginService.setControllerName('Authorization/LogInAdmin');
   }
@@ -36,24 +45,34 @@ export class LoginComponent implements OnInit {
         email: this.email,
         password: this.password,
       };
-
-      this._loginService.add(credentials).subscribe((loginResponse: any) => {
-        const result = loginResponse as any;
-        if (result.code == ResponseCode.LoggedInSuccessfully) {
-          this._authService.authenticateUser(result.body.token);
-          this._permissionService.setPermissionClaims();
-          this.isSubmitted = true;
-          this._alertService.success(result.message);
-          this._langService.setLanguage(result.body.lang);
-        } else {
-          this.isSubmitted = false;
-          this._alertService.fail(result.message);
-        }
-      });
+      this.isLoading = true;
+      this._loginService
+        .add(credentials)
+        .pipe(
+          catchError((error) => {
+            this._alertService.fail(error.message);
+            this.isLoading = false;
+            return [];
+          }),
+        )
+        .subscribe((loginResponse: any) => {
+          const result = loginResponse as any;
+          if (result.code == ResponseCode.LoggedInSuccessfully) {
+            this._authService.authenticateUser(result.body.token);
+            this._permissionService.setPermissionClaims();
+            this.isSubmitted = true;
+            this._alertService.success(result.message);
+            this._langService.setLanguage(result.body.lang);
+          } else {
+            this.isSubmitted = false;
+            this._alertService.fail(result.message);
+          }
+          this.isLoading = false;
+        });
     }
   }
   isValid() {
-    if(!this.password || !this.email) {
+    if (!this.password || !this.email) {
       return false;
     } else {
       return true;

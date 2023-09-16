@@ -126,7 +126,15 @@
 
       <ng-template pTemplate="footer">
         <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" [disabled]="!isValid()" class="p-button-text" (click)="savePackage()"></button>
+       
+      
+        <ng-container *ngIf="!isLoading; else loadingTemplate">
+          <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" [disabled]="!isValid()" class="p-button-text" (click)="savePackage()"></button>
+        </ng-container>
+        <ng-template #loadingTemplate>
+          <app-spinner [isLoading]="isLoading"></app-spinner>
+        </ng-template>
+      
       </ng-template>
     </p-dialog>
 
@@ -139,9 +147,14 @@
         >
       </div>
       <ng-template pTemplate="footer">
-        <p-progressSpinner *ngIf="isLoading" class="w-10 flex justify-content-center"></p-progressSpinner>
         <button *ngIf="!isLoading" pButton pRipple icon="pi pi-times" class="p-button-text" label="{{'labels.no' | translate}}" (click)="deletePackageDialog = false"></button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{'labels.yes' | translate}}" (click)="confirmDelete()"></button>
+        <ng-container *ngIf="!isLoading; else loadingTemplate">
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{'labels.yes' | translate}}" (click)="confirmDelete()"></button>
+        </ng-container>
+        <ng-template #loadingTemplate>
+          <app-spinner [isLoading]="isLoading"></app-spinner>
+        </ng-template>
+      
       </ng-template>
     </p-dialog>
   </div>

@@ -21,6 +21,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModuleModule } from 'src/modules/shared/shared.module.module';
 
 @NgModule({
   declarations: [SettingComponent],
@@ -45,6 +46,7 @@ import { TranslateModule } from '@ngx-translate/core';
     InputSwitchModule,
     TranslateModule,
     ProgressSpinnerModule,
+    SharedModuleModule
   ],
 })
 export class SettingsModule {}

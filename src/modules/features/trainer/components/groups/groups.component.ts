@@ -185,8 +185,8 @@ export class GroupsComponent implements OnInit {
     this.columns = [
       { field: 'id', header: this._translate.instant('table.columns.id'), sortable: true },
       { field: 'nameEn', header: this._translate.instant('table.columns.name'), sortable: true },
-      { field: 'userList', header: this._translate.instant('table.columns.userList'), sortable: true },
-      { field: 'actions', header: this._translate.instant('table.columns.actions') },
+      { field: 'nameAr', header: this._translate.instant('labels.arabicName'), sortable: true },
+      // { field: 'actions', header: this._translate.instant('table.columns.actions') },
     ];
     this.textColumns = this.columns.filter((col) => !(col.field === 'actions' || col.field === 'userList'));
 

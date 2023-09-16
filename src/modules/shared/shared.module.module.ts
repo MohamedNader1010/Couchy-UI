@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { SharedModuleRoutingModule } from './shared.module-routing.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 
 @NgModule({
   declarations: [ 
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
-    SharedModuleRoutingModule
-  ]
+    SharedModuleRoutingModule, 
+    ProgressSpinnerModule
+  ], 
+  exports: [SpinnerComponent]
 })
 export class SharedModuleModule { }

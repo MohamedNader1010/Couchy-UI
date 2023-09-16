@@ -4,7 +4,6 @@
   </div>
 
   <div class="col-12">
-
     <div class="card px-6 py-6">
       <p-toast></p-toast>
       <p-toolbar styleClass="mb-4">
@@ -64,27 +63,32 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="groupDialog" [style]="{ width: '50%' }" header="{{'labels.groupDetails' | translate}}" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="groupDialog" [style]="{ width: '50%' }" header="{{ 'labels.groupDetails' | translate }}" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">{{ 'labels.englishName' | translate }}</label>
           <input #nameEn="ngModel" type="text" pInputText id="nameEn" [(ngModel)]="group.nameEn" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': nameEn.touched && !group.nameEn }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !group.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!group.nameEn">{{ 'messages.englishNameIsRequired' | translate }}</small>
         </div>
         <div class="field">
           <label for="nameAr">{{ 'labels.arabicName' | translate }}</label>
           <input #nameAr="ngModel" type="text" pInputText id="nameAr" [(ngModel)]="group.nameAr" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': nameAr.touched && !group.nameAr }" />
-          <small class="ng-dirty ng-invalid text-red-500" *ngIf=" !group.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!group.nameAr">{{ 'messages.arabichNameIsRequired' | translate }}</small>
         </div>
       </ng-template>
 
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" [disabled]="!isValid()" class="p-button-text" (click)="saveGroup()"></button>
+        <button pButton pRipple label="{{ 'labels.cancel' | translate }}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <ng-container *ngIf="!isLoading; else loadingTemplate">
+          <button pButton pRipple label="{{ 'labels.save' | translate }}" icon="pi pi-check" [disabled]="!isValid()" class="p-button-text" (click)="saveGroup()"></button>
+        </ng-container>
+        <ng-template #loadingTemplate>
+          <app-spinner [isLoading]="isLoading"></app-spinner>
+        </ng-template>
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="deleteGroupDialog" header="{{'labels.confirm' | translate}}" [modal]="true" [style]="{ width: '450px' }">
+    <p-dialog [(visible)]="deleteGroupDialog" header="{{ 'labels.confirm' | translate }}" [modal]="true" [style]="{ width: '450px' }">
       <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="group"
@@ -93,8 +97,14 @@
         >
       </div>
       <ng-template pTemplate="footer">
-        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{'labels.no' | translate}}" (click)="deleteGroupDialog = false"></button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{'labels.yes' | translate}}" (click)="confirmDelete()"></button>
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'labels.no' | translate }}" (click)="deleteGroupDialog = false"></button>
+
+        <ng-container *ngIf="!isLoading; else loadingTemplate">
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'labels.yes' | translate }}" (click)="confirmDelete()"></button>
+        </ng-container>
+        <ng-template #loadingTemplate>
+          <app-spinner [isLoading]="isLoading"></app-spinner>
+        </ng-template>
       </ng-template>
     </p-dialog>
   </div>

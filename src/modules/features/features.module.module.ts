@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FeaturesModuleRoutingModule } from './features.module-routing.module';
+import { SharedModuleModule } from '../shared/shared.module.module';
 
 
 
@@ -10,7 +11,7 @@ import { FeaturesModuleRoutingModule } from './features.module-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    FeaturesModuleRoutingModule, 
+    FeaturesModuleRoutingModule
   ], 
 })
 export class FeaturesModuleModule { }

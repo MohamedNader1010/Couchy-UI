@@ -20,6 +20,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModuleModule } from 'src/modules/shared/shared.module.module';
 
 @NgModule({
   declarations: [CategoriesComponent],
@@ -44,6 +45,7 @@ import { TranslateModule } from '@ngx-translate/core';
     InputSwitchModule,
     ProgressSpinnerModule,
     TranslateModule,
+    SharedModuleModule
   ],
 })
 export class CategoriesModule {}

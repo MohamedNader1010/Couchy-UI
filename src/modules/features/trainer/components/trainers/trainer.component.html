@@ -163,8 +163,15 @@
 
       </ng-template>
       <ng-template pTemplate="footer">
+       
         <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      
+       <ng-container *ngIf="!isLoading; else loadingTemplate">
         <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" [disabled]="!isValid()" (click)="saveTrainer()" [disabled]="!trainer.phoneNumber"></button>
+        </ng-container>
+        <ng-template #loadingTemplate>
+          <app-spinner [isLoading]="isLoading"></app-spinner>
+        </ng-template>
       </ng-template>
     </p-dialog>
   </div>

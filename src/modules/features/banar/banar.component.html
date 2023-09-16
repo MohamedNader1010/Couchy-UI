@@ -69,8 +69,7 @@
         </ng-template>
       </p-table>
     </div>
-    <p-progressSpinner *ngIf="isLoading" class="flex justify-content-center"></p-progressSpinner>
-    <p-dialog  *ngIf="!isLoading" [(visible)]="banarDialog" [style]="{ width: '450px' }" header="{{ 'labels.banarDetails' | translate }}" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="banarDialog" [style]="{ width: '450px' }" header="{{ 'labels.banarDetails' | translate }}" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="field">
           <label for="nameEn">{{ 'labels.englishName' | translate }}</label>
@@ -95,7 +94,14 @@
       </ng-template>
       <ng-template pTemplate="footer">
         <button pButton pRipple label="{{ 'labels.cancel' | translate }}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="{{ 'labels.save' | translate }}" icon="pi pi-check" class="p-button-text" [disabled]="!isValid()" (click)="saveBanar()"></button>
+        
+        <ng-container *ngIf="!isLoading; else loadingTemplate">
+          <button pButton pRipple label="{{ 'labels.save' | translate }}" icon="pi pi-check" class="p-button-text" [disabled]="!isValid()" (click)="saveBanar()"></button>
+        </ng-container>
+        <ng-template #loadingTemplate>
+          <app-spinner [isLoading]="isLoading"></app-spinner>
+        </ng-template>
+        
       </ng-template>
     </p-dialog>
 
@@ -108,7 +114,14 @@
       </div>
       <ng-template pTemplate="footer">
         <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'labels.yes' | translate }}" (click)="deleteBanarDialog = false"></button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'labels.no' | translate }}" (click)="confirmDelete()"></button>
+        
+        <ng-container *ngIf="!isLoading; else loadingTemplate">
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'labels.no' | translate }}" (click)="confirmDelete()"></button>
+        </ng-container>
+        <ng-template #loadingTemplate>
+          <app-spinner [isLoading]="isLoading"></app-spinner>
+        </ng-template>
+       
       </ng-template>
     </p-dialog>
   </div>

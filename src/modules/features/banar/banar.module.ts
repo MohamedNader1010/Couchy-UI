@@ -21,6 +21,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModuleModule } from 'src/modules/shared/shared.module.module';
 @NgModule({
   declarations: [BanarComponent],
   imports: [
@@ -43,7 +44,8 @@ import { TranslateModule } from '@ngx-translate/core';
     DialogModule,
     InputSwitchModule,
     ProgressSpinnerModule,
-    TranslateModule
+    TranslateModule, 
+    SharedModuleModule
   ],
 })
 export class BanarModule {}
