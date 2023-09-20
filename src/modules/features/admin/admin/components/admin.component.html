@@ -79,15 +79,17 @@
               <label for="email" class="text-900 font-medium">{{ 'labels.email' | translate }}</label>
               <input type="email" pInputText id="email" [(ngModel)]="admin.email" required #emailInput="ngModel" [ngClass]="{ 'ng-invalid ng-dirty': emailInput.touched && !admin.email }" />
               <small class="ng-dirty ng-invalid text-red-500" *ngIf="!admin.email && emailInput.touched">{{ 'messages.emailIsRequired' | translate }}</small>
+              <small class="ng-dirty ng-invalid text-red-500" *ngIf="admin.email && emailInput.touched && !validateEmail.isValidEmail(admin.email)">{{ 'messages.emailRegex' | translate }}</small>
+            
             </div>
 
-            <label for="password" class="text-900 font-medium">{{ 'labels.password' | translate }}</label>
+            <label for="password" class="text-900 font-medium mb-5">{{ 'labels.password' | translate }}</label>
             <p-password
               id="password"
               [(ngModel)]="admin.password"
               name="password"
               [toggleMask]="true"
-              inputStyleClass="w-full p-3"
+              inputStyleClass="w-full p-3 mt-2"
               [feedback]="false"
               required="true"
               [ngClass]="{ 'ng-invalid ng-dirty': !admin.password }"
@@ -95,9 +97,9 @@
             ></p-password>
             <small class="ng-dirty ng-invalid text-red-500" *ngIf="pwdInput.touched && !admin.password">{{ 'messages.passwordIsRequired' | translate }}</small>
 
-            <div class="field">
-              <label for="isActive" class="text-900 font-medium">{{ 'labels.active' | translate }}</label>
-              <input type="checkbox" id="isActive" [(ngModel)]="admin.isActive" />
+            <div class="field m-2">
+              <label for="isActive" class="text-2xl font-medium">{{ 'labels.active' | translate }}</label>
+              <input type="checkbox" id="isActive" class="m-2" [(ngModel)]="admin.isActive" />
             </div>
 
             <div class="field">

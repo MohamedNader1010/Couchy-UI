@@ -30,7 +30,8 @@
           [ngClass]="{ 'ng-invalid ng-dirty': !admin.email }"
           #email="ngModel"
         />
-        <small class="block ng-dirty ng-invalid text-red-500" *ngIf="email.touched && !admin.email">{{ 'messages.emailIsRequired' | translate }}</small>
+        <small class="block ng-dirty ng-invalid text-red-500 mb-2" *ngIf="email.touched && !admin.email">{{ 'messages.emailIsRequired' | translate }}</small>
+        <small class="block ng-dirty ng-invalid text-red-500 mb-2" *ngIf="email.touched && admin.email && !validateEmail.isValidEmail(admin.email)">{{ 'messages.emailRegex' | translate }}</small>
 
         <label for="phone" class="block text-900 font-medium text-xl mb-2">{{ 'labels.phone' | translate }}</label>
         <input
@@ -70,7 +71,7 @@
         ></p-dropdown>
         <!-- <small class="ng-dirty ng-invalid text-red-500" *ngIf="gender.touched && !admin.gender">{{'messages.genderRequired' | translate}}</small> -->
 
-        <button pButton pRipple label="{{ 'labels.update' | translate }}" [disabled]="!isValid()" (click)="updateUser()" class="w-full p-3 text-xl"></button>
+        <button pButton pRipple label="{{ 'labels.update' | translate }}" [disabled]="!isValid()" (click)="updateUser()" class="w-18rem flex justify-content-center m-auto p-3 text-xl"></button>
       </div>
     </div>
   </div>

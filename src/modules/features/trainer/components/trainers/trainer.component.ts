@@ -15,6 +15,7 @@ import { LanguageEnum } from 'src/modules/shared/enums/languages.enums';
 import { catchError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { FileUpload } from 'primeng/fileupload';
+import { ValidateEmailService } from 'src/modules/shared/services/validate-email.service';
 
 @Component({
   selector: 'app-trainer',
@@ -51,6 +52,7 @@ export class TrainerComponent implements OnInit {
     private _permissionService: PermissionClaimsService,
     private _categoriesService: GenericService<CategoryDto[]>,
     private _translate: TranslateService,
+    public validateEmail: ValidateEmailService
   ) {
     this.claim = this._permissionService.getPermission(PermissionClaims.TrainerPermission);
    
@@ -172,7 +174,9 @@ export class TrainerComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   isValid() {
-    if (!this.trainer.email || !this.trainer.name || !this.trainer.gender || !this.trainer.phoneNumber || !this.isValidPhoneNumber()) {
+    if (!this.trainer.email || !this.trainer.name || !this.trainer.gender 
+      || !this.trainer.phoneNumber || !this.isValidPhoneNumber() 
+      || !this.validateEmail.isValidEmail(this.trainer.email) || !this.trainer.categoryId) {
       return false;
     } else {
       return true;

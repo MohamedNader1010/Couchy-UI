@@ -126,8 +126,10 @@
           placeholder="{{ 'placeHolders.selectCategory' | translate }}"
           [required]="true"
           [ngClass]="{ 'ng-invalid ng-dirty':  !trainer.categoryId }"
+          #category="ngModel"
+          name="category"
         ></p-dropdown>
-        <small class="ng-dirty ng-invalid" *ngIf=" !trainer.categoryId">{{ 'messages.categoryIsRequired' | translate }}</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="category.touched && !trainer.categoryId">{{ 'messages.categoryIsRequired' | translate }}</small>
 
         <label for="email" class="block text-900 font-medium text-xl mb-2">{{ 'labels.email' | translate }}</label>
         <input
@@ -142,6 +144,7 @@
           #emailInputText="ngModel"
         />
         <small class="ng-dirty ng-invalid text-red-500" *ngIf="emailInputText.touched && !trainer.email">{{ 'messages.emailIsRequired' | translate }}</small>
+        <small class="ng-dirty ng-invalid text-red-500" *ngIf="emailInputText.touched && trainer.email && !validateEmail.isValidEmail(trainer.email) ">{{ 'messages.emailRegex' | translate }}</small>
 
         <label for="appFee" class="block text-900 font-medium text-xl mb-2">{{ 'labels.appFee' | translate }}</label>
         <input
@@ -167,7 +170,7 @@
         <button pButton pRipple label="{{'labels.cancel' | translate}}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
       
        <ng-container *ngIf="!isLoading; else loadingTemplate">
-        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" [disabled]="!isValid()" (click)="saveTrainer()" [disabled]="!trainer.phoneNumber"></button>
+        <button pButton pRipple label="{{'labels.save' | translate}}" icon="pi pi-check" class="p-button-text" [disabled]="!isValid()" (click)="saveTrainer()"></button>
         </ng-container>
         <ng-template #loadingTemplate>
           <app-spinner [isLoading]="isLoading"></app-spinner>

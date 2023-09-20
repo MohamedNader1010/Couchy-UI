@@ -167,6 +167,7 @@
     "englishBreifIsRequired": "الوصف بالإنجليزية مطلوب.",
     "arabichBreifIsRequired": "الوصف بالعربية مطلوب.",
     "emailIsRequired": "البريد الإلكتروني مطلوب",
+    "emailRegex" :"البريد الإلكتروني غير صحيح ", 
     "passwordIsRequired": "كلمة المرور مطلوبة",
     "trainerPhone": "رقم هاتف المدرب مطلوب.",
     "areYouSureDelete": "هل أنت متأكد أنك تريد حذف",

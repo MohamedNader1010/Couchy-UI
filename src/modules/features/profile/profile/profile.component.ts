@@ -9,6 +9,7 @@ import { UpdateProfileService } from 'src/core/services/update-profile.service';
 import { Genders } from 'src/modules/shared/enums/genders.enum';
 import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { Users } from 'src/modules/shared/interfaces/users.interface';
+import { ValidateEmailService } from 'src/modules/shared/services/validate-email.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
     private _alertService: AlertService,
     private _updateProfileService: UpdateProfileService,
     private _translate: TranslateService,
+    public validateEmail: ValidateEmailService
   ) {}
   ngOnInit(): void {
     this._translate.onLangChange.subscribe((_) => {
@@ -88,7 +90,7 @@ export class ProfileComponent implements OnInit {
       });
   }
   isValid() {
-    if (!this.admin.name || !this.admin.email || !this.admin.mobileNumber || !this.isValidPhoneNumber()) {
+    if (!this.admin.name || !this.admin.email || !this.admin.mobileNumber || !this.isValidPhoneNumber() || !this.validateEmail.isValidEmail(this.admin.email)) {
       return false;
     } else {
       return true;

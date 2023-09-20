@@ -7,7 +7,7 @@
         </div>
 
         <div>
-          <label for="email" class="block text-900 text-xl font-medium mb-2">{{ 'login.email' | translate }}</label>
+          <label for="email" class="block text-900 text-xl font-medium">{{ 'login.email' | translate }}</label>
           <input
             id="email"
             [(ngModel)]="email"
@@ -15,12 +15,15 @@
             type="email"
             placeholder="{{ 'login.email' | translate }}"
             pInputText
-            class="w-full md:w-30rem mb-5"
+            class="w-full md:w-30rem mb-2"
             style="padding: 1rem"
             required="true"
             #emailInput="ngModel"
             [ngClass]="{ 'ng-invalid ng-dirty text-red-500': emailInput && !email }"
           />
+          <small class="ng-dirty ng-invalid text-red-500 block mb-4" *ngIf="!email && emailInput.touched">{{ 'messages.emailIsRequired' | translate }}</small>
+          <small class="ng-dirty ng-invalid text-red-500 block" *ngIf="emailInput.touched && email && !validateEmail.isValidEmail(email)">{{ 'messages.emailRegex' | translate }}</small>
+          
           <label for="password" class="block text-900 font-medium text-xl mb-2">{{ 'login.password' | translate }}</label>
           <p-password
             id="password"
@@ -35,7 +38,7 @@
             #pwdInput="ngModel"
             [ngClass]="{ 'ng-invalid ng-dirty text-red-500': pwdInput && !password }"
           ></p-password>
-
+          <small class="ng-dirty ng-invalid text-red-500" *ngIf="!password && pwdInput.touched">{{ 'messages.passwordIsRequired' | translate }}</small>
           <button pButton pRipple class="flex justify-content-center p-3 text-xl w-15rem h-4rem" (click)="login()" [disabled]="!isValid()">
             <ng-container  *ngIf="!isLoading; else loadingTemplate">
               {{ 'labels.signIn' | translate }}

@@ -7,6 +7,7 @@ import { ResponseCode } from 'src/modules/shared/enums/response.enum';
 import { PermissionClaimsService } from 'src/core/services/permission-claims.service';
 import { LanguageService } from 'src/core/services/language.service';
 import { catchError } from 'rxjs';
+import { ValidateEmailService } from 'src/modules/shared/services/validate-email.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ import { catchError } from 'rxjs';
         margin-right: 1rem;
         color: var(--primary-color) !important;
       }
-    `
+    `,
   ],
 })
 export class LoginComponent implements OnInit {
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
     private _alertService: AlertService,
     private _permissionService: PermissionClaimsService,
     private _langService: LanguageService,
+    public validateEmail: ValidateEmailService,
   ) {}
   ngOnInit(): void {
     this._loginService.setControllerName('Authorization/LogInAdmin');
@@ -72,7 +74,7 @@ export class LoginComponent implements OnInit {
     }
   }
   isValid() {
-    if (!this.password || !this.email) {
+    if (!this.password || !this.email || !this.validateEmail.isValidEmail(this.email)) {
       return false;
     } else {
       return true;

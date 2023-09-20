@@ -12,6 +12,7 @@ import { PermissionClaims } from 'src/modules/shared/enums/permissionClaims.enum
 import { LanguageService } from 'src/core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError } from 'rxjs';
+import { ValidateEmailService } from 'src/modules/shared/services/validate-email.service';
 
 @Component({
   selector: 'app-admin',
@@ -39,6 +40,7 @@ export class AdminComponent implements OnInit {
     private _permissionService: PermissionClaimsService,
     public languageService: LanguageService,
     private _translate: TranslateService,
+    public validateEmail: ValidateEmailService
   ) {
     this.claim = this._permissionService.getPermission(PermissionClaims.AdminPermission);
   }
@@ -168,7 +170,7 @@ export class AdminComponent implements OnInit {
     return pattern.test(phoneNumber ?? '');
   }
   isValid() {
-    if (!this.admin.email  || !this.admin.name || !this.admin.password || !this.isValidPhoneNumber()) {
+    if (!this.admin.email  || !this.admin.name || !this.admin.password || !this.isValidPhoneNumber() || !this.validateEmail.isValidEmail(this.admin.email)) {
       return false;
     } else {
       return true;

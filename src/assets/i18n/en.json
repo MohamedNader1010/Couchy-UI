@@ -178,6 +178,7 @@
     "englishBreifIsRequired": "English Breif is required.",
     "arabichBreifIsRequired": "Arabic Breif is required.",
     "emailIsRequired": "Email is required",
+    "emailRegex": "Invalid Email",
     "passwordIsRequired": "Password is required",
     "delete": "Item is deleted",
     "save": "Item is saved",
